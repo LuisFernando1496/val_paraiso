@@ -15,8 +15,8 @@ class CreateUserHasCashRegisterHasCostPricesTable extends Migration
     {
         Schema::create('user_has_cash_register_has_cost_prices', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('user_has_chas_register_id');
-            $table->foreign('user_has_cash_register_id')->references('id')->on('user_has_cash_registers');
+            $table->unsignedBigInteger('user_chas_id');
+            $table->foreign('user_chas_id')->references('id')->on('user_has_cash_registers');
             $table->unsignedBigInteger('cost_price_id');
             $table->foreign('cost_price_id')->references('id')->on('cost_prices');
             $table->integer('quantity');
