@@ -8,4 +8,26 @@ use Illuminate\Database\Eloquent\Model;
 class Inventory extends Model
 {
     use HasFactory;
+    protected $fillable = [
+        'bar_code',
+        'name',
+        'description',
+        'cost',
+        'price',
+        'stock',
+        'mark',
+        'category_id',
+        'warehouse_id'
+    ];
+
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
+    }
+
+    public function warehouse()
+    {
+        return $this->belongsTo(Warehouse::class,'id','warehouse_id');
+    }
+
 }

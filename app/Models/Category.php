@@ -8,4 +8,15 @@ use Illuminate\Database\Eloquent\Model;
 class Category extends Model
 {
     use HasFactory;
+    protected $fillable = [
+        'name',
+        'description',
+        'office_id',
+    ];
+
+    public function office()
+    {
+        return $this->belongsTo(Office::class);
+    }
+
 }

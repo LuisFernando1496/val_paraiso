@@ -8,4 +8,18 @@ use Illuminate\Database\Eloquent\Model;
 class SaleHasCredit extends Model
 {
     use HasFactory;
+    protected $fillable = [
+        'sale_id',
+        'credit_id'
+    ];
+
+    public function sale()
+    {
+        return $this->belongsTo(Sale::class,'id','sale_id');
+    }
+
+    public function credit()
+    {
+        return $this->belongsTo(Credit::class,'id','credit_id');
+    }
 }
