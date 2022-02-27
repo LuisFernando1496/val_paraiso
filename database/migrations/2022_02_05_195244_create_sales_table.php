@@ -15,6 +15,7 @@ class CreateSalesTable extends Migration
     {
         Schema::create('sales', function (Blueprint $table) {
             $table->id();
+            $table->string('folio')->unique();
             $table->date('date');
             $table->decimal('total',8,2);
             $table->decimal('discount',8,2);
