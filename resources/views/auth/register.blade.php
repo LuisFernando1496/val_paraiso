@@ -12,12 +12,12 @@
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label for="first_name">Full Name:</label><span
+                            <label for="first_name">Nombre(s):</label><span
                                     class="text-danger">*</span>
                             <input id="firstName" type="text"
                                    class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}"
                                    name="name"
-                                   tabindex="1" placeholder="Enter Full Name" value="{{ old('name') }}"
+                                   tabindex="1" placeholder="Nombre(s)" value="{{ old('name') }}"
                                    autofocus required>
                             <div class="invalid-feedback">
                                 {{ $errors->first('name') }}
@@ -26,7 +26,27 @@
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label for="email">Email:</label><span
+                            <label for="last_name">Apellido Paterno:</label><span class="text-danger">*</span>
+                            <input id="last_name" type="text" class="form-control{{ $errors->has('last_name') ? ' is-invalid' : '' }}"
+                                name="last_name" tabindex="1" placeholder="Apellido Paterno" value="{{ old('last_name') }}" autofocus required>
+                            <div class="invalid-feedback">
+                                {{ $errors->first('last_name') }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="last_name">Apellido Materno:</label><span class="text-danger">*</span>
+                            <input id="second_last_name" type="text" class="form-control{{ $errors->has('second_last_name') ? ' is-invalid' : '' }}"
+                                name="second_last_name" tabindex="1" placeholder="Apellido Paterno" value="{{ old('second_last_name') }}" autofocus required>
+                            <div class="invalid-feedback">
+                                {{ $errors->first('second_last_name') }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="email">Correo:</label><span
                                     class="text-danger">*</span>
                             <input id="email" type="email"
                                    class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}"
