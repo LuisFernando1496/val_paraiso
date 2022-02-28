@@ -22,18 +22,18 @@
                                     <th style="color: #fff;">Eliminar</th>
                                 </thead>
                                 <tbody>
-                                    @forelse ($negocios as $business)
+                                    @forelse ($negocios as $negocio)
                                         <tr>
-                                            <td style="display: none">{{$business->id}}</td>
-                                            <td>{{ $business->name }}</td>
-                                            <td>{{ $business->rfc }}</td>
-                                            <td>{{ $business->legal_representative }}</td>
-                                            <td>{{ $business->number }}</td>
+                                            <td style="display: none">{{$negocio->id}}</td>
+                                            <td>{{ $negocio->name }}</td>
+                                            <td>{{ $negocio->rfc }}</td>
+                                            <td>{{ $negocio->legal_representative }}</td>
+                                            <td>{{ $negocio->number }}</td>
                                             <td>
-                                                <a href="{{ route('negocios.edit',$business) }}" class="btn btn-info">Editar</a>
+                                                <a href="{{ route('negocios.edit',$negocio) }}" class="btn btn-info">Editar</a>
                                             </td>
                                             <td>
-                                                {!!Form::open(['method' => 'DELETE', 'route' => ['negocios.destroy',$business], 'style' => 'display:inline']) !!}
+                                                {!!Form::open(['method' => 'DELETE', 'route' => ['negocios.destroy',$negocio], 'style' => 'display:inline']) !!}
                                                     {!! Form::submit('Borrar',['class' => 'btn btn-danger']) !!}
                                                 {!!Form::close() !!}
                                             </td>

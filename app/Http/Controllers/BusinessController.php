@@ -73,9 +73,9 @@ class BusinessController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Business $business)
+    public function edit(Business $negocio)
     {
-        return view('bussiness.editar',compact('business'));
+        return view('bussiness.editar',compact('negocio'));
     }
 
     /**
@@ -85,16 +85,16 @@ class BusinessController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Business $negocio)
     {
         request()->validate([
             'name' => 'required',
-            'rfc' => 'unique:businesses,rfc'.$id,
+            'rfc' => 'unique:businesses,rfc'.$negocio->id,
             'legal_representative' => 'required',
             'number' => 'required'
         ]);
 
-        $business = Business::find($id);
+        $business = Business::find($negocio->id);
         $business->update($request->all());
         return redirect()->route('negocios.index');
     }
@@ -105,9 +105,9 @@ class BusinessController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Business $business)
+    public function destroy(Business $negocio)
     {
-        $business->delete();
+        $negocio->delete();
         return redirect()->route('negocios.index');
     }
 }

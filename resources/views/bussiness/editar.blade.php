@@ -20,7 +20,7 @@
                                 </div>
                             @endif
 
-                            {!! Form::model($business, ['method' => 'PUT','route' => ['negocios.update',$business->id]]) !!}
+                            {!! Form::model($negocio, ['method' => 'PUT','route' => ['negocios.update',$negocio]]) !!}
                                 <div class="row">
                                     <div class="col-xs-12 col-sm-12 col-md-12">
                                         <div class="form-group">
