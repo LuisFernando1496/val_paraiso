@@ -89,7 +89,7 @@ class BusinessController extends Controller
     {
         request()->validate([
             'name' => 'required',
-            'rfc' => 'unique:businesses,rfc'.$negocio->id,
+            'rfc' => 'unique:businesses,rfc',
             'legal_representative' => 'required',
             'number' => 'required'
         ]);
