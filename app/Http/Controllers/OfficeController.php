@@ -51,8 +51,7 @@ class OfficeController extends Controller
             'name' => 'required',
             'phone' => 'required|unique:offices,phone',
             'responsable' => 'required',
-            'address_id' => 'required',
-            'bussiness_id' => 'required',
+            'business_id' => 'required',
             'street' => 'required',
             'exterior' => 'required',
             'suburb' => 'required',
@@ -99,7 +98,7 @@ class OfficeController extends Controller
     {
         $negocios = Business::pluck('name','id')->all();
         return view('office.editar',compact('oficina','negocios'));
-    }   
+    }
 
     /**
      * Update the specified resource in storage.

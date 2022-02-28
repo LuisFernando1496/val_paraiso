@@ -13,7 +13,7 @@
                             @if ($errors->any())
                                 <div class="alert alert-dark alert-dismissible fade show" role="alert">
                                     <strong>Revisa los campos!</strong>
-                                    @foreach ($errrors->all() as $error)
+                                    @foreach ($errors->all() as $error)
                                         <span class="badge badge-danger">{{ $error }}</span>
                                     @endforeach
                                     <button class="close" type="button" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
