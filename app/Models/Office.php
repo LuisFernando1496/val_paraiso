@@ -19,11 +19,11 @@ class Office extends Model
 
     public function address()
     {
-        return $this->belongsTo(Address::class,'id','address_id');
+        return $this->belongsTo(Address::class,'address_id');
     }
 
     public function business()
     {
-        return $this->belongsTo(Business::class,'id','business_id');
+        return $this->belongsTo(Business::class,'business_id');
     }
 }

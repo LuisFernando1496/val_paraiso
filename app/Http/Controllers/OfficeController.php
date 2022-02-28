@@ -6,6 +6,7 @@ use App\Models\Address;
 use App\Models\Business;
 use App\Models\Office;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class OfficeController extends Controller
 {
@@ -61,19 +62,26 @@ class OfficeController extends Controller
             'country' => 'required'
         ]);
 
-        $address = new Address();
-        $address->street = $request->street;
-        $address->number = $request->exterior;
-        $address->suburb = $request->suburb;
-        $address->postal_code = $request->postal_code;
-        $address->city = $request->city;
-        $address->state = $request->state;
-        $address->country = $request->country;
-        $address->save();
+        try {
+            DB::beginTransaction();
+            $address = new Address();
+            $address->street = $request->street;
+            $address->number = $request->exterior;
+            $address->suburb = $request->suburb;
+            $address->postal_code = $request->postal_code;
+            $address->city = $request->city;
+            $address->state = $request->state;
+            $address->country = $request->country;
+            $address->save();
 
-        $request['address_id'] = $address->id;
-        Office::create($request->all());
-        return redirect()->route('sucursales.index');
+            $request['address_id'] = $address->id;
+            Office::create($request->all());
+            DB::commit();
+            return redirect()->route('sucursales.index');
+        } catch (\Throwable $th) {
+           DB::rollBack();
+           return $th;
+        }
 
     }
 
