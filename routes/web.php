@@ -6,6 +6,19 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\RolController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AddressController;
+use App\Http\Controllers\BusinessController;
+use App\Http\Controllers\CashRegisterController;
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\ClientController;
+use App\Http\Controllers\CreditController;
+use App\Http\Controllers\OfficeController;
+use App\Http\Controllers\ProductController;
+use App\Http\Controllers\ReportController;
+use App\Http\Controllers\SaleController;
+use App\Http\Controllers\ServiceController;
+use App\Http\Controllers\VendorController;
+use App\Http\Controllers\WarehouseController;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -34,7 +47,20 @@ Auth::routes();
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Route::group(['middleware' => ['auth']], function(){
-    Route::resource('roles',RollController::class);
-    Route::resource('usuarios',UserController::class);
     Route::resource('address',AddressController::class);
+    Route::resource('almacenes',WarehouseController::class);
+    Route::resource('boxes',CashRegisterController::class);
+    Route::resource('categorias',CategoryController::class);
+    Route::resource('clientes',ClientController::class);
+    Route::resource('creditos',CreditController::class);
+    Route::resource('negocios',BusinessController::class);
+    Route::resource('productos',ProductController::class);
+    Route::resource('proveedores',VendorController::class);
+    Route::resource('reportes',ReportController::class);
+    Route::resource('roles',RolController::class);
+    Route::resource('servicios',ServiceController::class);
+    Route::resource('sucursales',OfficeController::class);
+    Route::resource('usuarios',UserController::class);
+    Route::resource('ventas',SaleController::class);
+
 });

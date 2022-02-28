@@ -2,10 +2,20 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Business;
 use Illuminate\Http\Request;
 
 class BusinessController extends Controller
 {
+
+    function __construct()
+    {
+        $this->middleware('permission: ver-negocio | crear-negocio | editar-negocio | borrar-negocio',['only' => ['index']]);
+        $this->middleware('permission: crear-negocio',['only' => ['create','store']]);
+        $this->middleware('permission: editar-negocio',['only' => ['edit','update']]);
+        $this->middleware('permission: borrar-negocio',['only' => ['destroy']]);
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -13,7 +23,8 @@ class BusinessController extends Controller
      */
     public function index()
     {
-        //
+        $negocios = Business::paginate(5);
+        return view('bussiness.index',compact('negocios'));
     }
 
     /**
@@ -23,7 +34,7 @@ class BusinessController extends Controller
      */
     public function create()
     {
-        //
+        return view('bussiness.crear');
     }
 
     /**
@@ -34,7 +45,15 @@ class BusinessController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        request()->validate([
+            'name' => 'required',
+            'rfc' => 'required|unique:businesses,rfc',
+            'legal_representative' => 'required',
+            'number' => 'required'
+        ]);
+
+        Business::create($request->all());
+        return redirect()->route('negocios.index');
     }
 
     /**
@@ -54,9 +73,9 @@ class BusinessController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Business $business)
     {
-        //
+        return view('bussiness.editar',compact('business'));
     }
 
     /**
@@ -68,7 +87,16 @@ class BusinessController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        request()->validate([
+            'name' => 'required',
+            'rfc' => 'unique:businesses,rfc'.$id,
+            'legal_representative' => 'required',
+            'number' => 'required'
+        ]);
+
+        $business = Business::find($id);
+        $business->update($request->all());
+        return redirect()->route('negocios.index');
     }
 
     /**
@@ -77,8 +105,9 @@ class BusinessController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Business $business)
     {
-        //
+        $business->delete();
+        return redirect()->route('negocios.index');
     }
 }
