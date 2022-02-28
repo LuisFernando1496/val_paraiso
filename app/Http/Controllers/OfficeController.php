@@ -52,12 +52,19 @@ class OfficeController extends Controller
             'phone' => 'required|unique:offices,phone',
             'responsable' => 'required',
             'address_id' => 'required',
-            'bussiness_id' => 'required'
+            'bussiness_id' => 'required',
+            'street' => 'required',
+            'exterior' => 'required',
+            'suburb' => 'required',
+            'postal_code' => 'required',
+            'city' => 'required',
+            'state' => 'required',
+            'country' => 'required'
         ]);
 
         $address = new Address();
         $address->street = $request->street;
-        $address->number = $request->number;
+        $address->number = $request->exterior;
         $address->suburb = $request->suburb;
         $address->postal_code = $request->postal_code;
         $address->city = $request->city;
@@ -88,9 +95,9 @@ class OfficeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Office $office)
+    public function edit(Office $oficina)
     {
-        return view('office.editar',compact('office'));
+        return view('office.editar',compact('oficina'));
     }
 
     /**

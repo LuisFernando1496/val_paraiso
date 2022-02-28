@@ -22,8 +22,8 @@ class Office extends Model
         return $this->belongsTo(Address::class,'id','address_id');
     }
 
-    public function bussiness()
+    public function business()
     {
-        return $this->belongsTo(Business::class,'id','bussiness_id');
+        return $this->belongsTo(Business::class,'id','business_id');
     }
 }

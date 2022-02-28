@@ -43,7 +43,7 @@
                                     <div class="col-xs-12 col-sm-12 col-md-12">
                                         <div class="form-group">
                                             <label for="number">Telefono</label>
-                                            {!! Form::text('number', null, array('class' => 'form-control')) !!}
+                                            {!! Form::number('number', null, array('class' => 'form-control')) !!}
                                         </div>
                                     </div>
                                     <div class="col-xs-12 col-sm-12 col-md-12">

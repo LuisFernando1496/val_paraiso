@@ -24,7 +24,7 @@
                                 <tbody>
                                     @forelse ($negocios as $negocio)
                                         <tr>
-                                            <td style="display: none">{{$negocio->id}}</td>
+                                          for  <td style="display: none">{{$negocio->id}}</td>
                                             <td>{{ $negocio->name }}</td>
                                             <td>{{ $negocio->rfc }}</td>
                                             <td>{{ $negocio->legal_representative }}</td>
