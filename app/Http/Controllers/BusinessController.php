@@ -93,7 +93,6 @@ class BusinessController extends Controller
             'legal_representative' => 'required',
             'number' => 'required'
         ]);
-
         $business = Business::find($negocio->id);
         $business->update($request->all());
         return redirect()->route('negocios.index');
