@@ -14,7 +14,7 @@ class Office extends Model
         'phone',
         'responsable',
         'address_id',
-        'bussiness_id',
+        'business_id',
     ];
 
     public function address()
