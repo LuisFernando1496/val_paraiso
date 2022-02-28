@@ -1,4 +1,4 @@
-<li class="side-menus {{ Request::is('*') ? 'active' : '' }}">
+<li class="side-menus {{ Request::is('home') ? 'active' : '' }}">
     <a class="nav-link" href="{{ route('home') }}">
         <i class=" fas fa-tachometer-alt"></i><span>Dashboard</span>
     </a>
