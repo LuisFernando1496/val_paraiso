@@ -40,7 +40,7 @@ class UserController extends Controller
     public function create()
     {
         $roles = Role::pluck('name','name')->all();
-        $oficinas = Office::all();
+        $oficinas = Office::pluck('name','id')->all();
         return view('users.crear',compact('roles','oficinas'));
 
     }
@@ -93,7 +93,8 @@ class UserController extends Controller
         $user = User::find($id);
         $roles = Role::pluck('name','name')->all();
         $userRole = $user->roles->pluck('name','name')->all();
-        return view('users.editar',compact('user','roles','userRole'));
+        $oficinas = Office::pluck('name','id')->all();
+        return view('users.editar',compact('user','roles','userRole','oficinas'));
     }
 
     /**

@@ -35,7 +35,7 @@ class OfficeController extends Controller
      */
     public function create()
     {
-        $negocios = Business::all();
+        $negocios = Business::pluck('name','id')->all();
         return view('office.crear',compact('negocios'));
     }
 
@@ -97,8 +97,9 @@ class OfficeController extends Controller
      */
     public function edit(Office $oficina)
     {
-        return view('office.editar',compact('oficina'));
-    }
+        $negocios = Business::pluck('name','id')->all();
+        return view('office.editar',compact('oficina','negocios'));
+    }   
 
     /**
      * Update the specified resource in storage.

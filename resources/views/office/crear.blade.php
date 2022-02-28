@@ -31,7 +31,7 @@
                                     <div class="col-xs-12 col-sm-12 col-md-12">
                                         <div class="form-group">
                                             <label for="number">Telefono</label>
-                                            {!! Form::text('number', null, array('class' => 'form-control')) !!}
+                                            {!! Form::number('number', null, array('class' => 'form-control')) !!}
                                         </div>
                                     </div>
                                     <div class="col-xs-12 col-sm-12 col-md-12">
@@ -49,7 +49,7 @@
                                     <div class="col-xs-12 col-sm-12 col-md-12">
                                         <div class="form-group">
                                             <label for="exterior">Numero Exterior</label>
-                                            {!! Form::text('exterior', null, array('class' => 'form-control')) !!}
+                                            {!! Form::number('exterior', null, array('class' => 'form-control')) !!}
                                         </div>
                                     </div>
                                     <div class="col-xs-12 col-sm-12 col-md-12">
@@ -80,6 +80,12 @@
                                         <div class="form-group">
                                             <label for="country">Pais</label>
                                             {!! Form::text('country', null, array('class' => 'form-control')) !!}
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-12 col-md-12">
+                                        <div class="form-group">
+                                            <label for="country">Negocio</label>
+                                            {!! Form::select('business_id', $negocios, [], array('class' => 'form-control')) !!}
                                         </div>
                                     </div>
                                     <div class="col-xs-12 col-sm-12 col-md-12">
