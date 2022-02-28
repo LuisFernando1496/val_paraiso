@@ -20,8 +20,8 @@ class CreateOfficesTable extends Migration
             $table->string('responsable');
             $table->unsignedBigInteger('address_id');
             $table->foreign('address_id')->references('id')->on('addresses');
-            $table->unsignedBigInteger('business_id');
-            $table->foreign('business_id')->references('id')->on('businesses');
+            $table->unsignedBigInteger('bussiness_id');
+            $table->foreign('bussiness_id')->references('id')->on('businesses');
             $table->timestamps();
         });
     }
