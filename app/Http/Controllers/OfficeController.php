@@ -102,11 +102,10 @@ class OfficeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Office $oficina)
+    public function edit(Office $sucursale)
     {
-        $sucursale = $oficina;
         $negocios = Business::pluck('name','id')->all();
-        return view('office.editar',compact('oficina','sucrusale'));
+        return view('office.editar',compact('oficina','sucursale'));
     }
 
     /**
@@ -116,17 +115,17 @@ class OfficeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Office $office)
+    public function update(Request $request, Office $sucursale)
     {
         request()->validate([
             'name' => 'required',
-            'phone' => 'unique:offices,phone'.$office->id,
+            'phone' => 'unique:offices,phone'.$sucursale->id,
             'responsable' => 'required',
             'address_id' => 'required',
             'bussiness_id' => 'required'
         ]);
 
-        $office->update($request->all());
+        $sucursale->update($request->all());
         return redirect()->route('sucursales.index');
     }
 
@@ -136,9 +135,9 @@ class OfficeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Office $office)
+    public function destroy(Office $sucursale)
     {
-        $office->delete();
+        $sucursale->delete();
         return redirect()->route('sucursales.index');
     }
 }
