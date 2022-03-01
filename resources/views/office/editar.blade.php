@@ -43,43 +43,43 @@
                                     <div class="col-xs-12 col-sm-12 col-md-12">
                                         <div class="form-group">
                                             <label for="street">Avenida o Calle</label>
-                                            {!! Form::text('street', null, array('class' => 'form-control')) !!}
+                                            {!! Form::text('street', $sucursale->address->street, array('class' => 'form-control')) !!}
                                         </div>
                                     </div>
                                     <div class="col-xs-12 col-sm-12 col-md-12">
                                         <div class="form-group">
                                             <label for="exterior">Numero Exterior</label>
-                                            {!! Form::number('exterior', null, array('class' => 'form-control')) !!}
+                                            {!! Form::number('exterior', $sucursale->address->number, array('class' => 'form-control')) !!}
                                         </div>
                                     </div>
                                     <div class="col-xs-12 col-sm-12 col-md-12">
                                         <div class="form-group">
                                             <label for="suburb">Colonia</label>
-                                            {!! Form::text('suburb', null, array('class' => 'form-control')) !!}
+                                            {!! Form::text('suburb', $sucursale->address->suburb, array('class' => 'form-control')) !!}
                                         </div>
                                     </div>
                                     <div class="col-xs-12 col-sm-12 col-md-12">
                                         <div class="form-group">
                                             <label for="postal_code">Codigo Postal</label>
-                                            {!! Form::text('postal_code', null, array('class' => 'form-control')) !!}
+                                            {!! Form::text('postal_code', $sucursale->address->postal_code, array('class' => 'form-control')) !!}
                                         </div>
                                     </div>
                                     <div class="col-xs-12 col-sm-12 col-md-12">
                                         <div class="form-group">
                                             <label for="city">Ciudad</label>
-                                            {!! Form::text('city', null, array('class' => 'form-control')) !!}
+                                            {!! Form::text('city', $sucursale->address->city, array('class' => 'form-control')) !!}
                                         </div>
                                     </div>
                                     <div class="col-xs-12 col-sm-12 col-md-12">
                                         <div class="form-group">
                                             <label for="state">Estado</label>
-                                            {!! Form::text('state', null, array('class' => 'form-control')) !!}
+                                            {!! Form::text('state', $sucursale->address->state, array('class' => 'form-control')) !!}
                                         </div>
                                     </div>
                                     <div class="col-xs-12 col-sm-12 col-md-12">
                                         <div class="form-group">
                                             <label for="country">Pais</label>
-                                            {!! Form::text('country', null, array('class' => 'form-control')) !!}
+                                            {!! Form::text('country', $sucursale->address->country, array('class' => 'form-control')) !!}
                                         </div>
                                     </div>
                                     <div class="col-xs-12 col-sm-12 col-md-12">

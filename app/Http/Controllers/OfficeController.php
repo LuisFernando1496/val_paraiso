@@ -105,7 +105,7 @@ class OfficeController extends Controller
     public function edit(Office $sucursale)
     {
         $negocios = Business::pluck('name','id')->all();
-        return view('office.editar',compact('oficina','sucursale'));
+        return view('office.editar',compact('negocios','sucursale'));
     }
 
     /**
@@ -119,12 +119,27 @@ class OfficeController extends Controller
     {
         request()->validate([
             'name' => 'required',
-            'phone' => 'unique:offices,phone'.$sucursale->id,
+            'phone' => 'unique:offices,phone'.$sucursale->phone,
             'responsable' => 'required',
-            'address_id' => 'required',
-            'bussiness_id' => 'required'
+            'business_id' => 'required',
+            'street' => 'required',
+            'exterior' => 'required',
+            'suburb' => 'required',
+            'postal_code' => 'required',
+            'city' => 'required',
+            'state' => 'required',
+            'country' => 'required'
         ]);
-
+        $address = Address::find($sucursale->address_id);
+        $address->update([
+            'street' => $request->street,
+            'number' => $request->exterior,
+            'suburb' => $request->suburb,
+            'postal_code' => $request->postal_code,
+            'city' => $request->city,
+            'state' => $request->state,
+            'country' => $request->country
+        ]);
         $sucursale->update($request->all());
         return redirect()->route('sucursales.index');
     }
