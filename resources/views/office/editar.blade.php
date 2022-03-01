@@ -85,7 +85,7 @@
                                     <div class="col-xs-12 col-sm-12 col-md-12">
                                         <div class="form-group">
                                             <label for="business_id">Negocio</label>
-                                            {!! Form::select('business_id', $negocios, $sucursale->id, array('class' => 'form-control')) !!}
+                                            {!! Form::select('business_id', $negocios, $sucursale->office_id, array('class' => 'form-control')) !!}
                                         </div>
                                     </div>
                                     <div class="col-xs-12 col-sm-12 col-md-12">

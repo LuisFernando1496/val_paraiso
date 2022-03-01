@@ -117,19 +117,37 @@ class OfficeController extends Controller
      */
     public function update(Request $request, Office $sucursale)
     {
-        request()->validate([
-            'name' => 'required',
-            'phone' => 'unique:offices,phone'.$sucursale->id,
-            'responsable' => 'required',
-            'business_id' => 'required',
-            'street' => 'required',
-            'exterior' => 'required',
-            'suburb' => 'required',
-            'postal_code' => 'required',
-            'city' => 'required',
-            'state' => 'required',
-            'country' => 'required'
-        ]);
+        $phone = $request['phone'];
+        if ($phone != $sucursale->phone) {
+            request()->validate([
+                'name' => 'required',
+                'phone' => 'required|unique:offices,phone',
+                'responsable' => 'required',
+                'business_id' => 'required',
+                'street' => 'required',
+                'exterior' => 'required',
+                'suburb' => 'required',
+                'postal_code' => 'required',
+                'city' => 'required',
+                'state' => 'required',
+                'country' => 'required'
+            ]);
+        } else {
+            request()->validate([
+                'name' => 'required',
+                'phone' => 'required',
+                'responsable' => 'required',
+                'business_id' => 'required',
+                'street' => 'required',
+                'exterior' => 'required',
+                'suburb' => 'required',
+                'postal_code' => 'required',
+                'city' => 'required',
+                'state' => 'required',
+                'country' => 'required'
+            ]);
+        }
+
         $address = Address::find($sucursale->address_id);
         $address->update([
             'street' => $request->street,
