@@ -106,7 +106,7 @@ class OfficeController extends Controller
     {
         $sucursale = $oficina;
         $negocios = Business::pluck('name','id')->all();
-        return view('office.editar',compact('oficina','sucrusale'));
+        return view('office.editar',compact('oficina','sucursale'));
     }
 
     /**
