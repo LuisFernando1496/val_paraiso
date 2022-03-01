@@ -32,7 +32,7 @@
                                             <td>{{ $oficina->address->street }} {{ $oficina->address->number }} {{ $oficina->address->suburb }}, {{ $oficina->address->postal_code }}, {{ $oficina->address->city }}, {{ $oficina->address->state }}, {{ $oficina->address->country }}</td>
                                             <td>{{ $oficina->business->name }}</td>
                                             <td>
-                                                <a href="{{ route('sucursales.edit',$oficina) }}" class="btn"></a>
+                                                <a href="{{ route('sucursales.edit',$oficina) }}" class="btn btn-primary">Editar</a>
                                             </td>
                                             <td>
                                                 {!! Form::open(['method' => 'DELETE', 'route' => ['sucursales.destroy',$oficina], 'style' => 'display:inline']) !!}
