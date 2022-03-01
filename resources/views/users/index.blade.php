@@ -34,7 +34,7 @@
                                             <td>{{ $user->office->name ?? '' }}</td>
                                             <td>
                                                 @if (!empty($user->getRoleNames()))
-                                                    @foreach ($user->getRoleNames as $rolName)
+                                                    @foreach ($user->getRoleNames() as $rolName)
                                                         <h5><span class="badge badge-dark">{{ $rolName }}</span></h5>
                                                     @endforeach
                                                 @endif
