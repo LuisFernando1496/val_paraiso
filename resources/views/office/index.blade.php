@@ -23,19 +23,19 @@
                                     <th style="color: #fff;">Eliminar</th>
                                 </thead>
                                 <tbody>
-                                    @forelse ($oficinas as $oficina)
+                                    @forelse ($oficinas as $sucursale)
                                         <tr>
-                                            <td style="display: none;">{{ $oficina->id}}</td>
-                                            <td>{{ $oficina->name }}</td>
-                                            <td>{{ $oficina->number }}</td>
-                                            <td>{{ $oficina->responsable }}</td>
-                                            <td>{{ $oficina->address->street }} {{ $oficina->address->number }} {{ $oficina->address->suburb }}, {{ $oficina->address->postal_code }}, {{ $oficina->address->city }}, {{ $oficina->address->state }}, {{ $oficina->address->country }}</td>
-                                            <td>{{ $oficina->business->name }}</td>
+                                            <td style="display: none;">{{ $sucursale->id}}</td>
+                                            <td>{{ $sucursale->name }}</td>
+                                            <td>{{ $sucursale->number }}</td>
+                                            <td>{{ $sucursale->responsable }}</td>
+                                            <td>{{ $sucursale->address->street }} {{ $sucursale->address->number }} {{ $sucursale->address->suburb }}, {{ $sucursale->address->postal_code }}, {{ $sucursale->address->city }}, {{ $sucursale->address->state }}, {{ $sucursale->address->country }}</td>
+                                            <td>{{ $sucursale->business->name }}</td>
                                             <td>
-                                                <a href="{{ route('sucursales.edit',$oficina) }}" class="btn btn-primary">Editar</a>
+                                                <a href="{{ route('sucursales.edit',$sucursale) }}" class="btn btn-primary">Editar</a>
                                             </td>
                                             <td>
-                                                {!! Form::open(['method' => 'DELETE', 'route' => ['sucursales.destroy',$oficina], 'style' => 'display:inline']) !!}
+                                                {!! Form::open(['method' => 'DELETE', 'route' => ['sucursales.destroy',$sucursale], 'style' => 'display:inline']) !!}
                                                     {!! Form::submit('Borrar', ['class' => 'btn btn-danger']) !!}
                                                 {!! Form::close() !!}
                                             </td>
