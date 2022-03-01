@@ -119,7 +119,7 @@ class OfficeController extends Controller
     {
         request()->validate([
             'name' => 'required',
-            'phone' => 'unique:offices,phone'.$sucursale->phone,
+            'phone' => 'unique:offices,phone'.$sucursale->id,
             'responsable' => 'required',
             'business_id' => 'required',
             'street' => 'required',
