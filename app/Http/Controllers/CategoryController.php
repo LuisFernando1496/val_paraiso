@@ -36,7 +36,7 @@ class CategoryController extends Controller
     public function create()
     {
         $oficinas = Office::join('businesses','businesses.id','=','offices.business_id')
-        ->select(DB::raw("CONCAT(offices.name, ' - ', 'businesses.name) AS name"), 'offices.id')->pluck('name','id');
+        ->select(DB::raw("CONCAT(offices.name, ' - ',businesses.name) AS name"),'offices.id')->pluck('name','id');
         return view('categorias.crear',compact('oficinas'));
     }
 
@@ -78,7 +78,7 @@ class CategoryController extends Controller
     {
         $categoria = Category::find($id);
         $oficinas = Office::join('businesses','businesses.id','=','offices.business_id')
-        ->select(DB::raw("CONCAT(offices.name, ' - ', 'businesses.name) AS name"), 'offices.id')->pluck('name','id');
+        ->select(DB::raw("CONCAT(offices.name, ' - ',businesses.name) AS name"),'offices.id')->pluck('name','id');
         return view('categorias.editar',compact('categoria','oficinas'));
     }
 
