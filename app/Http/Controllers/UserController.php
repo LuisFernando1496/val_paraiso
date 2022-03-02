@@ -40,7 +40,10 @@ class UserController extends Controller
     public function create()
     {
         $roles = Role::pluck('name','name')->all();
-        $oficinas = Office::pluck('name','id')->all();
+        //$oficinas = Office::pluck('name','id')->all();
+        $oficinas = Office::join('businesses','businesses.id','=','offices.business_id')
+        ->select(DB::raw("CONCAT(offices.name, ' - ',businesses.name) AS name"),'offices.id')->pluck('name','id');
+        //return $oficinas;
         return view('users.crear',compact('roles','oficinas'));
 
     }
@@ -93,7 +96,8 @@ class UserController extends Controller
         $user = User::find($id);
         $roles = Role::pluck('name','name')->all();
         $userRole = $user->roles->pluck('name','name')->all();
-        $oficinas = Office::pluck('name','id')->all();
+        $oficinas = Office::join('businesses','businesses.id','=','offices.business_id')
+        ->select(DB::raw("CONCAT(offices.name, ' - ',businesses.name) AS name"),'offices.id')->pluck('name','id');
         return view('users.editar',compact('user','roles','userRole','oficinas'));
     }
 

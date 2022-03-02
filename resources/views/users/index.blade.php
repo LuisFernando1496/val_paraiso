@@ -11,6 +11,7 @@
                     <div class="card">
                         <div class="card-body">
                             <a href="{{ route('usuarios.create') }}" class="btn btn-warning">Nuevo</a>
+                            <a href="{{ route('roles.index') }}" class="btn btn-primary">Roles</a>
                             <table class="table table-striped mt-2">
                                 <thead style="background-color: #6777ef;">
                                     <th style="display: none;">ID</th>
@@ -39,14 +40,25 @@
                                                     @endforeach
                                                 @endif
                                             </td>
-                                            <td></td>
-                                            <td></td>
+                                            <td>
+                                                <a href="{{ route('usuarios.edit',$user->id) }}" class="btn btn-primary">Editar</a>
+                                            </td>
+                                            <td>
+                                                {!! Form::open(['method' => 'DELETE', 'route' => ['usuarios.destroy',$user->id], 'style' => 'display:inline']) !!}
+                                                    {!! Form::submit('Borrar', ['class' => 'btn btn-danger']) !!}
+                                                {!! Form::close() !!}
+                                            </td>
                                         </tr>
                                     @empty
-
+                                        <tr>
+                                            <td colspan="8">Sin registros</td>
+                                        </tr>
                                     @endforelse
                                 </tbody>
                             </table>
+                            <div class="pagination">
+                                {!! $users->links() !!}
+                            </div>
                         </div>
                     </div>
                 </div>
