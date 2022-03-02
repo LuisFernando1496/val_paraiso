@@ -33,7 +33,7 @@
                                             <label for="name">Permisos para este Rol:</label>
                                             <br>
                                             @forelse ($permission as $value)
-                                                <label>{{ Form::checkbox('permission[]', $value->id, in_array($value->id,$rolePermission) ? true, array('class' => 'name')) }} {{ $value->name }}</label>
+                                                <label>{{ Form::checkbox('permission[]', $value->id, in_array($value->id,$rolePermissions) ? true : false, array('class' => 'name')) }} {{ $value->name }}</label>
                                                 <br>
                                             @empty
                                                 <p>Sin permisos registrados</p>

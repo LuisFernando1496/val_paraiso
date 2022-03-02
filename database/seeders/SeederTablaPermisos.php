@@ -15,11 +15,13 @@ class SeederTablaPermisos extends Seeder
     public function run()
     {
         $permisos = [
+
             //tabla business
             'ver-negocio',
             'editar-negocio',
             'crear-negocio',
             'borrar-negocio',
+
             //tabla offices
             'ver-oficina',
             'editar-oficina',
@@ -31,6 +33,12 @@ class SeederTablaPermisos extends Seeder
             'editar-rol',
             'crear-rol',
             'borrar-rol',
+
+            //tabla usuarios
+            'ver-usuarios',
+            'editar-usuarios',
+            'crear-usuarios',
+            'borrar-usuarios',
         ];
 
         foreach($permisos as $permiso)

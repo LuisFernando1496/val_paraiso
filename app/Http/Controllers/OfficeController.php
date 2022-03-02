@@ -12,10 +12,10 @@ class OfficeController extends Controller
 {
     function __construct()
     {
-        $this->middleware('permission: ver-oficina | crear-oficina | editar-oficina | borrar-oficina',['only' => ['index']]);
-        $this->middleware('permission: crear-oficina',['only' => ['create','store']]);
-        $this->middleware('permission: editar-oficina',['only' => ['edit','update']]);
-        $this->middleware('permission: borrar-oficina',['only' => ['destroy']]);
+        $this->middleware('permission:ver-oficina|crear-oficina|editar-oficina|borrar-oficina',['only'=>['index']]);
+        $this->middleware('permission:crear-oficina',['only'=>['create','store']]);
+        $this->middleware('permission:editar-oficina',['only'=>['edit','update']]);
+        $this->middleware('permission:borrar-oficina',['only'=>['destroy']]);
     }
 
     /**

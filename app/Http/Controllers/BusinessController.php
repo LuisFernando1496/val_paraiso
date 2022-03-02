@@ -10,10 +10,10 @@ class BusinessController extends Controller
 
     function __construct()
     {
-        $this->middleware('permission: ver-negocio | crear-negocio | editar-negocio | borrar-negocio',['only' => ['index']]);
-        $this->middleware('permission: crear-negocio',['only' => ['create','store']]);
-        $this->middleware('permission: editar-negocio',['only' => ['edit','update']]);
-        $this->middleware('permission: borrar-negocio',['only' => ['destroy']]);
+        $this->middleware('permission:ver-negocio|crear-negocio|editar-negocio|borrar-negocio',['only'=>['index']]);
+        $this->middleware('permission:crear-negocio',['only'=>['create','store']]);
+        $this->middleware('permission:editar-negocio',['only'=>['edit','update']]);
+        $this->middleware('permission:borrar-negocio',['only'=>['destroy']]);
     }
 
     /**
@@ -89,7 +89,7 @@ class BusinessController extends Controller
     {
         request()->validate([
             'name' => 'required',
-            'rfc' => 'unique:businesses,rfc',
+            'rfc' => 'unique:businesses,rfc,'.$negocio->id,
             'legal_representative' => 'required',
             'number' => 'required'
         ]);

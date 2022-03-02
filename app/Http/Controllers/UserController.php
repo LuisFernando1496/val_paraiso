@@ -16,10 +16,10 @@ class UserController extends Controller
 {
     function __construct()
     {
-        $this->middleware('permission: ver-usuarios | crear-usuarios | editar-usuarios | borrar-usuarios',['only' => ['index']]);
-        $this->middleware('permission: crear-usuarios',['only' => ['create','store']]);
-        $this->middleware('permission: editar-usuarios',['only' => ['edit','update']]);
-        $this->middleware('permission: borrar-usuarios',['only' => ['destroy']]);
+        $this->middleware('permission:ver-usuarios|crear-usuarios|editar-usuarios|borrar-usuarios',['only'=>['index']]);
+        $this->middleware('permission:crear-usuarios',['only'=>['create','store']]);
+        $this->middleware('permission:editar-usuarios',['only'=>['edit','update']]);
+        $this->middleware('permission:borrar-usuarios',['only'=>['destroy']]);
     }
     /**
      * Display a listing of the resource.
@@ -71,6 +71,7 @@ class UserController extends Controller
 
         $user = User::create($input);
         $user->assignRole($request->input('roles'));
+
         return redirect()->route('usuarios.index');
     }
 
@@ -114,10 +115,10 @@ class UserController extends Controller
             'name' => 'required',
             'last_name' => 'required',
             'second_last_name' => 'required',
-            'email' => 'required|email|unique:users,email'.$id,
+            'email' => 'required|email|unique:users,email,'.$id,
             'password' => 'same:confirm-password',
             'roles' => 'required',
-            'office_id' => 'required'
+            //'office_id' => 'required'
         ]);
 
         $input = $request->all();
