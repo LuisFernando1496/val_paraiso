@@ -48,7 +48,7 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        request()->validate($request, [
+        $this->validate($request, [
             'name' => 'required',
             'description' => 'required',
             'office_id' => 'required'
@@ -91,7 +91,7 @@ class CategoryController extends Controller
      */
     public function update(Request $request, $id)
     {
-        request()->validate($request, [
+        $this->validate($request, [
             'name' => 'required',
             'description' => 'required',
             'office_id' => 'required'

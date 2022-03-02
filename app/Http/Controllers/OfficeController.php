@@ -29,6 +29,7 @@ class OfficeController extends Controller
         return view('office.index',compact('oficinas'));
     }
 
+    
     /**
      * Show the form for creating a new resource.
      *
