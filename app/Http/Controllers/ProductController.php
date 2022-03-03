@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use App\Models\CostPrice;
 use App\Models\Product;
 use App\Models\Vendor;
 use App\Models\VendorHasProduct;
@@ -142,11 +143,29 @@ class ProductController extends Controller
 
     public function costosver($id)
     {
-
+        $vendorproduct = VendorHasProduct::find($id);
+        $producto = Product::find($vendorproduct->product_id);
+        $costos = CostPrice::where('vendor_product_id','=',$id)->paginate(5);
+        return view('costos.index',compact('cotos','producto'));
     }
 
-    public function costoscrear()
+    public function costoscrear($id)
     {
+        $vendorproduct = VendorHasProduct::find($id);
+        $producto = Product::find($vendorproduct->product_id);
+        return view('costos.crear',compact('vendorproduct','producto'));
+    }
 
+    public function costospost(Request $request)
+    {
+        $this->validate($request,[
+            'name' => 'required',
+            'cost' => 'required',
+            'price' => 'required',
+            'vendor_product_id' => 'required'
+        ]);
+
+        CostPrice::create($request->all());
+        return redirect()->route('productos.index');
     }
 }

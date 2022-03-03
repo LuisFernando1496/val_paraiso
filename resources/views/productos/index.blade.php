@@ -34,11 +34,15 @@
                                         <td>{{ $producto->mark }}</td>
                                         <td>{{ $producto->category->name }}</td>
                                         <td>
-                                            <a href="{{ route('costos.ver',$producto->id) }}" class="btn btn-secondary">Ver</a>
+                                            @if (sizeof($producto->vendor[0]->costos) > 0)
+                                                <a href="{{ route('costos.ver',$producto->id) }}" class="btn btn-secondary">Ver</a>
+                                            @else
+                                                <p>Sin costoso</p>
+                                            @endif
                                             <a href="{{ route('costos.crear') }}" class="btn btn-warning">Agregar</a>
                                         </td>
-                                        <td>{{ $producto->vendor }}</td>
-                                        <td>{{ $producto->vendor }}</td>
+                                        <td>{{ $producto->vendor[0]->vendor->name }}</td>
+                                        <td>{{ $producto->vendor[0]->vendor->office->name }}</td>
                                         <td>
                                             @can('editar-productos')
                                                 <a href="{{ route('productos.edit',$producto->id) }}" class="btn btn-info">Editar</a>
@@ -46,7 +50,7 @@
                                         </td>
                                         <td>
                                             @can('borrar-productos')
-                                                <a href="{{ route('productos.destroy') }}" class="btn btn-danger">Borrar</a>
+                                                <a href="{{ route('productos.destroy',$producto->id) }}" class="btn btn-danger">Borrar</a>
                                             @endcan
                                         </td>
                                     @empty
