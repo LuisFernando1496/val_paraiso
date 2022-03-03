@@ -39,7 +39,7 @@
                                             @else
                                                 <p>Sin costoso</p>
                                             @endif
-                                            <a href="{{ route('costos.crear') }}" class="btn btn-warning">Agregar</a>
+                                            <a href="{{ route('costos.crear',$producto->vendor[0]->id) }}" class="btn btn-warning">Agregar</a>
                                         </td>
                                         <td>{{ $producto->vendor[0]->vendor->name }}</td>
                                         <td>{{ $producto->vendor[0]->vendor->office->name }}</td>

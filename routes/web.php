@@ -63,7 +63,7 @@ Route::group(['middleware' => ['auth']], function(){
     Route::resource('usuarios',UserController::class);
     Route::resource('ventas',SaleController::class);
     Route::get('/costos-ver/{id}',[ProductController::class,'costosver'])->name('costos.ver');
-    Route::get('/costos-crear',[ProductController::class,'costoscrear'])->name('costos.crear');
+    Route::get('/costos-crear/{id}',[ProductController::class,'costoscrear'])->name('costos.crear');
     Route::post('/costos',[ProductController::class,'costospost'])->name('costos.store');
 
 });
