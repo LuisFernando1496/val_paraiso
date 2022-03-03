@@ -19,11 +19,11 @@
                                 </div>
                             @endif
                         <div class="card-body">
-                            {!! Form::open(array('route' => 'costos.post', 'method' => 'POST')) !!}
+                            {!! Form::open(array('route' => 'costos.store', 'method' => 'POST')) !!}
                                 <div class="row">
                                     <div class="col-xs-12 col-sm-12 col-md-12">
                                         <div class="form-group">
-                                            {!! Form::text('product_id', $producto->id, array('class' => 'form-control')) !!}
+                                            {!! Form::text('vendor_product_id', $vendorproduct->id, array('class' => 'form-control','hidden' => 'true')) !!}
                                         </div>
                                     </div>
                                     <div class="col-xs-12 col-sm-12 col-md-12">
@@ -31,6 +31,21 @@
                                             <label for="name">Nombre</label>
                                             {!! Form::text('name', null, array('class' => 'form-control')) !!}
                                         </div>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-12 col-md-12">
+                                        <div class="form-group">
+                                            <label for="cost">Costo</label>
+                                            {!! Form::number('cost', null, array('class' => 'form-control','step' => 'any')) !!}
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-12 col-md-12">
+                                        <div class="form-group">
+                                            <label for="price">Precio</label>
+                                            {!! Form::number('price', null, array('class' => 'form-control','step' => 'any')) !!}
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-12 col-md-12">
+                                        <button class="btn btn-primary" type="submit">Guardar</button>
                                     </div>
                                 </div>
                             {!! Form::close() !!}
