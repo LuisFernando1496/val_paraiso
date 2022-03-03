@@ -2,10 +2,21 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
+use App\Models\Product;
+use App\Models\Vendor;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ProductController extends Controller
 {
+    function __construct()
+    {
+        $this->middleware('permission:ver-productos|crear-productos|editar-productos|borrar-productos',['only'=>['index']]);
+        $this->middleware('permission:crear-productos',['only'=>['create','store']]);
+        $this->middleware('permission:editar-productos',['only'=>['edit','update']]);
+        $this->middleware('permission:borrar-productos',['only'=>['destroy']]);
+    }
     /**
      * Display a listing of the resource.
      *
@@ -13,7 +24,8 @@ class ProductController extends Controller
      */
     public function index()
     {
-        //
+        $productos = Product::paginate(5);
+        return view('productos.index',compact('productos'));
     }
 
     /**
@@ -23,8 +35,15 @@ class ProductController extends Controller
      */
     public function create()
     {
-        //
+        $vendors = Vendor::join('offices','offices.id','=','vendors.office_id')
+        ->select(DB::raw("CONCAT(vendors.name, ' - ',offices.name) AS name"),'vendors.id')->pluck('name','id');
+        $categorias = Category::join('offices','offices.id','=','categories.office_id')->select(DB::raw(
+            "CONCAT(categories.name, ' - ',offices.name) AS name"
+        ),'categories.id')->pluck('name','id');
+        return view('productos.crear',compact('vendors','categorias'));
     }
+
+
 
     /**
      * Store a newly created resource in storage.
@@ -80,5 +99,15 @@ class ProductController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function costosver($id)
+    {
+
+    }
+
+    public function costoscrear()
+    {
+
     }
 }

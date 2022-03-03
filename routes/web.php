@@ -31,7 +31,7 @@ use App\Http\Controllers\WarehouseController;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect()->route('login');
 });
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
@@ -62,5 +62,9 @@ Route::group(['middleware' => ['auth']], function(){
     Route::resource('sucursales',OfficeController::class);
     Route::resource('usuarios',UserController::class);
     Route::resource('ventas',SaleController::class);
+    Route::get('/costos-ver/{id}',[ProductController::class,'costosver'])->name('costos.ver');
+    Route::get('/costos-crear',[ProductController::class,'costoscrear'])->name('costos.crear');
 
 });
+
+Route::get('/getCategorias',[CategoryController::class,'getCategorias']);

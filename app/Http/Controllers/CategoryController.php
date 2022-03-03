@@ -28,6 +28,14 @@ class CategoryController extends Controller
         return view('categorias.index',compact('categorias'));
     }
 
+    public function getCategorias($id)
+    {
+        $categorias = Category::join('offices','offices.id','=','categories.office_id')->select(DB::raw(
+            "CONCAT(categories.name, ' - ',offices.name) AS name"
+        ),'categories.id')->where('categories.office_id','=',$id)->pluck('name','id');
+        return response()->json($categorias);
+    }
+
     /**
      * Show the form for creating a new resource.
      *

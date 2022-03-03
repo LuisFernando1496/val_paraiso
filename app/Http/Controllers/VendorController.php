@@ -104,7 +104,8 @@ class VendorController extends Controller
     {
         $oficinas = Office::join('businesses','businesses.id','=','offices.business_id')
         ->select(DB::raw("CONCAT(offices.name, ' - ',businesses.name) AS name"),'offices.id')->pluck('name','id');
-        return view('proveedores.editar',compact('oficinas'));
+        $vendor = Vendor::find($id);
+        return view('proveedores.editar',compact('oficinas','vendor'));
     }
 
     /**

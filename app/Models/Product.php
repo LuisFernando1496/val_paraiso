@@ -12,7 +12,18 @@ class Product extends Model
         'bar_code',
         'name',
         'description',
-        'mark'
+        'mark',
+        'category_id'
     ];
+
+    public function category()
+    {
+        return $this->belongsTo(Category::class,'category_id');
+    }
+
+    public function vendor()
+    {
+        return $this->hasMany(VendorHasProduct::class,'product_id','id');
+    }
 
 }
