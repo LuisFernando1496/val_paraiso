@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use App\Models\Office;
+use App\Models\Vendor;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -30,9 +31,11 @@ class CategoryController extends Controller
 
     public function getCategorias($id)
     {
+        $vendor = Vendor::find($id);
+
         $categorias = Category::join('offices','offices.id','=','categories.office_id')->select(DB::raw(
             "CONCAT(categories.name, ' - ',offices.name) AS name"
-        ),'categories.id')->where('categories.office_id','=',$id)->pluck('name','id');
+        ),'categories.id')->where('categories.office_id','=',$vendor->office_id)->pluck('name','id');
         return response()->json($categorias);
     }
 

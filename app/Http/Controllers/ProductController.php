@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\Vendor;
+use App\Models\VendorHasProduct;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -53,7 +54,31 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request,[
+            'bar_code' => 'required',
+            'name' => 'required',
+            'description' => 'required',
+            'mark' => 'required',
+            'vendor_id' => 'required',
+            'category_id' => 'required'
+        ]);
+        try {
+            DB::beginTransaction();
+            $product = new Product();
+            $product->bar_code = $request['bar_code'];
+            $product->name = $request['name'];
+            $product->description = $request['description'];
+            $product->mark = $request['mark'];
+            $product->category_id = $request['category_id'];
+            $product->save();
+            $request['product_id'] = $product->id;
+            VendorHasProduct::create($request->all());
+            DB::commit();
+            return redirect()->route('productos.index');
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            return $th;
+        }
     }
 
     /**
@@ -75,7 +100,13 @@ class ProductController extends Controller
      */
     public function edit($id)
     {
-        //
+        $producto = Product::find($id);
+        $vendors = Vendor::join('offices','offices.id','=','vendors.office_id')
+        ->select(DB::raw("CONCAT(vendors.name, ' - ',offices.name) AS name"),'vendors.id')->pluck('name','id');
+        $categorias = Category::join('offices','offices.id','=','categories.office_id')->select(DB::raw(
+            "CONCAT(categories.name, ' - ',offices.name) AS name"
+        ),'categories.id')->pluck('name','id');
+        return view('productos.editar',compact('producto','vendors','categorias'));
     }
 
     /**
@@ -87,7 +118,13 @@ class ProductController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $this->validate($request,[
+            'bar_code' => 'required',
+            'name' => 'required',
+            'description' => 'required',
+            'mark' => 'required',
+            'vendor_id' => 'required',
+        ]);
     }
 
     /**
@@ -98,7 +135,9 @@ class ProductController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $producto = Product::find($id);
+        $producto->delete();
+        return redirect()->route('productos.index');
     }
 
     public function costosver($id)

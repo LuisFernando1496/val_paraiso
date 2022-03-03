@@ -37,8 +37,8 @@
                                             <a href="{{ route('costos.ver',$producto->id) }}" class="btn btn-secondary">Ver</a>
                                             <a href="{{ route('costos.crear') }}" class="btn btn-warning">Agregar</a>
                                         </td>
-                                        <td>{{ $producto->vendor[0]->name }}</td>
-                                        <td>{{ $producto->vendor[0]->office->name }}</td>
+                                        <td>{{ $producto->vendor }}</td>
+                                        <td>{{ $producto->vendor }}</td>
                                         <td>
                                             @can('editar-productos')
                                                 <a href="{{ route('productos.edit',$producto->id) }}" class="btn btn-info">Editar</a>
@@ -57,7 +57,7 @@
                                 </tbody>
                             </table>
                             <div class="pagination">
-                                {!! $oficinas->links() !!}
+                                {!! $productos->links() !!}
                             </div>
                         </div>
                     </div>
