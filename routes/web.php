@@ -72,3 +72,4 @@ Route::group(['middleware' => ['auth']], function(){
 });
 
 Route::get('/getCategorias/{id}',[CategoryController::class,'getCategorias']);
+Route::get('/getUser/{id}',[WarehouseController::class,'getUser']);

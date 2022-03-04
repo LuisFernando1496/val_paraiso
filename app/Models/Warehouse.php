@@ -17,11 +17,11 @@ class Warehouse extends Model
 
     public function office()
     {
-        return $this->belongsTo(Office::class,'id','office_id');
+        return $this->belongsTo(Office::class,'office_id');
     }
 
     public function user()
     {
-        return $this->belongsTo(User::class,'id','user_id');
+        return $this->belongsTo(User::class,'user_id');
     }
 }
