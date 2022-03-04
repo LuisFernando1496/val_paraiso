@@ -31,8 +31,8 @@
                                             <td style="display: none;">{{ $servicio->id }}</td>
                                             <td>{{ $servicio->bar_code }}</td>
                                             <td>{{ $servicio->name }}</td>
-                                            <td>${{ number_format($servicio->cost,2,'.',',') }}</td>\
-                                            <td>${{ number_format($serivicio->price,2,'.',',') }}</td>
+                                            <td>${{ number_format($servicio->cost,2,'.',',') }}</td>
+                                            <td>${{ number_format($servicio->price,2,'.',',') }}</td>
                                             <td>{{ $servicio->description }}</td>
                                             <td>{{ $servicio->office->name }}</td>
                                             <td>
