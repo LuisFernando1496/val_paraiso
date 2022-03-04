@@ -10,6 +10,7 @@
                 <div class="col-lg-12">
                     <div class="card">
                         <div class="card-body">
+                            <a href="{{ route('productos.index') }}" class="btn btn-success">Regresar</a>
                             <table class="table table-striped mt-2">
                                 <thead style="background-color: #6777ef;">
                                     <th style="display: none;">ID</th>
@@ -27,10 +28,12 @@
                                             <td>${{ number_format($costo->cost,2,'.',',') }}</td>
                                             <td>${{ number_format($costo->price,2,'.',',') }}</td>
                                             <td>
-                                                <a href="" class="btn btn-info">Editar</a>
+                                                <a href="{{ route('costos.edit',$costo->id) }}" class="btn btn-info">Editar</a>
                                             </td>
                                             <td>
-
+                                                {!! Form::open(['method' => 'DELETE', 'route' => ['costos.destroy',$costo->id], 'style' => 'display:inline']) !!}
+                                                    {!! Form::submit('Borrar', ['class' => 'btn btn-danger']) !!}
+                                                {!! Form::close() !!}
                                             </td>
                                         </tr>
                                     @empty

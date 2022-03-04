@@ -146,7 +146,7 @@ class ProductController extends Controller
         $vendorproduct = VendorHasProduct::find($id);
         $producto = Product::find($vendorproduct->product_id);
         $costos = CostPrice::where('vendor_product_id','=',$id)->paginate(5);
-        return view('costos.index',compact('cotos','producto'));
+        return view('costos.index',compact('costos','producto'));
     }
 
     public function costoscrear($id)
@@ -166,6 +166,28 @@ class ProductController extends Controller
         ]);
 
         CostPrice::create($request->all());
+        return redirect()->route('productos.index');
+    }
+
+    public function costosedit($id)
+    {
+        $costo = CostPrice::find($id);
+        $vendorproduct = VendorHasProduct::find($costo->vendor_product_id);
+        $producto = Product::find($vendorproduct->product_id);
+        return view('costos.editar',compact('costo','producto','vendorproduct'));
+    }
+
+    public function costosupdate(Request $request,$id)
+    {
+        $costo = CostPrice::find($id);
+        $costo->update($request->all());
+        return redirect()->route('productos.index');
+    }
+
+    public function costosdelete($id)
+    {
+        $costo = CostPrice::find($id);
+        $costo->delete();
         return redirect()->route('productos.index');
     }
 }
