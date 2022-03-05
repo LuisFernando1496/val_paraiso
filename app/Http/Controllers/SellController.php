@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\CashRegister;
 use App\Models\Client;
 use App\Models\Product;
+use App\Models\Service;
 use App\Models\UserHasCashRegister;
 use App\Models\UserHasCashRegisterHasCostPrice;
 use Illuminate\Http\Request;
@@ -29,18 +30,20 @@ class SellController extends Controller
     {
         $user = $this->getuser();
         $usercajas = UserHasCashRegister::where('user_id','=',$user->id)->first();
-        $carrito = UserHasCashRegisterHasCostPrice::where('user_cash','=',$usercajas->id)->get();
+        $carrito = UserHasCashRegisterHasCostPrice::where('user_cash_id','=',$usercajas->id)->get();
         if ($this->roln()) {
             $user = $this->getuser();
             $productos = Product::join('vendor_has_products','vendor_has_products.product_id','=','products.id')
             ->join('vendors','vendors.id','=','vendor_has_products.vendor_id')->select('products.*')->where('vendors.office_id','=',$user->office_id)->get();
+            $servicios = Service::where('office_id','=',$user->office_id)->get();
             $clientes = Client::where('office_id','=',$user->office_id)->select(DB::raw("CONCAT(clients.name,' ',clients.last_name,' ',clients.second_last_name)As name"),'clients.id')->pluck('name','id');
         }
         else {
             $productos = Product::all();
-            $clientes = Client::pluck('name','id');
+            $servicios = Service::all();
+            $clientes = Client::select(DB::raw("CONCAT(clients.name,' ',clients.last_name,' ',clients.second_last_name)As name"),'clients.id')->pluck('name','id');
         }
-        return view('vender.vender',compact('usercajas','carrito','productos','user','clientes'));
+        return view('vender.vender',compact('usercajas','carrito','productos','user','clientes','servicios'));
     }
     /**
      * Show the form for creating a new resource.
@@ -117,7 +120,7 @@ class SellController extends Controller
     public function roln()
     {
         $user = $this->getuser();
-        if (!empty($user->getRoleNames())) {
+        if (sizeof($user->getRoleNames()) > 0) {
             return true;
         }
         else {

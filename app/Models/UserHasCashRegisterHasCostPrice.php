@@ -18,11 +18,11 @@ class UserHasCashRegisterHasCostPrice extends Model
 
     public function usercash()
     {
-        return $this->belongsTo(UserHasCashRegister::class,'id','user_cash_id');
+        return $this->belongsTo(UserHasCashRegister::class,'user_cash_id');
     }
 
     public function costprice()
     {
-        return $this->belongsTo(CostPrice::class,'id','cost_price_id');
+        return $this->belongsTo(CostPrice::class,'cost_price_id');
     }
 }

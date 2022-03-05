@@ -34,7 +34,7 @@ class UserCashController extends Controller
         }
         $usercajas = UserHasCashRegister::where('user_id','=',$user->id)->where('status','=',true)->first();
         if (!empty($usercajas)) {
-            return redirect()->route('vender.show',$usercajas->id);
+            return redirect()->route('vender.index');
         }
         else {
             return view('vender.index',compact('cajas','user'));
