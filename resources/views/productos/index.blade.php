@@ -19,8 +19,8 @@
                                     <th style="color: #fff;">Codigo Barras</th>
                                     <th style="color: #fff;">Nombre</th>
                                     <th style="color: #fff;">Marca</th>
-                                    <th style="color: #fff;">Categoria</th>
                                     <th style="color: #fff;">Costos</th>
+                                    <th style="color: #fff">Stock</th>
                                     <th style="color: #fff;">Proveedor</th>
                                     <th style="color: #fff;">Sucursal</th>
                                     <th style="color: #fff;">Editar</th>
@@ -32,7 +32,6 @@
                                         <td>{{ $producto->bar_code }}</td>
                                         <td>{{ $producto->name }}</td>
                                         <td>{{ $producto->mark }}</td>
-                                        <td>{{ $producto->category->name }}</td>
                                         <td>
                                             @if (sizeof($producto->vendor[0]->costos) > 0)
                                                 <a href="{{ route('costos.ver',$producto->id) }}" class="btn btn-secondary">Ver</a>
@@ -41,6 +40,7 @@
                                             @endif
                                             <a href="{{ route('costos.crear',$producto->vendor[0]->id) }}" class="btn btn-warning">Agregar</a>
                                         </td>
+                                        <td>{{ $producto->vendor[0]->stock }}</td>
                                         <td>{{ $producto->vendor[0]->vendor->name }}</td>
                                         <td>{{ $producto->vendor[0]->vendor->office->name }}</td>
                                         <td>

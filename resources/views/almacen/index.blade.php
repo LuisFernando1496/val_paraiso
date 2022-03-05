@@ -19,6 +19,7 @@
                                     <th style="color: #fff;">Almacen</th>
                                     <th style="color: #fff;">Negocio</th>
                                     <th style="color: #fff;">Encargado</th>
+                                    <th style="color: #fff;">Inventario</th>
                                     <th style="color: #fff;">Editar</th>
                                     <th style="color: #fff;">Eliminar</th>
                                 </thead>
@@ -29,6 +30,9 @@
                                             <td>{{ $almacen->title }}</td>
                                             <td>{{ $almacen->business->name }}</td>
                                             <td>{{ $almacen->user->name }} {{ $almacen->user->last_name }} {{ $almacen->user->second_last_name }}</td>
+                                            <td>
+                                                <a href="{{ route('inventario.show',$almacen->id) }}" class="btn btn-primary">Inventario</a>
+                                            </td>
                                             <td>
                                                 @can('editar-almacenes')
                                                     <a href="{{ route('almacenes.edit',$almacen->id) }}" class="btn btn-info">Editar</a>

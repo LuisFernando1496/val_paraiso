@@ -58,6 +58,11 @@
         <i class="fas fa-handshake"></i><span>Creditos</span>
     </a>
 </li>
+<li class="side-menus {{ Request::is('vender') ? 'active' : '' }}">
+    <a href="{{ route('vender.index') }}" class="nav-link">
+        <i class="fas fa-cash-register"></i><span>Vender</span>
+    </a>
+</li>
 <li class="side-menus {{ Request::is('ventas') ? 'active' : '' }}">
     <a href="{{ route('ventas.index') }}" class="nav-link">
         <i class="fas fa-trophy"></i><span>Ventas</span>

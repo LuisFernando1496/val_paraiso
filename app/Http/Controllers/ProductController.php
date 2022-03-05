@@ -61,7 +61,8 @@ class ProductController extends Controller
             'description' => 'required',
             'mark' => 'required',
             'vendor_id' => 'required',
-            'category_id' => 'required'
+            'category_id' => 'required',
+            'stock' => 'required'
         ]);
         try {
             DB::beginTransaction();
@@ -104,10 +105,8 @@ class ProductController extends Controller
         $producto = Product::find($id);
         $vendors = Vendor::join('offices','offices.id','=','vendors.office_id')
         ->select(DB::raw("CONCAT(vendors.name, ' - ',offices.name) AS name"),'vendors.id')->pluck('name','id');
-        $categorias = Category::join('offices','offices.id','=','categories.office_id')->select(DB::raw(
-            "CONCAT(categories.name, ' - ',offices.name) AS name"
-        ),'categories.id')->pluck('name','id');
-        return view('productos.editar',compact('producto','vendors','categorias'));
+        $vendor = Vendor::find($producto->vendor[0]->vendor_id);
+        return view('productos.editar',compact('producto','vendors','vendor'));
     }
 
     /**
@@ -125,7 +124,28 @@ class ProductController extends Controller
             'description' => 'required',
             'mark' => 'required',
             'vendor_id' => 'required',
+            'category_id' => 'required',
+            'stock' => 'required'
         ]);
+        try {
+            DB::beginTransaction();
+            $producto = Product::find($id);
+            $producto->update([
+                'bar_code' => $request->bar_code,
+                'name' => $request->name,
+                'description' => $request->description,
+                'mark' => $request->mark,
+                'category_id' => $request->category_id
+            ]);
+            $request['product_id'] = $producto->id;
+            $vendorproduct = VendorHasProduct::find($producto->vendor[0]->id);
+            $vendorproduct->update($request->all());
+            DB::commit();
+            return redirect()->route('productos.index');
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            return $th;
+        }
     }
 
     /**

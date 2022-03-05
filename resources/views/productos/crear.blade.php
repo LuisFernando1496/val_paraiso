@@ -48,6 +48,12 @@
                                     </div>
                                     <div class="col-xs-12 col-sm-12 col-md-12">
                                         <div class="form-group">
+                                            <label for="stock">Stock</label>
+                                            {!! Form::number('stock', null, array('class' => 'form-control')) !!}
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-12 col-md-12">
+                                        <div class="form-group">
                                             <label for="vendor_id">Proveedor</label>
                                             {!! Form::select('vendor_id', $vendors, [], array('class' => 'form-control', 'id' => 'vendors')) !!}
                                         </div>

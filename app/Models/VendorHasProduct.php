@@ -10,7 +10,8 @@ class VendorHasProduct extends Model
     use HasFactory;
     protected $fillable = [
         'vendor_id',
-        'product_id'
+        'product_id',
+        'stock'
     ];
 
     public function vendor()
