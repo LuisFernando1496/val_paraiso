@@ -27,25 +27,21 @@ class SellController extends Controller
      */
     public function index()
     {
-        $user = Auth::user();
-        if (!empty($user->getRoleNames())) {
-            $cajas = CashRegister::where('office_id','=',$user->office_id)->pluck('number','id');
+        $user = $this->getuser();
+        $usercajas = UserHasCashRegister::where('user_id','=',$user->id)->first();
+        $carrito = UserHasCashRegisterHasCostPrice::where('user_cash','=',$usercajas->id)->get();
+        if ($this->roln()) {
+            $user = $this->getuser();
+            $productos = Product::join('vendor_has_products','vendor_has_products.product_id','=','products.id')
+            ->join('vendors','vendors.id','=','vendor_has_products.vendor_id')->select('products.*')->where('vendors.office_id','=',$user->office_id)->get();
+            $clientes = Client::where('office_id','=',$user->office_id)->select(DB::raw("CONCAT(clients.name,' ',clients.last_name,' ',clients.second_last_name)As name"),'clients.id')->pluck('name','id');
         }
         else {
-            $cajas = CashRegister::pluck('number','id');
+            $productos = Product::all();
+            $clientes = Client::pluck('name','id');
         }
-
-        $usercajas = UserHasCashRegister::where('user_id','=',$user->id)->where('status','=',true)->first();
-        if (sizeof($usercajas) > 0) {
-            return redirect()->route('vender.show',$usercajas->id);
-        }
-        else {
-            return view('vender.index',compact('cajas','user'));
-        }
+        return view('vender.vender',compact('usercajas','carrito','productos','user','clientes'));
     }
-
-
-
     /**
      * Show the form for creating a new resource.
      *
@@ -75,20 +71,7 @@ class SellController extends Controller
      */
     public function show($id)
     {
-        $usercajas = UserHasCashRegister::find($id);
-        $carrito = UserHasCashRegisterHasCostPrice::where('user_cash','=',$usercajas->id)->get();
-        if ($this->roln()) {
-            $user = $this->getuser();
-            $productos = Product::join('vendor_has_products','vendor_has_products.product_id','=','products.id')
-            ->join('vendors','vendors.id','=','vendor_has_products.vendor_id')->select('products.*')->where('vendors.office_id','=',$user->office_id)->get();
-            $clientes = Client::where('office_id','=',$user->office_id)->select(DB::raw("CONCAT(clients.name,' ',clients.last_name,' ',clients.second_last_name)As name"),'clients.id')->pluck('name','id');
-        }
-        else {
-            $productos = Product::all();
-            $clientes = Client::pluck('name','id');
-        }
 
-        return view('vender.vender',compact('usercajas','carrito','productos','user','clientes'));
     }
 
     /**

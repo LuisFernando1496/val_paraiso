@@ -18,6 +18,7 @@ use App\Http\Controllers\ReportController;
 use App\Http\Controllers\SaleController;
 use App\Http\Controllers\SellController;
 use App\Http\Controllers\ServiceController;
+use App\Http\Controllers\UserCashController;
 use App\Http\Controllers\VendorController;
 use App\Http\Controllers\WarehouseController;
 
@@ -74,6 +75,7 @@ Route::group(['middleware' => ['auth']], function(){
     Route::resource('usuarios',UserController::class);
     Route::resource('ventas',SaleController::class);
     Route::resource('vender',SellController::class);
+    Route::resource('usercash',UserCashController::class);
     Route::get('/costos-ver/{id}',[ProductController::class,'costosver'])->name('costos.ver');
     Route::get('/costos-crear/{id}',[ProductController::class,'costoscrear'])->name('costos.crear');
     Route::post('/costos',[ProductController::class,'costospost'])->name('costos.store');
