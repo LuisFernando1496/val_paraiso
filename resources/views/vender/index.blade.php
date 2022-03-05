@@ -10,8 +10,18 @@
                 <div class="col-lg-12">
                     <div class="card">
                         <div class="card-body">
-                            {!! Form::open(array('route' => 'vender')) !!}
-
+                            {!! Form::open(array('route' => 'usercash.store','method' => 'POST')) !!}
+                                <div class="col-xs-12 col-sm-12 col-md-12">
+                                    <div class="form-group">
+                                        <label for="cash_register_id">Cajas</label>
+                                        {!! Form::select('cash_register_id', $cajas, [], array('class' => 'form-control')) !!}
+                                    </div>
+                                </div>
+                                <div class="col-xs-12 col-sm-12 col-md-12">
+                                    <div class="form-group">
+                                        {!! Form::text('user_id', $user->id, array('class' => 'form-control','hidden'=>'true')) !!}
+                                    </div>
+                                </div>
                             {!! Form::close() !!}
                         </div>
                     </div>
