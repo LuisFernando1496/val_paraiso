@@ -22,6 +22,9 @@
                                         {!! Form::text('user_id', $user->id, array('class' => 'form-control','hidden'=>'true')) !!}
                                     </div>
                                 </div>
+                                <div class="col-xs-12 col-sm-12 col-md-12">
+                                    <button class="btn btn-primary" type="submit">Abrir</button>
+                                </div>
                             {!! Form::close() !!}
                         </div>
                     </div>

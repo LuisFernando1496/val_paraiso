@@ -6,6 +6,7 @@ use App\Models\CashRegister;
 use App\Models\UserHasCashRegister;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class UserCashController extends Controller
 {
@@ -24,13 +25,13 @@ class UserCashController extends Controller
     public function index()
     {
         $user = Auth::user();
-        if (!empty($user->getRoleNames())) {
+        if (sizeof($user->getRoleNames()) > 0) {
             $cajas = CashRegister::where('office_id','=',$user->office_id)->pluck('number','id');
         }
         else {
-            $cajas = CashRegister::pluck('number','id');
+            $cajas = CashRegister::join('offices','offices.id','=','cash_registers.office_id')
+            ->select(DB::raw("CONCAT(cash_registers.number,' - ',offices.name) As number"),'cash_registers.id')->pluck('number','id');
         }
-
         $usercajas = UserHasCashRegister::where('user_id','=',$user->id)->where('status','=',true)->first();
         if (!empty($usercajas)) {
             return redirect()->route('vender.show',$usercajas->id);
