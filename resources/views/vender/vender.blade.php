@@ -359,17 +359,10 @@
             });
 
             $('.quantity').on('change',function(){
-<<<<<<< HEAD
-                var valor = $(this).val();
-                var id = $(this).data('id');
-                var precio = $('#precio'+id).val();
-                var total = precio * valor;
-=======
                 const valor = $(this).val();
                 const id = $(this).data('id');
                 const precio = $('#precio'+id).val();
                 const total = precio * valor;
->>>>>>> 9e02c61d39114403af4fcf1de17b83fcc9656786
                 $('#total'+id).val(total);
                 $('#subtotal').val(total);
                 $('#total').val(total);
@@ -386,13 +379,8 @@
 
                     }
                     else {
-<<<<<<< HEAD
-                        //location.reload();
-                        //$("#tablarefresh").load("#tablarefresh");
-=======
                         $("#refresh").load(" #refresh");
 
->>>>>>> 9e02c61d39114403af4fcf1de17b83fcc9656786
                     }
                 });
             });
