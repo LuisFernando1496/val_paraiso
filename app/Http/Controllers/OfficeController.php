@@ -6,15 +6,16 @@ use App\Models\Address;
 use App\Models\Business;
 use App\Models\Office;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class OfficeController extends Controller
 {
     function __construct()
     {
-        $this->middleware('permission: ver-oficina | crear-oficina | editar-oficina | borrar-oficina',['only' => ['index']]);
-        $this->middleware('permission: crear-oficina',['only' => ['create','store']]);
-        $this->middleware('permission: editar-oficina',['only' => ['edit','update']]);
-        $this->middleware('permission: borrar-oficina',['only' => ['destroy']]);
+        $this->middleware('permission:ver-oficina|crear-oficina|editar-oficina|borrar-oficina',['only'=>['index']]);
+        $this->middleware('permission:crear-oficina',['only'=>['create','store']]);
+        $this->middleware('permission:editar-oficina',['only'=>['edit','update']]);
+        $this->middleware('permission:borrar-oficina',['only'=>['destroy']]);
     }
 
     /**
@@ -28,6 +29,7 @@ class OfficeController extends Controller
         return view('office.index',compact('oficinas'));
     }
 
+    
     /**
      * Show the form for creating a new resource.
      *
@@ -35,7 +37,7 @@ class OfficeController extends Controller
      */
     public function create()
     {
-        $negocios = Business::all();
+        $negocios = Business::pluck('name','id')->all();
         return view('office.crear',compact('negocios'));
     }
 
@@ -51,23 +53,36 @@ class OfficeController extends Controller
             'name' => 'required',
             'phone' => 'required|unique:offices,phone',
             'responsable' => 'required',
-            'address_id' => 'required',
-            'bussiness_id' => 'required'
+            'business_id' => 'required',
+            'street' => 'required',
+            'exterior' => 'required',
+            'suburb' => 'required',
+            'postal_code' => 'required',
+            'city' => 'required',
+            'state' => 'required',
+            'country' => 'required'
         ]);
 
-        $address = new Address();
-        $address->street = $request->street;
-        $address->number = $request->number;
-        $address->suburb = $request->suburb;
-        $address->postal_code = $request->postal_code;
-        $address->city = $request->city;
-        $address->state = $request->state;
-        $address->country = $request->country;
-        $address->save();
+        try {
+            DB::beginTransaction();
+            $address = new Address();
+            $address->street = $request->street;
+            $address->number = $request->exterior;
+            $address->suburb = $request->suburb;
+            $address->postal_code = $request->postal_code;
+            $address->city = $request->city;
+            $address->state = $request->state;
+            $address->country = $request->country;
+            $address->save();
 
-        $request['address_id'] = $address->id;
-        Office::create($request->all());
-        return redirect()->route('sucursales.index');
+            $request['address_id'] = $address->id;
+            Office::create($request->all());
+            DB::commit();
+            return redirect()->route('sucursales.index');
+        } catch (\Throwable $th) {
+           DB::rollBack();
+           return $th;
+        }
 
     }
 
@@ -88,9 +103,10 @@ class OfficeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Office $office)
+    public function edit(Office $sucursale)
     {
-        return view('office.editar',compact('office'));
+        $negocios = Business::pluck('name','id')->all();
+        return view('office.editar',compact('negocios','sucursale'));
     }
 
     /**
@@ -100,17 +116,50 @@ class OfficeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Office $office)
+    public function update(Request $request, Office $sucursale)
     {
-        request()->validate([
-            'name' => 'required',
-            'phone' => 'unique:offices,phone'.$office->id,
-            'responsable' => 'required',
-            'address_id' => 'required',
-            'bussiness_id' => 'required'
-        ]);
+        $phone = $request['phone'];
+        if ($phone != $sucursale->phone) {
+            request()->validate([
+                'name' => 'required',
+                'phone' => 'required|unique:offices,phone',
+                'responsable' => 'required',
+                'business_id' => 'required',
+                'street' => 'required',
+                'exterior' => 'required',
+                'suburb' => 'required',
+                'postal_code' => 'required',
+                'city' => 'required',
+                'state' => 'required',
+                'country' => 'required'
+            ]);
+        } else {
+            request()->validate([
+                'name' => 'required',
+                'phone' => 'required',
+                'responsable' => 'required',
+                'business_id' => 'required',
+                'street' => 'required',
+                'exterior' => 'required',
+                'suburb' => 'required',
+                'postal_code' => 'required',
+                'city' => 'required',
+                'state' => 'required',
+                'country' => 'required'
+            ]);
+        }
 
-        $office->update($request->all());
+        $address = Address::find($sucursale->address_id);
+        $address->update([
+            'street' => $request->street,
+            'number' => $request->exterior,
+            'suburb' => $request->suburb,
+            'postal_code' => $request->postal_code,
+            'city' => $request->city,
+            'state' => $request->state,
+            'country' => $request->country
+        ]);
+        $sucursale->update($request->all());
         return redirect()->route('sucursales.index');
     }
 
@@ -120,9 +169,9 @@ class OfficeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Office $office)
+    public function destroy(Office $sucursale)
     {
-        $office->delete();
+        $sucursale->delete();
         return redirect()->route('sucursales.index');
     }
 }

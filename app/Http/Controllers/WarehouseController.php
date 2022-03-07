@@ -2,10 +2,23 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Business;
+use App\Models\User;
+use App\Models\Warehouse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class WarehouseController extends Controller
 {
+
+    function __construct()
+    {
+        $this->middleware('permission:ver-almacenes|crear-almacenes|editar-almacenes|borrar-almacenes',['only'=>['index']]);
+        $this->middleware('permission:crear-almacenes',['only'=>['create','store']]);
+        $this->middleware('permission:editar-almacenes',['only'=>['edit','update']]);
+        $this->middleware('permission:borrar-almacenes',['only'=>['destroy']]);
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -13,7 +26,8 @@ class WarehouseController extends Controller
      */
     public function index()
     {
-        //
+        $almacenes = Warehouse::paginate(5);
+        return view('almacen.index',compact('almacenes'));
     }
 
     /**
@@ -23,7 +37,17 @@ class WarehouseController extends Controller
      */
     public function create()
     {
-        //
+        $negocios = Business::pluck('name','id');
+        return view('almacen.crear',compact('negocios'));
+    }
+
+    public function getUser($id)
+    {
+        $usuarios = User::join('offices','offices.id','=','users.office_id')
+        ->join('businesses','businesses.id','=','offices.business_id')
+        ->select(DB::raw("CONCAT(users.name, ' ',users.last_name, ' ',users.second_last_name,' - ',offices.name) AS name"),'users.id')
+        ->where('businesses.id','=',$id)->pluck('name','id');
+        return response()->json($usuarios);
     }
 
     /**
@@ -34,7 +58,13 @@ class WarehouseController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request,[
+            'title' => 'required',
+            'business_id' => 'required',
+            'user_id' => 'required'
+        ]);
+        Warehouse::create($request->all());
+        return redirect()->route('almacenes.index');
     }
 
     /**
@@ -56,7 +86,9 @@ class WarehouseController extends Controller
      */
     public function edit($id)
     {
-        //
+        $almacen = Warehouse::find($id);
+        $negocios = Business::pluck('name','id');
+        return view('almacen.editar',compact('negocios','almacen'));
     }
 
     /**
@@ -68,7 +100,15 @@ class WarehouseController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $this->validate($request,[
+            'title' => 'required',
+            'business_id' => 'required',
+            'user_id' => 'required'
+        ]);
+
+        $almacen = Warehouse::find($id);
+        $almacen->update($request->all());
+        return redirect()->route('almacenes.index');
     }
 
     /**
@@ -79,6 +119,8 @@ class WarehouseController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $almacen = Warehouse::find($id);
+        $almacen->delete();
+        return redirect()->route('almacenes.index');
     }
 }

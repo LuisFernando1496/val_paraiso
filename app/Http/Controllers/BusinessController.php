@@ -10,10 +10,10 @@ class BusinessController extends Controller
 
     function __construct()
     {
-        $this->middleware('permission: ver-negocio | crear-negocio | editar-negocio | borrar-negocio',['only' => ['index']]);
-        $this->middleware('permission: crear-negocio',['only' => ['create','store']]);
-        $this->middleware('permission: editar-negocio',['only' => ['edit','update']]);
-        $this->middleware('permission: borrar-negocio',['only' => ['destroy']]);
+        $this->middleware('permission:ver-negocio|crear-negocio|editar-negocio|borrar-negocio',['only'=>['index']]);
+        $this->middleware('permission:crear-negocio',['only'=>['create','store']]);
+        $this->middleware('permission:editar-negocio',['only'=>['edit','update']]);
+        $this->middleware('permission:borrar-negocio',['only'=>['destroy']]);
     }
 
     /**
@@ -73,9 +73,9 @@ class BusinessController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Business $business)
+    public function edit(Business $negocio)
     {
-        return view('bussiness.editar',compact('business'));
+        return view('bussiness.editar',compact('negocio'));
     }
 
     /**
@@ -85,16 +85,15 @@ class BusinessController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Business $negocio)
     {
         request()->validate([
             'name' => 'required',
-            'rfc' => 'unique:businesses,rfc'.$id,
+            'rfc' => 'unique:businesses,rfc,'.$negocio->id,
             'legal_representative' => 'required',
             'number' => 'required'
         ]);
-
-        $business = Business::find($id);
+        $business = Business::find($negocio->id);
         $business->update($request->all());
         return redirect()->route('negocios.index');
     }
@@ -105,9 +104,9 @@ class BusinessController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Business $business)
+    public function destroy(Business $negocio)
     {
-        $business->delete();
+        $negocio->delete();
         return redirect()->route('negocios.index');
     }
 }

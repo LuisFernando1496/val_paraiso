@@ -10,18 +10,18 @@ class Warehouse extends Model
     use HasFactory;
     protected $fillable = [
         'title',
-        'office_id',
+        'business_id',
         'user_id',
         'status'
     ];
 
-    public function office()
+    public function business()
     {
-        return $this->belongsTo(Office::class,'id','office_id');
+        return $this->belongsTo(Business::class,'business_id');
     }
 
     public function user()
     {
-        return $this->belongsTo(User::class,'id','user_id');
+        return $this->belongsTo(User::class,'user_id');
     }
 }

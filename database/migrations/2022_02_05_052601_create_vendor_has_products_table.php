@@ -19,6 +19,7 @@ class CreateVendorHasProductsTable extends Migration
             $table->foreign('vendor_id')->references('id')->on('vendors');
             $table->unsignedBigInteger('product_id');
             $table->foreign('product_id')->references('id')->on('products');
+            $table->integer('stock');
             $table->timestamps();
         });
     }

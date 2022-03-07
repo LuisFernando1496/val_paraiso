@@ -2,10 +2,20 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Office;
+use App\Models\Service;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ServiceController extends Controller
 {
+    function __construct()
+    {
+        $this->middleware('permission:ver-servicios|crear-servicios|editar-servicios|borrar-servicios',['only'=>['index']]);
+        $this->middleware('permission:crear-servicios',['only'=>['create','store']]);
+        $this->middleware('permission:editar-servicios',['only'=>['edit','update']]);
+        $this->middleware('permission:borrar-servicios',['only'=>['destroy']]);
+    }
     /**
      * Display a listing of the resource.
      *
@@ -13,7 +23,8 @@ class ServiceController extends Controller
      */
     public function index()
     {
-        //
+        $servicios = Service::paginate(5);
+        return view('servicios.index',compact('servicios'));
     }
 
     /**
@@ -23,7 +34,9 @@ class ServiceController extends Controller
      */
     public function create()
     {
-        //
+        $oficinas = Office::join('businesses','businesses.id','=','offices.business_id')
+        ->select(DB::raw("CONCAT(offices.name, ' - ',businesses.name) AS name"),'offices.id')->pluck('name','id');
+        return view('servicios.crear',compact('oficinas'));
     }
 
     /**
@@ -34,7 +47,17 @@ class ServiceController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request,[
+            'bar_code' => 'required',
+            'name' => 'required',
+            'cost' => 'required',
+            'price' => 'required',
+            'description' => 'required',
+            'office_id' => 'required',
+        ]);
+
+        Service::create($request->all());
+        return redirect()->route('servicios.index');
     }
 
     /**
@@ -56,7 +79,10 @@ class ServiceController extends Controller
      */
     public function edit($id)
     {
-        //
+        $servicio = Service::find($id);
+        $oficinas = Office::join('businesses','businesses.id','=','offices.business_id')
+        ->select(DB::raw("CONCAT(offices.name, ' - ',businesses.name) AS name"),'offices.id')->pluck('name','id');
+        return view('servicios.editar',compact('servicio','oficinas'));
     }
 
     /**
@@ -68,7 +94,18 @@ class ServiceController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $this->validate($request,[
+            'bar_code' => 'required',
+            'name' => 'required',
+            'cost' => 'required',
+            'price' => 'required',
+            'description' => 'required',
+            'office_id' => 'required',
+        ]);
+
+        $servicio = Service::find($id);
+        $servicio->update($request->all());
+        return redirect()->route('servicios.index');
     }
 
     /**
@@ -79,6 +116,8 @@ class ServiceController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $servicio = Service::find($id);
+        $servicio->delete();
+        return redirect()->route('servicios.index');
     }
 }

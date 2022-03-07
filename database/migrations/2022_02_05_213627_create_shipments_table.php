@@ -15,8 +15,10 @@ class CreateShipmentsTable extends Migration
     {
         Schema::create('shipments', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('warehouse_id');
+            $table->unsignedBigInteger('warehouse_id')->nullable();
             $table->foreign('warehouse_id')->references('id')->on('warehouses');
+            $table->unsignedBigInteger('office_id')->nullable();
+            $table->foreign('office_id')->references('id')->on('offices');
             $table->decimal('subtotal',8,2);
             $table->decimal('discount',8,2);
             $table->decimal('total',8,2);
