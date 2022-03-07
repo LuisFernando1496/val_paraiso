@@ -129,7 +129,69 @@
                                                         <th style="color: #fff">Total</th>
                                                         <th style="color: #fff">Eliminar</th>
                                                     </thead>
+<<<<<<< HEAD
                                                     @include('vender.carrito',$carrito)
+=======
+                                                    <tbody id="cuerpo">
+                                                        @forelse ($carrito as $item)
+                                                            @if ($item->service_id != null)
+                                                                @php
+                                                                    $total = $item->service->price * $item->quantity;
+                                                                    $gtotal += $total;
+                                                                @endphp
+                                                                <tr>
+                                                                    <td>{{ $item->service->name }}</td>
+                                                                    <td>
+                                                                        ${{ $item->service->price }}
+                                                                        <input type="number" name="" id="precio{{$item->id}}" hidden value="{{$item->service->price}}">
+                                                                    </td>
+                                                                    <td>Servicio</td>
+                                                                    <td>
+                                                                        {!! Form::number('quantity', $item->quantity, array('class' => 'form-control quantity','id' => 'quantity'.$item->id,'data-id' => $item->id, 'onChange' => 'cambiocantidad(this.value,'.$item->id.')')) !!}
+                                                                    </td>
+                                                                    <td>
+                                                                        {!! Form::number('percent', $item->percent, array('class' => 'form-control percent','id' => 'percent'.$item->id,'data-id' => $item->id)) !!}
+                                                                    </td>
+                                                                    <td>
+                                                                        {!! Form::number('total', $total, array('class' => 'form-control','id' => 'total'.$item->id)) !!}
+                                                                    </td>
+                                                                    <td>
+                                                                        <button class="btn btn-danger">Quitar</button>
+                                                                    </td>
+                                                                </tr>
+                                                            @else
+                                                                @php
+                                                                    $total = $item->costprice->price * $item->quantity;
+                                                                    $gtotal += $total;
+                                                                @endphp
+                                                                <tr>
+                                                                    <td>{{ $item->costprice->vendorproduct->product->name }}</td>
+                                                                    <td>
+                                                                        ${{ $item->costprice->price }}
+                                                                        <input type="number" name="" id="precio{{$item->id}}" hidden value="{{$item->costprice->price}}">
+                                                                    </td>
+                                                                    <td>{{ $item->costprice->vendorproduct->product->mark }}</td>
+                                                                    <td>
+                                                                        {!! Form::number('quantity', $item->quantity, array('class' => 'form-control quantity','id' => 'quantity'.$item->id,'data-id' => $item->id, 'onChange' => 'cambiocantidad(this.value,'.$item->id.')')) !!}
+                                                                    </td>
+                                                                    <td>
+                                                                        {!! Form::number('percent', $item->percent, array('class' => 'form-control percent','id' => 'percent'.$item->id,'data-id' => $item->id)) !!}
+                                                                    </td>
+                                                                    <td>
+                                                                        {!! Form::number('total', $total, array('class' => 'form-control','id' => 'total'.$item->id)) !!}
+                                                                    </td>
+                                                                    <td>
+                                                                        <button class="btn btn-danger">Quitar</button>
+                                                                    </td>
+                                                                </tr>
+                                                            @endif
+                                                        @empty
+                                                            <tr>
+                                                                <td colspan="7">Sin registros</td>
+                                                            </tr>
+                                                        @endforelse
+                                                    </tbody>
+>>>>>>> 9e02c61d39114403af4fcf1de17b83fcc9656786
                                                 </table>
                                             </div>
                                         </div>
@@ -297,14 +359,21 @@
             });
 
             $('.quantity').on('change',function(){
+<<<<<<< HEAD
                 var valor = $(this).val();
                 var id = $(this).data('id');
                 var precio = $('#precio'+id).val();
                 var total = precio * valor;
+=======
+                const valor = $(this).val();
+                const id = $(this).data('id');
+                const precio = $('#precio'+id).val();
+                const total = precio * valor;
+>>>>>>> 9e02c61d39114403af4fcf1de17b83fcc9656786
                 $('#total'+id).val(total);
                 $('#subtotal').val(total);
                 $('#total').val(total);
-                var data = {
+                const data = {
                     quantity : valor,
                 };
                 $.ajax({
@@ -317,24 +386,60 @@
 
                     }
                     else {
+<<<<<<< HEAD
                         //location.reload();
                         //$("#tablarefresh").load("#tablarefresh");
+=======
+                        $("#refresh").load(" #refresh");
+
+>>>>>>> 9e02c61d39114403af4fcf1de17b83fcc9656786
                     }
                 });
             });
 
             $('.percent').on('change',function(){
-                var valor = $(this).val();
-                var id = $(this).data('id');
-                var precio = $('#precio'+id).val();
-                var cantidad = $('#quantity'+id).val();
-                var subtotal = cantidad * precio;
-                var total = subtotal - ((subtotal * valor)/100);
+                const valor = $(this).val();
+                const id = $(this).data('id');
+                const precio = $('#precio'+id).val();
+                const cantidad = $('#quantity'+id).val();
+                const subtotal = cantidad * precio;
+                const total = subtotal - ((subtotal * valor)/100);
                 $('#total'+id).val(total);
                 $('#subtotal').val(total);
                 $('#total').val(total);
             });
+<<<<<<< HEAD
+=======
+
+
+
+>>>>>>> 9e02c61d39114403af4fcf1de17b83fcc9656786
         });
+        function cambiocantidad(valores,ide) {
+            const valor = valores;
+            const id = ide;
+            const precio = $('#precio'+id).val();
+            const total = precio * valor;
+            $('#total'+id).val(total);
+            $('#subtotal').val(total);
+            $('#total').val(total);
+            const data = {
+                quantity : valor,
+            };
+            $.ajax({
+                type: "PUT",
+                url: "/vender/"+id,
+                data: data,
+            }).then(function(data){
+                const status = data['status'];
+                if (status != 200) {
+
+                }
+                else {
+                    $("#refresh").load(" #refresh");
+                }
+            });
+        }
     </script>
 @endsection
 
