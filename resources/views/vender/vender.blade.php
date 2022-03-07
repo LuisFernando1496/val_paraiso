@@ -396,12 +396,6 @@
                 $('#subtotal').val(total);
                 $('#total').val(total);
             });
-<<<<<<< HEAD
-=======
-
-
-
->>>>>>> 9e02c61d39114403af4fcf1de17b83fcc9656786
         });
         function cambiocantidad(valores,ide) {
             const valor = valores;
