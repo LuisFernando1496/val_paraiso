@@ -1,3 +1,4 @@
+
 @extends('layouts.app')
 
 @section('content')
@@ -331,7 +332,7 @@
                     console.log(response);
                     status = response['status'];
                     if (status == 200) {
-                        $("#cuerpo").load("#cuerpo");
+                        $("#refresh").load(" #refresh");
                     }
                 });
             });
@@ -349,7 +350,7 @@
                     console.log(response);
                     status = response['status'];
                     if (status == 200) {
-                        $("#cuerpo").load("#cuerpo");
+                        $("#refresh").load(" #refresh");
                     }
                 });
             });
