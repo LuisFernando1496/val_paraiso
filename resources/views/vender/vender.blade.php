@@ -129,9 +129,6 @@
                                                         <th style="color: #fff">Total</th>
                                                         <th style="color: #fff">Eliminar</th>
                                                     </thead>
-<<<<<<< HEAD
-                                                    @include('vender.carrito',$carrito)
-=======
                                                     <tbody id="cuerpo">
                                                         @forelse ($carrito as $item)
                                                             @if ($item->service_id != null)
@@ -191,7 +188,6 @@
                                                             </tr>
                                                         @endforelse
                                                     </tbody>
->>>>>>> 9e02c61d39114403af4fcf1de17b83fcc9656786
                                                 </table>
                                             </div>
                                         </div>
@@ -335,7 +331,7 @@
                     console.log(response);
                     status = response['status'];
                     if (status == 200) {
-                        $("#cuerpo").load("#cuerpo");
+                        $("#refresh").load(" #refresh");
                     }
                 });
             });
@@ -353,7 +349,7 @@
                     console.log(response);
                     status = response['status'];
                     if (status == 200) {
-                        $("#cuerpo").load("#cuerpo");
+                        $("#refresh").load(" #refresh");
                     }
                 });
             });
@@ -396,12 +392,9 @@
                 $('#subtotal').val(total);
                 $('#total').val(total);
             });
-<<<<<<< HEAD
-=======
 
 
 
->>>>>>> 9e02c61d39114403af4fcf1de17b83fcc9656786
         });
         function cambiocantidad(valores,ide) {
             const valor = valores;
