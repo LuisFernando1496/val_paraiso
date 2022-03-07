@@ -67,29 +67,63 @@ class SellController extends Controller
         $this->validate($request,[
             'user_cash_id' => 'required',
         ]);
-        $carrito = UserHasCashRegisterHasCostPrice::where('service_id','=',$request->service_id)->orWhere('cost_price_id','=',$request->cost_price_id)->first();
-        if (empty($carrito)) {
-            try {
-                DB::beginTransaction();
-                UserHasCashRegisterHasCostPrice::create($request->all());
-                DB::commit();
-                return response()->json([
-                    'status' => 200,
-                    'message' => 'Todo bien'
-                ]);
-            } catch (\Throwable $th) {
-                DB::rollBack();
-                return $th;
+        //return request()->json($request);
+        if ($request->cost_price_id == null) {
+            if ($request->service_id != null) {
+                $carrito = UserHasCashRegisterHasCostPrice::where('service_id','=',$request->service_id)->first();
+                if (empty($carrito)) {
+                    try {
+                        DB::beginTransaction();
+                        UserHasCashRegisterHasCostPrice::create($request->all());
+                        DB::commit();
+                        return response()->json([
+                            'status' => 200,
+                            'message' => 'Todo bien'
+                        ]);
+                    } catch (\Throwable $th) {
+                        DB::rollBack();
+                        return $th;
+                    }
+                } else {
+                    $carrito->update([
+                        'quantity' => $carrito->quantity + 1
+                    ]);
+
+                    return response()->json([
+                        'status' => 200,
+                        'message' => 'Todo bien'
+                    ]);
+                }
             }
         } else {
-            $carrito->update([
-                'quantity' => $carrito->quantity + 1
-            ]);
-            return response()->json([
-                'status' => 200,
-                'message' => 'Todo bien'
-            ]);
+            if ($request->service_id == null) {
+                $carrito = UserHasCashRegisterHasCostPrice::where('cost_price_id','=',$request->cost_price_id)->first();
+                if (empty($carrito)) {
+                    try {
+                        DB::beginTransaction();
+                        UserHasCashRegisterHasCostPrice::create($request->all());
+                        DB::commit();
+                        return response()->json([
+                            'status' => 200,
+                            'message' => 'Todo bien'
+                        ]);
+                    } catch (\Throwable $th) {
+                        DB::rollBack();
+                        return $th;
+                    }
+                } else {
+                    $carrito->update([
+                        'quantity' => $carrito->quantity + 1
+                    ]);
+
+                    return response()->json([
+                        'status' => 200,
+                        'message' => 'Todo bien'
+                    ]);
+                }
+            }
         }
+
 
     }
 
