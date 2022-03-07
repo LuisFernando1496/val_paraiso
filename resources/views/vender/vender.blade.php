@@ -116,6 +116,9 @@
                                     <div class="card">
                                         <div class="card-body">
                                             <div class="refresh" id="refresh">
+                                                @php
+                                                    $gtotal = 0;
+                                                @endphp
                                                 @include('vender.carrito',$carrito)
                                             </div>
                                         </div>

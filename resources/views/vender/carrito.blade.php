@@ -9,9 +9,7 @@
         <th style="color: #fff">Eliminar</th>
     </thead>
     <tbody id="cuerpo">
-        @php
-            $gtotal = 0;
-        @endphp
+        
         @forelse ($carrito as $item)
             @if ($item->service_id != null)
                 @php
