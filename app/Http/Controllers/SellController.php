@@ -64,6 +64,7 @@ class SellController extends Controller
      */
     public function store(Request $request)
     {
+
         $this->validate($request,[
             'user_cash_id' => 'required',
         ]);
