@@ -119,7 +119,18 @@
                                                 @php
                                                     $gtotal = 0;
                                                 @endphp
-                                                @include('vender.carrito',$carrito)
+                                                <table class="table table-hover mt-2" id="tablarefresh">
+                                                    <thead style="background-color: #6777ef">
+                                                        <th style="color: #fff">Producto</th>
+                                                        <th style="color: #fff">Precio</th>
+                                                        <th style="color: #fff">Marca</th>
+                                                        <th style="color: #fff">Cantidad</th>
+                                                        <th style="color: #fff">Descuento %</th>
+                                                        <th style="color: #fff">Total</th>
+                                                        <th style="color: #fff">Eliminar</th>
+                                                    </thead>
+                                                    @include('vender.carrito',$carrito)
+                                                </table>
                                             </div>
                                         </div>
                                     </div>
@@ -262,7 +273,7 @@
                     console.log(response);
                     status = response['status'];
                     if (status == 200) {
-                        $("#refresh").load("#refresh");
+                        $("#cuerpo").load("#cuerpo");
                     }
                 });
             });
@@ -280,7 +291,7 @@
                     console.log(response);
                     status = response['status'];
                     if (status == 200) {
-                        $("#refresh").load("#refresh");
+                        $("#cuerpo").load("#cuerpo");
                     }
                 });
             });
@@ -306,7 +317,7 @@
 
                     }
                     else {
-                        location.reload();
+                        //location.reload();
                         //$("#tablarefresh").load("#tablarefresh");
                     }
                 });

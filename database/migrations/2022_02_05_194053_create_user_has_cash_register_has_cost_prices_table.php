@@ -17,9 +17,9 @@ class CreateUserHasCashRegisterHasCostPricesTable extends Migration
             $table->id();
             $table->unsignedBigInteger('user_cash_id');
             $table->foreign('user_cash_id')->references('id')->on('user_has_cash_registers');
-            $table->unsignedBigInteger('cost_price_id');
+            $table->unsignedBigInteger('cost_price_id')->nullable();
             $table->foreign('cost_price_id')->references('id')->on('cost_prices');
-            $table->unsignedBigInteger('service_id');
+            $table->unsignedBigInteger('service_id')->nullable();
             $table->foreign('service_id')->references('id')->on('services');
             $table->integer('quantity');
             $table->decimal('discount',8,2);
