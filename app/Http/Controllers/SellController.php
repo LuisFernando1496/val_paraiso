@@ -11,6 +11,7 @@ use App\Models\UserHasCashRegisterHasCostPrice;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Symfony\Component\HttpFoundation\Test\Constraint\ResponseIsSuccessful;
 
 class SellController extends Controller
 {
@@ -63,7 +64,33 @@ class SellController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request,[
+            'user_cash_id' => 'required',
+        ]);
+        $carrito = UserHasCashRegisterHasCostPrice::where('service_id','=',$request->service_id)->orWhere('cost_price_id','=',$request->cost_price_id)->first();
+        if (empty($carrito)) {
+            try {
+                DB::beginTransaction();
+                UserHasCashRegisterHasCostPrice::create($request->all());
+                DB::commit();
+                return response()->json([
+                    'status' => 200,
+                    'message' => 'Todo bien'
+                ]);
+            } catch (\Throwable $th) {
+                DB::rollBack();
+                return $th;
+            }
+        } else {
+            $carrito->update([
+                'quantity' => $carrito->quantity + 1
+            ]);
+            return response()->json([
+                'status' => 200,
+                'message' => 'Todo bien'
+            ]);
+        }
+
     }
 
     /**
@@ -97,7 +124,12 @@ class SellController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $carrito = UserHasCashRegisterHasCostPrice::find($id);
+        $carrito->update($request->all());
+        return response()->json([
+            'status' => 200,
+            'message' => 'Todo bien'
+        ]);
     }
 
     /**

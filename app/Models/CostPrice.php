@@ -17,6 +17,6 @@ class CostPrice extends Model
 
     public function vendorproduct()
     {
-        return $this->belongsTo(VendorHasProduct::class);
+        return $this->belongsTo(VendorHasProduct::class,'vendor_product_id');
     }
 }
