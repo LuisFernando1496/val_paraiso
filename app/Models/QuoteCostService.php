@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class SaleHasCostPrice extends Model
+class QuoteCostService extends Model
 {
     use HasFactory;
     protected $fillable = [

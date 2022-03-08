@@ -134,7 +134,7 @@
                                                         @forelse ($carrito as $item)
                                                             @if ($item->service_id != null)
                                                                 @php
-                                                                    $total = $item->service->price * $item->quantity;
+                                                                    $total = ($item->service->price * $item->quantity) - $item->discount;
                                                                     $gtotal += $total;
                                                                 @endphp
                                                                 <tr>
@@ -148,18 +148,18 @@
                                                                         {!! Form::number('quantity', $item->quantity, array('class' => 'form-control quantity','id' => 'quantity'.$item->id,'data-id' => $item->id, 'onChange' => 'cambiocantidad(this.value,'.$item->id.')')) !!}
                                                                     </td>
                                                                     <td>
-                                                                        {!! Form::number('percent', $item->percent, array('class' => 'form-control percent','id' => 'percent'.$item->id,'data-id' => $item->id)) !!}
+                                                                        {!! Form::number('percent', $item->percent, array('class' => 'form-control percent','id' => 'percent'.$item->id,'data-id' => $item->id, 'onChange' => 'cambiopercent(this.value,'.$item->id.')')) !!}
                                                                     </td>
                                                                     <td>
                                                                         {!! Form::number('total', $total, array('class' => 'form-control','id' => 'total'.$item->id)) !!}
                                                                     </td>
                                                                     <td>
-                                                                        <button class="btn btn-danger">Quitar</button>
+                                                                        <button class="btn btn-danger quitar" data-id="{{$item->id}}" type="button">Quitar</button>
                                                                     </td>
                                                                 </tr>
                                                             @else
                                                                 @php
-                                                                    $total = $item->costprice->price * $item->quantity;
+                                                                    $total = ($item->costprice->price * $item->quantity) - $item->discount;
                                                                     $gtotal += $total;
                                                                 @endphp
                                                                 <tr>
@@ -173,13 +173,13 @@
                                                                         {!! Form::number('quantity', $item->quantity, array('class' => 'form-control quantity','id' => 'quantity'.$item->id,'data-id' => $item->id, 'onChange' => 'cambiocantidad(this.value,'.$item->id.')')) !!}
                                                                     </td>
                                                                     <td>
-                                                                        {!! Form::number('percent', $item->percent, array('class' => 'form-control percent','id' => 'percent'.$item->id,'data-id' => $item->id)) !!}
+                                                                        {!! Form::number('percent', $item->percent, array('class' => 'form-control percent','id' => 'percent'.$item->id,'data-id' => $item->id, 'onChange' => 'cambiopercent(this.value,'.$item->id.')')) !!}
                                                                     </td>
                                                                     <td>
                                                                         {!! Form::number('total', $total, array('class' => 'form-control','id' => 'total'.$item->id)) !!}
                                                                     </td>
                                                                     <td>
-                                                                        <button class="btn btn-danger">Quitar</button>
+                                                                        <button class="btn btn-danger quitar" data-id="{{$item->id}}" type="button">Quitar</button>
                                                                     </td>
                                                                 </tr>
                                                             @endif
@@ -194,7 +194,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-lg-12">
+                                <div class="col-lg-12" id="divtotales">
                                     <div class="row">
                                         <div class="col-3">
                                             <div class="form-group">
@@ -214,13 +214,13 @@
                                         <div class="col-3">
                                             <div class="form-group">
                                                 <label for="">Descuento %</label>
-                                                {!! Form::number('percent', 0, array('class' => 'form-control','step' => 'any')) !!}
+                                                {!! Form::number('percent', 0, array('class' => 'form-control','step' => 'any','id'=>'discount')) !!}
                                             </div>
                                         </div>
                                         <div class="col-3">
                                             <div class="form-group">
                                                 <label for="">Descuento</label>
-                                                {!! Form::number('discount', 0, array('class' => 'form-control','step' => 'any','readonly' => 'true')) !!}
+                                                {!! Form::number('discount', 0, array('class' => 'form-control','step' => 'any','readonly' => 'true','id' => 'descuentoprecio')) !!}
                                             </div>
                                         </div>
                                         <div class="col-3">
@@ -229,50 +229,64 @@
                                                 {!! Form::number('total', $gtotal, array('class' => 'form-control','step' => 'any','readonly' => 'true','id' => 'total')) !!}
                                             </div>
                                         </div>
-                                        <div class="col-3">
+                                        <div class="col-3" id="div-modo-pay">
                                             <div class="form-group">
                                                 <label for="">Modo Pago</label>
-                                                <select name="" id="" class="form-control">
+                                                <select name="" id="modo-pay" class="form-control">
                                                     <option value="Credito">Credito</option>
                                                     <option value="Una Exhibicion">Una Exhibicion</option>
                                                 </select>
                                             </div>
                                         </div>
-                                        <div class="col-3">
+                                        <div class="col-3" id="div-metodo-pay">
                                             <div class="form-group">
                                                 <label for="">Metodo Pago</label>
-                                                <select name="" id="" class="form-control">
-                                                    <option value="Tarjeta">Tarjeta</option>
+                                                <select name="" id="metodo-pay" class="form-control">
                                                     <option value="Efectivo">Efectivo</option>
+                                                    <option value="Tarjeta">Tarjeta</option>
+                                                    <option value="Transferencia">Transferencia</option>
                                                 </select>
                                             </div>
                                         </div>
                                         <div class="col-3">
                                             <div class="form-group">
                                                 <label for="">Cliente</label>
-                                                {!! Form::select('client_id', $clientes, [], array('class' => 'form-control')) !!}
+                                                <select name="client_id" id="clientes" class="form-control">
+                                                    <option value="general">Cliente en general</option>
+                                                    @forelse ($clientes as $cliente)
+                                                        <option value="{{ $cliente->id }}">{{ $cliente->name }}</option>
+                                                    @empty
+
+                                                    @endforelse
+                                                </select>
                                             </div>
                                         </div>
-                                        <div class="col-3">
+                                        <div class="col-3" id="div-abono">
                                             <div class="form-group">
                                                 <label for="">Abono</label>
-                                                {!! Form::number('abono', null, array('class' => 'form-control','step' => 'any')) !!}
+                                                {!! Form::number('abono', null, array('class' => 'form-control','step' => 'any','id' => 'abono')) !!}
                                             </div>
                                         </div>
-                                        <div class="col-3">
+                                        <div class="col-3" id="div-pago">
                                             <div class="form-group">
-                                                <label for="">Pago</label>
-                                                {!! Form::number('pay', null, array('class' => 'form-control','step' => 'any')) !!}
+                                                <label for="">Pago con:</label>
+                                                {!! Form::number('pay', null, array('class' => 'form-control','step' => 'any','id' => 'pagocon')) !!}
                                             </div>
                                         </div>
-                                        <input type="text" hidden value="{{ $usercajas->id }}" id="usercajas">
-                                        <div class="col-xs-12 col-sm-12 col-md-12" id="divpay">
-                                            <button class="btn btn-primary" type="submit" id="pay">Pagar</button>
-                                        </div>
-                                        <div class="col-xs-12 col-sm-12 col-md-12" id="divcot">
-                                            <button class="btn btn-primary" type="submit" id="coti">Cotizar</button>
+                                        <div class="col-3" id="div-pago">
+                                            <div class="form-group">
+                                                <label for="">Cambio</label>
+                                                {!! Form::number('cambio', null, array('class' => 'form-control','step' => 'any','id'=>'cambio')) !!}
+                                            </div>
                                         </div>
                                     </div>
+                                </div>
+                                <input type="text" hidden value="{{ $usercajas->id }}" id="usercajas">
+                                <div class="col-xs-12 col-sm-12 col-md-12" id="divpay">
+                                    <button class="btn btn-primary" type="submit" id="pay">Pagar</button>
+                                </div>
+                                <div class="col-xs-12 col-sm-12 col-md-12" id="divcot">
+                                    <button class="btn btn-primary" type="submit" id="coti">Cotizar</button>
                                 </div>
                             </div>
                         </div>
@@ -306,18 +320,6 @@
 
                 $('#divser').attr('hidden',divser);
             });
-            $('#tipo-venta').on('change', function() {
-                var tipo = $(this).children("option:selected").val();
-                if (tipo == "Cotizacion") {
-                    cot = false;
-                    pay = true;
-                } else {
-                    cot = true;
-                    pay = false;
-                }
-                $('#divcot').attr('hidden',cot);
-                $('#divpay').attr('hidden',pay);
-            });
 
             $('.costos').on('change',function(){
                 var id = $(this).children("option:selected").val();
@@ -333,6 +335,7 @@
                     status = response['status'];
                     if (status == 200) {
                         $("#refresh").load(" #refresh");
+                        $('#divtotales').load(" #divtotales");
                     }
                 });
             });
@@ -351,6 +354,7 @@
                     status = response['status'];
                     if (status == 200) {
                         $("#refresh").load(" #refresh");
+                        $('#divtotales').load(" #divtotales");
                     }
                 });
             });
@@ -377,6 +381,7 @@
                     }
                     else {
                         $("#refresh").load(" #refresh");
+                        $('#divtotales').load(" #divtotales");
 
                     }
                 });
@@ -419,9 +424,129 @@
                 }
                 else {
                     $("#refresh").load(" #refresh");
+                    $('#divtotales').load(" #divtotales");
                 }
             });
         }
+
+        function cambiopercent(valores,ide) {
+            const valor = valores;
+            const id = ide;
+            const precio = $('#precio'+id).val();
+            const cantidad = $('#quantity'+id).val();
+            const subtotal = cantidad * precio;
+            const descuento = (subtotal * valor)/100;
+            const total = subtotal - descuento;
+
+            const data = {
+                percent: valor,
+                discount: descuento,
+            };
+            $.ajax({
+                type: "PUT",
+                url: "/vender/"+id,
+                data: data,
+            }).then(function(data){
+                const status = data['status'];
+                if (status != 200) {
+
+                }
+                else {
+                    $("#refresh").load(" #refresh");
+                    $('#divtotales').load(" #divtotales");
+                }
+            });
+        }
+
+        $('.quitar').on('click',function(){
+            const id = $(this).data('id');
+            eliminar(id);
+        });
+
+        function eliminar(ide)
+        {
+            const id = ide;
+            $.ajax({
+                type: "DELETE",
+                url: "/vender/"+id,
+            }).then(function(data){
+                const status = data['status'];
+                if (status != 200) {
+
+                } else {
+                    $("#refresh").load(" #refresh");
+                    $('#divtotales').load(" #divtotales");
+                }
+            });
+        }
+
+        $('#tipo-venta').on('change',function(){
+            var tipo = $(this).children("option:selected").val();
+            if (tipo == "Cotizacion") {
+                cot = false;
+                pay = true;
+                $('#div-modo-pay').attr('hidden',true);
+                $('#div-metodo-pay').attr('hidden',true);
+                $('#div-abono').attr('hidden',true);
+                $('#div-pago').attr('hidden',true);
+
+            } else {
+                cot = true;
+                pay = false;
+                $('#div-modo-pay').attr('hidden',false);
+                $('#div-metodo-pay').attr('hidden',false);
+                $('#div-abono').attr('hidden',false);
+                $('#div-pago').attr('hidden',false);
+            }
+            $('#divcot').attr('hidden',cot);
+            $('#divpay').attr('hidden',pay);
+        });
+
+        $('#discount').on('change',function(){
+            const valor = $(this).val();
+            const subtotal = $('#subtotal').val();
+            const sub = (subtotal * valor)/100;
+            const tot = subtotal - sub;
+            $('#total').val(tot.toFixed(2));
+            $('#descuentoprecio').val(sub.toFixed(2));
+        });
+
+        $('#modo-pay').on('change',function(){
+            const modo = $(this).children('option:selected').val();
+            if (modo == "Credito") {
+                $('#clientes').prop('required',true);
+                $('#div-abono').attr('hidden',false);
+            } else {
+                $('#clientes').prop('required',false);
+                $('#div-abono').attr('hidden',true);
+            }
+        });
+
+        $('#metodo-pay').on('change',function(){
+            const valor = $(this).children('option:selected').val();
+            const total = $('#total').val();
+            if (valor == "Tarjeta" || valor == "Transferencia") {
+                $('#pagocon').val(total);
+                $('#cambio').val(0);
+            } else {
+                $('#pagocon').val(0);
+            }
+        });
+
+        $('#pagocon').on('change',function()
+        {
+            const valor = $(this).val();
+            const total = $('#total').val();
+            const cambio = valor - total;
+            $('#cambio').val(cambio.toFixed(2));
+        });
+
+        $('#pagocon').keyup(function () {
+            const valor = $(this).val();
+            const total = $('#total').val();
+            const cambio = valor - total;
+            $('#cambio').val(cambio.toFixed(2));
+        });
     </script>
 @endsection
 

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateSaleHasCostPricesTable extends Migration
+class CreateQuoteCostServicesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,10 @@ class CreateSaleHasCostPricesTable extends Migration
      */
     public function up()
     {
-        Schema::create('sale_has_cost_prices', function (Blueprint $table) {
+        Schema::create('quote_cost_services', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('sale_id');
-            $table->foreign('sale_id')->references('id')->on('sales');
+            $table->unsignedBigInteger('quote_id');
+            $table->foreign('quote_id')->references('id')->on('quotes');
             $table->unsignedBigInteger('cost_price_id')->nullable();
             $table->foreign('cost_price_id')->references('id')->on('cost_prices');
             $table->unsignedBigInteger('service_id')->nullable();
@@ -35,6 +35,6 @@ class CreateSaleHasCostPricesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('sale_has_cost_prices');
+        Schema::dropIfExists('quote_cost_services');
     }
 }

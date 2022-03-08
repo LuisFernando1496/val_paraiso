@@ -175,7 +175,12 @@ class SellController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $carrito = UserHasCashRegisterHasCostPrice::find($id);
+        $carrito->delete();
+        return response()->json([
+            'status' => 200,
+            'message' => 'Todo bien'
+        ]);
     }
 
     public function getuser()
