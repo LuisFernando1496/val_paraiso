@@ -14,6 +14,7 @@ use App\Http\Controllers\CreditController;
 use App\Http\Controllers\InventoryController;
 use App\Http\Controllers\OfficeController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\QuoteController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\SaleController;
 use App\Http\Controllers\SellController;
@@ -55,6 +56,7 @@ Route::group(['middleware' => ['auth']], function(){
     Route::resource('boxes',CashRegisterController::class);
     Route::resource('categorias',CategoryController::class);
     Route::resource('clientes',ClientController::class);
+    Route::resource('cotizaciones',QuoteController::class);
     Route::resource('creditos',CreditController::class);
     Route::controller(InventoryController::class)->group(function(){
         Route::get('inventario','index')->name('inventario.index');

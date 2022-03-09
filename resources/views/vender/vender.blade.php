@@ -170,7 +170,7 @@
                                                                     </td>
                                                                     <td>{{ $item->costprice->vendorproduct->product->mark }}</td>
                                                                     <td>
-                                                                        {!! Form::number('quantity', $item->quantity, array('class' => 'form-control quantity','id' => 'quantity'.$item->id,'data-id' => $item->id, 'onChange' => 'cambiocantidad(this.value,'.$item->id.')')) !!}
+                                                                        {!! Form::number('quantity', $item->quantity, array('max' => $item->costprice->vendorproduct->stock,'min' => '1','class' => 'form-control quantity','id' => 'quantity'.$item->id,'data-id' => $item->id, 'onChange' => 'cambiocantidad(this.value,'.$item->id.')')) !!}
                                                                     </td>
                                                                     <td>
                                                                         {!! Form::number('percent', $item->percent, array('class' => 'form-control percent','id' => 'percent'.$item->id,'data-id' => $item->id, 'onChange' => 'cambiopercent(this.value,'.$item->id.')')) !!}
@@ -276,7 +276,7 @@
                                         <div class="col-3" id="div-pago">
                                             <div class="form-group">
                                                 <label for="">Cambio</label>
-                                                {!! Form::number('cambio', null, array('class' => 'form-control','step' => 'any','id'=>'cambio')) !!}
+                                                {!! Form::number('cambio', null, array('class' => 'form-control','step' => 'any','id'=>'cambio','readonly' => true)) !!}
                                             </div>
                                         </div>
                                     </div>
@@ -301,6 +301,38 @@
             var divser = false;
             var cot = true;
             var pay = false;
+            $('#pay').on('click',function(){
+                const data = {
+                    total: $('#total').val(),
+                    discount: $('#descuentoprecio').val(),
+                    percent: $('#discount').val(),
+                    method: $('#metodo-pay').children('option:selected').val(),
+                    client_id: $('#clientes').children('option:selected').val(),
+                    user_cash_id: $('#usercajas').val(),
+                    abono: $('#abono').val(),
+                    modo: $('#modo-pay').children('option:selected').val()
+                };
+                console.log(data);
+                $.post("/ventas",data,function(response){
+                    console.log(response);
+                });
+            });
+            $('#coti').on('click',function(){
+                const data = {
+                    total: $('#total').val(),
+                    discount: $('#descuentoprecio').val(),
+                    percent: $('#discount').val(),
+                    method: "Efectivo",
+                    client_id: $('#clientes').children('option:selected').val(),
+                    user_cash_id: $('#usercajas').val(),
+                    cliente: '',
+                };
+                console.log(data);
+                $.post("/cotizaciones",data,function(response){
+                    console.log(response);
+                });
+            });
+
             $('#divcot').attr('hidden',cot);
             $('#pro').on('click',function(){
                 if (divpro == false) {

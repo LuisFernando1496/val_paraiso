@@ -17,11 +17,11 @@ class UserHasCashRegister extends Model
 
     public function user()
     {
-        return $this->belongsTo(User::class,'id','user_id');
+        return $this->belongsTo(User::class,'user_id');
     }
 
     public function cashregister()
     {
-        return $this->belongsTo(CashRegister::class,'id','cash_register_id');
+        return $this->belongsTo(CashRegister::class,'cash_register_id');
     }
 }
