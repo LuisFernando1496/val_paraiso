@@ -101,7 +101,7 @@ class SaleController extends Controller
                         } else {
                             $saleservice = new SaleHasService();
                             $saleservice->sale_id = $venta->id;
-                            $saleservice->service_id = $venta->service_id;
+                            $saleservice->service_id = $item->service_id;
                             $saleservice->quantity = $item->quantity;
                             $saleservice->discount = $item->discount;
                             $saleservice->percent = $item->percent;
@@ -131,7 +131,7 @@ class SaleController extends Controller
                         } else {
                             $saleservice = new SaleHasService();
                             $saleservice->sale_id = $venta->id;
-                            $saleservice->service_id = $venta->service_id;
+                            $saleservice->service_id = $item->service_id;
                             $saleservice->quantity = $item->quantity;
                             $saleservice->discount = $item->discount;
                             $saleservice->percent = $item->percent;
@@ -184,7 +184,7 @@ class SaleController extends Controller
                                 } else {
                                     $saleservice = new SaleHasService();
                                     $saleservice->sale_id = $venta->id;
-                                    $saleservice->service_id = $venta->service_id;
+                                    $saleservice->service_id = $item->service_id;
                                     $saleservice->quantity = $item->quantity;
                                     $saleservice->discount = $item->discount;
                                     $saleservice->percent = $item->percent;
