@@ -194,57 +194,14 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-lg-12" id="divtotales">
+                                <div class="col-lg-12">
                                     <div class="row">
                                         <div class="col-3">
                                             <div class="form-group">
                                                 <label for="">Tipo</label>
-                                                <select name="" id="tipo-venta" class="form-control">
+                                                <select name="" id="tipo-venta" class="form-control" onchange="tipoventa()">
                                                     <option value="Venta">Venta</option>
                                                     <option value="Cotizacion">Cotizacion</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-3">
-                                            <div class="form-group">
-                                                <label for="">Subtotal</label>
-                                                {!! Form::number('subtotal', $gtotal, array('class' => 'form-control','step' => 'any','readonly' => 'true','id' => 'subtotal')) !!}
-                                            </div>
-                                        </div>
-                                        <div class="col-3">
-                                            <div class="form-group">
-                                                <label for="">Descuento %</label>
-                                                {!! Form::number('percent', 0, array('class' => 'form-control','step' => 'any','id'=>'discount')) !!}
-                                            </div>
-                                        </div>
-                                        <div class="col-3">
-                                            <div class="form-group">
-                                                <label for="">Descuento</label>
-                                                {!! Form::number('discount', 0, array('class' => 'form-control','step' => 'any','readonly' => 'true','id' => 'descuentoprecio')) !!}
-                                            </div>
-                                        </div>
-                                        <div class="col-3">
-                                            <div class="form-group">
-                                                <label for="">Total</label>
-                                                {!! Form::number('total', $gtotal, array('class' => 'form-control','step' => 'any','readonly' => 'true','id' => 'total')) !!}
-                                            </div>
-                                        </div>
-                                        <div class="col-3" id="div-modo-pay">
-                                            <div class="form-group">
-                                                <label for="">Modo Pago</label>
-                                                <select name="" id="modo-pay" class="form-control">
-                                                    <option value="Credito">Credito</option>
-                                                    <option value="Una Exhibicion">Una Exhibicion</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-3" id="div-metodo-pay">
-                                            <div class="form-group">
-                                                <label for="">Metodo Pago</label>
-                                                <select name="" id="metodo-pay" class="form-control">
-                                                    <option value="Efectivo">Efectivo</option>
-                                                    <option value="Tarjeta">Tarjeta</option>
-                                                    <option value="Transferencia">Transferencia</option>
                                                 </select>
                                             </div>
                                         </div>
@@ -258,6 +215,26 @@
                                                     @empty
 
                                                     @endforelse
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-3" id="div-modo-pay">
+                                            <div class="form-group">
+                                                <label for="">Modo Pago</label>
+                                                <select name="" id="modo-pay" class="form-control">
+                                                    <option value="Credito">Credito</option>
+                                                    <option value="Una Exhibicion">Una Exhibicion</option>
+                                                </select>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-3" id="div-metodo-pay">
+                                            <div class="form-group">
+                                                <label for="">Metodo Pago</label>
+                                                <select name="" id="metodo-pay" class="form-control">
+                                                    <option value="Efectivo">Efectivo</option>
+                                                    <option value="Tarjeta">Tarjeta</option>
+                                                    <option value="Transferencia">Transferencia</option>
                                                 </select>
                                             </div>
                                         </div>
@@ -277,6 +254,32 @@
                                             <div class="form-group">
                                                 <label for="">Cambio</label>
                                                 {!! Form::number('cambio', null, array('class' => 'form-control','step' => 'any','id'=>'cambio','readonly' => true)) !!}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row" id="divtotales">
+                                        <div class="col">
+                                            <div class="form-group">
+                                                <label for="">Subtotal</label>
+                                                {!! Form::number('subtotal', $gtotal, array('class' => 'form-control','step' => 'any','readonly' => 'true','id' => 'subtotal')) !!}
+                                            </div>
+                                        </div>
+                                        <div class="col">
+                                            <div class="form-group">
+                                                <label for="">Descuento %</label>
+                                                {!! Form::number('percent', 0, array('class' => 'form-control','step' => 'any','id'=>'discount')) !!}
+                                            </div>
+                                        </div>
+                                        <div class="col">
+                                            <div class="form-group">
+                                                <label for="">Descuento</label>
+                                                {!! Form::number('discount', 0, array('class' => 'form-control','step' => 'any','readonly' => 'true','id' => 'descuentoprecio')) !!}
+                                            </div>
+                                        </div>
+                                        <div class="col">
+                                            <div class="form-group">
+                                                <label for="">Total</label>
+                                                {!! Form::number('total', $gtotal, array('class' => 'form-control','step' => 'any','readonly' => 'true','id' => 'total')) !!}
                                             </div>
                                         </div>
                                     </div>
@@ -367,7 +370,8 @@
                     status = response['status'];
                     if (status == 200) {
                         $("#refresh").load(" #refresh");
-                        $('#divtotales').load(" #divtotales");
+                        $('#div-subtotal').load(" #div-subtotal");
+                        $('#div-total').load(' #div-total');
                     }
                 });
             });
@@ -386,7 +390,8 @@
                     status = response['status'];
                     if (status == 200) {
                         $("#refresh").load(" #refresh");
-                        $('#divtotales').load(" #divtotales");
+                        $('#div-subtotal').load(" #div-subtotal");
+                        $('#div-total').load(' #div-total');
                     }
                 });
             });
@@ -413,8 +418,8 @@
                     }
                     else {
                         $("#refresh").load(" #refresh");
-                        $('#divtotales').load(" #divtotales");
-
+                        $('#div-subtotal').load(" #div-subtotal");
+                        $('#div-total').load(' #div-total');
                     }
                 });
             });
@@ -430,8 +435,6 @@
                 $('#subtotal').val(total);
                 $('#total').val(total);
             });
-
-
 
         });
         function cambiocantidad(valores,ide) {
@@ -456,7 +459,8 @@
                 }
                 else {
                     $("#refresh").load(" #refresh");
-                    $('#divtotales').load(" #divtotales");
+                    $('#div-subtotal').load(" #div-subtotal");
+                    $('#div-total').load(' #div-total');
                 }
             });
         }
@@ -485,7 +489,8 @@
                 }
                 else {
                     $("#refresh").load(" #refresh");
-                    $('#divtotales').load(" #divtotales");
+                    $('#div-subtotal').load(" #div-subtotal");
+                    $('#div-total').load(' #div-total');
                 }
             });
         }
@@ -507,9 +512,34 @@
 
                 } else {
                     $("#refresh").load(" #refresh");
-                    $('#divtotales').load(" #divtotales");
+                    $('#div-subtotal').load(" #div-subtotal");
+                    $('#div-total').load(' #div-total');
                 }
             });
+        }
+
+        function tipoventa()
+        {
+            console.log("cambio");
+            var tipo = $(this).children("option:selected").val();
+            if (tipo == "Cotizacion") {
+                cot = false;
+                pay = true;
+                $('#div-modo-pay').attr('hidden',true);
+                $('#div-metodo-pay').attr('hidden',true);
+                $('#div-abono').attr('hidden',true);
+                $('#div-pago').attr('hidden',true);
+
+            } else {
+                cot = true;
+                pay = false;
+                $('#div-modo-pay').attr('hidden',false);
+                $('#div-metodo-pay').attr('hidden',false);
+                $('#div-abono').attr('hidden',false);
+                $('#div-pago').attr('hidden',false);
+            }
+            $('#divcot').attr('hidden',cot);
+            $('#divpay').attr('hidden',pay);
         }
 
         $('#tipo-venta').on('change',function(){
@@ -579,6 +609,38 @@
             const cambio = valor - total;
             $('#cambio').val(cambio.toFixed(2));
         });
+
+        $('#pay').on('click',function(){
+                const data = {
+                    total: $('#total').val(),
+                    discount: $('#descuentoprecio').val(),
+                    percent: $('#discount').val(),
+                    method: $('#metodo-pay').children('option:selected').val(),
+                    client_id: $('#clientes').children('option:selected').val(),
+                    user_cash_id: $('#usercajas').val(),
+                    abono: $('#abono').val(),
+                    modo: $('#modo-pay').children('option:selected').val()
+                };
+                console.log(data);
+                $.post("/ventas",data,function(response){
+                    console.log(response);
+                });
+            });
+            $('#coti').on('click',function(){
+                const data = {
+                    total: $('#total').val(),
+                    discount: $('#descuentoprecio').val(),
+                    percent: $('#discount').val(),
+                    method: "Efectivo",
+                    client_id: $('#clientes').children('option:selected').val(),
+                    user_cash_id: $('#usercajas').val(),
+                    cliente: '',
+                };
+                console.log(data);
+                $.post("/cotizaciones",data,function(response){
+                    console.log(response);
+                });
+            });
     </script>
 @endsection
 

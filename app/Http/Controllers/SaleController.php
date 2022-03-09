@@ -98,6 +98,7 @@ class SaleController extends Controller
                             $vendorproduct->update([
                                 'stock' => $vendorproduct->stock - $item->quantity,
                             ]);
+                            $item->delete();
                         } else {
                             $saleservice = new SaleHasService();
                             $saleservice->sale_id = $venta->id;
@@ -106,6 +107,7 @@ class SaleController extends Controller
                             $saleservice->discount = $item->discount;
                             $saleservice->percent = $item->percent;
                             $saleservice->save();
+                            $item->delete();
                         }
                     }
                 } else {
@@ -128,6 +130,12 @@ class SaleController extends Controller
                             $saleitem->discount = $item->discount;
                             $saleitem->percent = $item->percent;
                             $saleitem->save();
+                            $costprice = CostPrice::find($item->cost_price_id);
+                            $vendorproduct = VendorHasProduct::find($costprice->vendor_product_id);
+                            $vendorproduct->update([
+                                'stock' => $vendorproduct->stock - $item->quantity,
+                            ]);
+                            $item->delete();
                         } else {
                             $saleservice = new SaleHasService();
                             $saleservice->sale_id = $venta->id;
@@ -136,6 +144,7 @@ class SaleController extends Controller
                             $saleservice->discount = $item->discount;
                             $saleservice->percent = $item->percent;
                             $saleservice->save();
+                            $item->delete();
                         }
                     }
                 }
@@ -181,6 +190,7 @@ class SaleController extends Controller
                                     $vendorproduct->update([
                                         'stock' => $vendorproduct->stock - $item->quantity,
                                     ]);
+                                    $item->delete();
                                 } else {
                                     $saleservice = new SaleHasService();
                                     $saleservice->sale_id = $venta->id;
@@ -189,6 +199,7 @@ class SaleController extends Controller
                                     $saleservice->discount = $item->discount;
                                     $saleservice->percent = $item->percent;
                                     $saleservice->save();
+                                    $item->delete();
                                 }
                             }
 
