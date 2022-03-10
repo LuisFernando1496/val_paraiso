@@ -4,7 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Models\CostPrice;
 use App\Models\Credit;
+use App\Models\Expense;
+use App\Models\ExpenseHasSale;
+use App\Models\ExpenseHasSaleHasCostPrice;
 use App\Models\Payment;
+use App\Models\Product;
 use App\Models\Sale;
 use App\Models\SaleHasCostPrice;
 use App\Models\SaleHasCredit;
@@ -32,7 +36,7 @@ class SaleController extends Controller
      */
     public function index()
     {
-        $ventas = Sale::paginate(5);
+        $ventas = Sale::where('status',true)->paginate(5);
         return view('ventas.index',compact('ventas'));
     }
 
@@ -297,6 +301,35 @@ class SaleController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $venta = Sale::find($id);
+        $today = date('Y-m-d');
+        $gasto = new Expense();
+        $gasto->title = "Cancelacion";
+        $gasto->description = "Devolucion de productos de la venta con folio " . $venta->folio;
+        $gasto->total = $venta->total;
+        $gasto->date = $today;
+        $gasto->user_id = Auth::user()->id;
+        $gasto->save();
+
+        $salegasto = new ExpenseHasSale();
+        $salegasto->expense_id = $gasto->id;
+        $salegasto->sale_id = $id;
+        $salegasto->save();
+
+        foreach ($venta->produs as $produ) {
+            ExpenseHasSaleHasCostPrice::create([
+                'expense_id' => $gasto->id,
+                'sale_has_cost_price_id' => $produ->id
+            ]);
+            $producto = VendorHasProduct::find($produ->costprice->vendorproduct->id);
+            $producto->update([
+                'stock' => $producto->stock + $produ->quantity
+            ]);
+        }
+        $venta->update([
+            'status' => false
+        ]);
+        return redirect()->route('ventas.index');
+
     }
 }

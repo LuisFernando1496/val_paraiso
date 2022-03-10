@@ -637,37 +637,7 @@
             $('#cambio').val(cambio.toFixed(2));
         });
 
-        $('#pay').on('click',function(){
-                const data = {
-                    total: $('#total').val(),
-                    discount: $('#descuentoprecio').val(),
-                    percent: $('#discount').val(),
-                    method: $('#metodo-pay').children('option:selected').val(),
-                    client_id: $('#clientes').children('option:selected').val(),
-                    user_cash_id: $('#usercajas').val(),
-                    abono: $('#abono').val(),
-                    modo: $('#modo-pay').children('option:selected').val()
-                };
-                console.log(data);
-                $.post("/ventas",data,function(response){
-                    console.log(response);
-                });
-        });
-        $('#coti').on('click',function(){
-            const data = {
-                total: $('#total').val(),
-                discount: $('#descuentoprecio').val(),
-                percent: $('#discount').val(),
-                method: "Efectivo",
-                client_id: $('#clientes').children('option:selected').val(),
-                user_cash_id: $('#usercajas').val(),
-                cliente: '',
-            };
-            //console.log(data);
-            $.post("/cotizaciones",data,function(response){
-                console.log(response);
-            });
-        });
+        
 
         $('#clientes').on('change',function(){
             const seleccion = $(this).children('option:selected').val();

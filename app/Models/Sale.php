@@ -16,7 +16,8 @@ class Sale extends Model
         'percent',
         'method',
         'client_id',
-        'user_cash_id'
+        'user_cash_id',
+        'status'
     ];
 
     public function client()
