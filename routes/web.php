@@ -76,6 +76,7 @@ Route::group(['middleware' => ['auth']], function(){
     Route::resource('sucursales',OfficeController::class);
     Route::resource('usuarios',UserController::class);
     Route::resource('ventas',SaleController::class);
+    Route::get('ventas/{id}/ticket',[SaleController::class,'ticket'])->name('ventas.ticket');
     Route::resource('vender',SellController::class);
     Route::resource('usercash',UserCashController::class);
     Route::get('/costos-ver/{id}',[ProductController::class,'costosver'])->name('costos.ver');

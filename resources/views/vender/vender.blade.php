@@ -218,6 +218,12 @@
                                                 </select>
                                             </div>
                                         </div>
+                                        <div class="col-3" id="new-cliente">
+                                            <div class="form-group">
+                                                <label for="">Cliente</label>
+                                                <input type="text" class="form-control" id="cliente" placeholder="Nuevo Cliente">
+                                            </div>
+                                        </div>
                                         <div class="col-3" id="div-modo-pay">
                                             <div class="form-group">
                                                 <label for="">Modo Pago</label>
@@ -227,7 +233,6 @@
                                                 </select>
                                             </div>
                                         </div>
-
                                         <div class="col-3" id="div-metodo-pay">
                                             <div class="form-group">
                                                 <label for="">Metodo Pago</label>
@@ -238,6 +243,36 @@
                                                 </select>
                                             </div>
                                         </div>
+                                    </div>
+                                    <div id="divtotales">
+                                        <div class="row">
+                                            <div class="col">
+                                                <div class="form-group">
+                                                    <label for="">Subtotal</label>
+                                                    {!! Form::number('subtotal', $gtotal, array('class' => 'form-control','step' => 'any','readonly' => 'true','id' => 'subtotal')) !!}
+                                                </div>
+                                            </div>
+                                            <div class="col">
+                                                <div class="form-group">
+                                                    <label for="">Descuento %</label>
+                                                    {!! Form::number('percent', 0, array('class' => 'form-control','step' => 'any','id'=>'discount')) !!}
+                                                </div>
+                                            </div>
+                                            <div class="col">
+                                                <div class="form-group">
+                                                    <label for="">Descuento</label>
+                                                    {!! Form::number('discount', 0, array('class' => 'form-control','step' => 'any','readonly' => 'true','id' => 'descuentoprecio')) !!}
+                                                </div>
+                                            </div>
+                                            <div class="col">
+                                                <div class="form-group">
+                                                    <label for="">Total</label>
+                                                    {!! Form::number('total', $gtotal, array('class' => 'form-control','step' => 'any','readonly' => 'true','id' => 'total')) !!}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
                                         <div class="col-3" id="div-abono">
                                             <div class="form-group">
                                                 <label for="">Abono</label>
@@ -250,36 +285,10 @@
                                                 {!! Form::number('pay', null, array('class' => 'form-control','step' => 'any','id' => 'pagocon')) !!}
                                             </div>
                                         </div>
-                                        <div class="col-3" id="div-pago">
+                                        <div class="col-3" id="div-cambio">
                                             <div class="form-group">
                                                 <label for="">Cambio</label>
                                                 {!! Form::number('cambio', null, array('class' => 'form-control','step' => 'any','id'=>'cambio','readonly' => true)) !!}
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="row" id="divtotales">
-                                        <div class="col">
-                                            <div class="form-group">
-                                                <label for="">Subtotal</label>
-                                                {!! Form::number('subtotal', $gtotal, array('class' => 'form-control','step' => 'any','readonly' => 'true','id' => 'subtotal')) !!}
-                                            </div>
-                                        </div>
-                                        <div class="col">
-                                            <div class="form-group">
-                                                <label for="">Descuento %</label>
-                                                {!! Form::number('percent', 0, array('class' => 'form-control','step' => 'any','id'=>'discount')) !!}
-                                            </div>
-                                        </div>
-                                        <div class="col">
-                                            <div class="form-group">
-                                                <label for="">Descuento</label>
-                                                {!! Form::number('discount', 0, array('class' => 'form-control','step' => 'any','readonly' => 'true','id' => 'descuentoprecio')) !!}
-                                            </div>
-                                        </div>
-                                        <div class="col">
-                                            <div class="form-group">
-                                                <label for="">Total</label>
-                                                {!! Form::number('total', $gtotal, array('class' => 'form-control','step' => 'any','readonly' => 'true','id' => 'total')) !!}
                                             </div>
                                         </div>
                                     </div>
@@ -304,6 +313,7 @@
             var divser = false;
             var cot = true;
             var pay = false;
+            $('#new-cliente').attr('hidden',true);
             $('#pay').on('click',function(){
                 const data = {
                     total: $('#total').val(),
@@ -317,7 +327,14 @@
                 };
                 console.log(data);
                 $.post("/ventas",data,function(response){
-                    console.log(response);
+                    const status = response['status'];
+                    const id = response['id'];
+                    if (status == 200) {
+                        window.open('ventas/'+id+'/ticket','_blank');
+                        location.reload();
+                    } else {
+                        alert(response);
+                    }
                 });
             });
             $('#coti').on('click',function(){
@@ -328,11 +345,17 @@
                     method: "Efectivo",
                     client_id: $('#clientes').children('option:selected').val(),
                     user_cash_id: $('#usercajas').val(),
-                    cliente: '',
+                    cliente: $('#cliente').val(),
                 };
                 console.log(data);
                 $.post("/cotizaciones",data,function(response){
-                    console.log(response);
+                    const status = response['status'];
+                    if (status == 200) {
+                        location.reload();
+                    } else {
+                        alert('Error al realizar la cotizacion');
+                        console.log(response);
+                    }
                 });
             });
 
@@ -370,8 +393,7 @@
                     status = response['status'];
                     if (status == 200) {
                         $("#refresh").load(" #refresh");
-                        $('#div-subtotal').load(" #div-subtotal");
-                        $('#div-total').load(' #div-total');
+                        $('#divtotales').load(" #divtotales");
                     }
                 });
             });
@@ -390,8 +412,7 @@
                     status = response['status'];
                     if (status == 200) {
                         $("#refresh").load(" #refresh");
-                        $('#div-subtotal').load(" #div-subtotal");
-                        $('#div-total').load(' #div-total');
+                        $('#divtotales').load(" #divtotales");
                     }
                 });
             });
@@ -418,8 +439,7 @@
                     }
                     else {
                         $("#refresh").load(" #refresh");
-                        $('#div-subtotal').load(" #div-subtotal");
-                        $('#div-total').load(' #div-total');
+                        $('#divtotales').load(" #divtotales");
                     }
                 });
             });
@@ -459,8 +479,7 @@
                 }
                 else {
                     $("#refresh").load(" #refresh");
-                    $('#div-subtotal').load(" #div-subtotal");
-                    $('#div-total').load(' #div-total');
+                    $('#divtotales').load(" #divtotales");
                 }
             });
         }
@@ -489,8 +508,7 @@
                 }
                 else {
                     $("#refresh").load(" #refresh");
-                    $('#div-subtotal').load(" #div-subtotal");
-                    $('#div-total').load(' #div-total');
+                    $('#divtotales').load(" #divtotales");
                 }
             });
         }
@@ -512,8 +530,7 @@
 
                 } else {
                     $("#refresh").load(" #refresh");
-                    $('#div-subtotal').load(" #div-subtotal");
-                    $('#div-total').load(' #div-total');
+                    $('#divtotales').load(" #divtotales");
                 }
             });
         }
@@ -529,6 +546,8 @@
                 $('#div-metodo-pay').attr('hidden',true);
                 $('#div-abono').attr('hidden',true);
                 $('#div-pago').attr('hidden',true);
+                $('#div-cambio').attr('hidden',true);
+                $('#clientes').prepend("<option value='nuevo'>Nuevo Cliente</option>");
 
             } else {
                 cot = true;
@@ -537,6 +556,9 @@
                 $('#div-metodo-pay').attr('hidden',false);
                 $('#div-abono').attr('hidden',false);
                 $('#div-pago').attr('hidden',false);
+                $('#div-cambio').attr('hidden',false);
+                $("#clientes option[value='nuevo']").remove();
+                $('#new-cliente').attr('hidden',true);
             }
             $('#divcot').attr('hidden',cot);
             $('#divpay').attr('hidden',pay);
@@ -551,6 +573,8 @@
                 $('#div-metodo-pay').attr('hidden',true);
                 $('#div-abono').attr('hidden',true);
                 $('#div-pago').attr('hidden',true);
+                $('#div-cambio').attr('hidden',true);
+                $('#clientes').prepend("<option value='nuevo'>Nuevo Cliente</option>");
 
             } else {
                 cot = true;
@@ -559,6 +583,9 @@
                 $('#div-metodo-pay').attr('hidden',false);
                 $('#div-abono').attr('hidden',false);
                 $('#div-pago').attr('hidden',false);
+                $('#div-cambio').attr('hidden',false);
+                $("#clientes option[value='nuevo']").remove();
+                $('#new-cliente').attr('hidden',true);
             }
             $('#divcot').attr('hidden',cot);
             $('#divpay').attr('hidden',pay);
@@ -625,22 +652,31 @@
                 $.post("/ventas",data,function(response){
                     console.log(response);
                 });
+        });
+        $('#coti').on('click',function(){
+            const data = {
+                total: $('#total').val(),
+                discount: $('#descuentoprecio').val(),
+                percent: $('#discount').val(),
+                method: "Efectivo",
+                client_id: $('#clientes').children('option:selected').val(),
+                user_cash_id: $('#usercajas').val(),
+                cliente: '',
+            };
+            //console.log(data);
+            $.post("/cotizaciones",data,function(response){
+                console.log(response);
             });
-            $('#coti').on('click',function(){
-                const data = {
-                    total: $('#total').val(),
-                    discount: $('#descuentoprecio').val(),
-                    percent: $('#discount').val(),
-                    method: "Efectivo",
-                    client_id: $('#clientes').children('option:selected').val(),
-                    user_cash_id: $('#usercajas').val(),
-                    cliente: '',
-                };
-                console.log(data);
-                $.post("/cotizaciones",data,function(response){
-                    console.log(response);
-                });
-            });
+        });
+
+        $('#clientes').on('change',function(){
+            const seleccion = $(this).children('option:selected').val();
+            if (seleccion == 'nuevo') {
+                $('#new-cliente').attr('hidden',false);
+            } else {
+                $('#new-cliente').attr('hidden',true);
+            }
+        });
     </script>
 @endsection
 

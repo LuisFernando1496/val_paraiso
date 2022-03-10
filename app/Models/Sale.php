@@ -21,11 +21,26 @@ class Sale extends Model
 
     public function client()
     {
-        return $this->belongsTo(Client::class,'id','client_id');
+        return $this->belongsTo(Client::class,'client_id');
     }
 
     public function usercash()
     {
-        return $this->belongsTo(UserHasCashRegister::class,'id','user_cash_id');
+        return $this->belongsTo(UserHasCashRegister::class,'user_cash_id');
+    }
+
+    public function produs()
+    {
+        return $this->hasMany(SaleHasCostPrice::class,'sale_id','id');
+    }
+
+    public function services()
+    {
+        return $this->hasMany(SaleHasService::class,'sale_id','id');
+    }
+
+    public function credits()
+    {
+        return $this->hasMany(SaleHasCredit::class,'sale_id','id');
     }
 }

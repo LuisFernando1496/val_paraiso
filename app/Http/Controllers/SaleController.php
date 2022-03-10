@@ -18,6 +18,13 @@ use Illuminate\Support\Facades\DB;
 
 class SaleController extends Controller
 {
+    function __construct()
+    {
+        $this->middleware('permission:ver-ventas|crear-ventas|editar-ventas|borrar-ventas',['only'=>['index','show']]);
+        $this->middleware('permission:crear-ventas',['only'=>['create','store']]);
+        $this->middleware('permission:editar-ventas',['only'=>['edit','update']]);
+        $this->middleware('permission:borrar-ventas',['only'=>['destroy']]);
+    }
     /**
      * Display a listing of the resource.
      *
@@ -25,7 +32,8 @@ class SaleController extends Controller
      */
     public function index()
     {
-        //
+        $ventas = Sale::paginate(5);
+        return view('ventas.index',compact('ventas'));
     }
 
     /**
@@ -46,6 +54,7 @@ class SaleController extends Controller
      */
     public function store(Request $request)
     {
+        $idventa = 0;
         $cajauser = UserHasCashRegister::find($request->user_cash_id);
         $today = date("Y-m-d");
         $metodo = $request->method;
@@ -84,6 +93,7 @@ class SaleController extends Controller
                     $venta->client_id = $client;
                     $venta->user_cash_id = $usercash;
                     $venta->save();
+                    $idventa = $venta->id;
                     foreach ($carrito as $item) {
                         if ($item->cost_price_id != null) {
                             $saleitem = new SaleHasCostPrice();
@@ -121,6 +131,7 @@ class SaleController extends Controller
                     $venta->cliente = "Cliente en General";
                     $venta->user_cash_id = $usercash;
                     $venta->save();
+                    $idventa = $venta->id;
                     foreach ($carrito as $item) {
                         if ($item->cost_price_id != null) {
                             $saleitem = new SaleHasCostPrice();
@@ -164,6 +175,7 @@ class SaleController extends Controller
                             $venta->client_id = $client;
                             $venta->user_cash_id = $usercash;
                             $venta->save();
+                            $idventa = $venta->id;
                             $salecredit = new SaleHasCredit();
                             $salecredit->sale_id = $venta->id;
                             $salecredit->credit_id = $credito->id;
@@ -225,6 +237,7 @@ class SaleController extends Controller
             DB::commit();
             return response()->json([
                 'status' => 200,
+                'id' => $idventa,
                 'mensaje' => 'Todo bien'
             ]);
         } catch (\Throwable $th) {
@@ -243,7 +256,14 @@ class SaleController extends Controller
      */
     public function show($id)
     {
-        //
+        $venta = Sale::find($id);
+        return view('ventas.detalles',compact('venta'));
+    }
+
+    public function ticket($id)
+    {
+        $venta = Sale::find($id);
+        return view('ventas.ticket',compact('venta'));
     }
 
     /**
