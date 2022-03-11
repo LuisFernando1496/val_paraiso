@@ -53,6 +53,22 @@
     </section>
     <script>
         $(document).ready(function () {
+            var id = $('#negocios').children("option:selected").val();
+            $.get("/getUser/"+id,function (data){
+                console.log(data);
+                $('#usuarios').empty();
+                $.each(data, function(key, value){
+                    console.log(key);
+                    console.log(value);
+                    //Use the Option() constructor to create a new HTMLOptionElement.
+                    var option = new Option(key, value);
+                    //Convert the HTMLOptionElement into a JQuery object that can be used with the append method.
+                    $(option).html(value);
+                    console.log(option);
+                    //Append the option to our Select element.
+                    $("#usuarios").append("<option value='"+key+"'>"+value+"</option>");
+                });
+            });
             $('#negocios').on('change', function(){
                 var id = $(this).children("option:selected").val();
                 $.get("/getUser/"+id,function (data){

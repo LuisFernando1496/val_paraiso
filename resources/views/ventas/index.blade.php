@@ -44,7 +44,7 @@
                                             <td>
                                                 @can('borrar-ventas')
                                                     {!! Form::open(['method' => 'DELETE', 'route' => ['ventas.destroy',$venta->id], 'style' => 'display:inline']) !!}
-                                                        {!! Form::submit('Canelar', ['class' => 'btn btn-danger']) !!}
+                                                        {!! Form::submit('Cancelar', ['class' => 'btn btn-danger']) !!}
                                                     {!! Form::close() !!}
                                                 @endcan
                                             </td>

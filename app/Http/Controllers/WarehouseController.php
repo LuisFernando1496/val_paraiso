@@ -78,6 +78,16 @@ class WarehouseController extends Controller
         //
     }
 
+    public function vender()
+    {
+
+    }
+
+    public function venta(Request $request)
+    {
+        
+    }
+
     /**
      * Show the form for editing the specified resource.
      *

@@ -238,6 +238,11 @@ class SaleController extends Controller
                     ]);
                 }
             }
+            if ($metodo == "Efectivo") {
+                $cajauser->update([
+                    'amount' => $cajauser->amount + $total
+                ]);
+            }
             DB::commit();
             return response()->json([
                 'status' => 200,
@@ -302,11 +307,16 @@ class SaleController extends Controller
     public function destroy($id)
     {
         $venta = Sale::find($id);
+        $total = 0;
+        foreach ($venta->produs as $produ) {
+            $subtotal = $produ->quantity  * $produ->costprice->price;
+            $total += $subtotal - $produ->discount;
+        }
         $today = date('Y-m-d');
         $gasto = new Expense();
         $gasto->title = "Cancelacion";
         $gasto->description = "Devolucion de productos de la venta con folio " . $venta->folio;
-        $gasto->total = $venta->total;
+        $gasto->total = $total;
         $gasto->date = $today;
         $gasto->user_id = Auth::user()->id;
         $gasto->save();
@@ -324,6 +334,12 @@ class SaleController extends Controller
             $producto = VendorHasProduct::find($produ->costprice->vendorproduct->id);
             $producto->update([
                 'stock' => $producto->stock + $produ->quantity
+            ]);
+        }
+        if ($venta->method == "Efectivo") {
+            $caja = UserHasCashRegister::find($venta->user_cash_id);
+            $caja->update([
+                'amount' => $caja->amount - $total,
             ]);
         }
         $venta->update([

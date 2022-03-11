@@ -4,16 +4,18 @@ namespace App\Http\Controllers;
 
 use App\Models\Quote;
 use App\Models\QuoteCostService;
+use App\Models\Sale;
 use App\Models\UserHasCashRegister;
 use App\Models\UserHasCashRegisterHasCostPrice;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class QuoteController extends Controller
 {
     function __construct()
     {
-        $this->middleware('permission:ver-cotizaciones|crear-cotizaciones|editar-cotizaciones|borrar-cotizaciones',['only'=>['index']]);
+        $this->middleware('permission:ver-cotizaciones|crear-cotizaciones|editar-cotizaciones|borrar-cotizaciones',['only'=>['index','show']]);
         $this->middleware('permission:crear-cotizaciones',['only'=>['create','store']]);
         $this->middleware('permission:editar-cotizaciones',['only'=>['edit','update']]);
         $this->middleware('permission:borrar-cotizaciones',['only'=>['destroy']]);
@@ -25,7 +27,14 @@ class QuoteController extends Controller
      */
     public function index()
     {
-        //
+        $cotizaciones = Quote::paginate(5);
+        return view('cotizaciones.index',compact('cotizaciones'));
+    }
+
+    public function imprimir($id)
+    {
+        $cotizacion = Quote::find($id);
+        return view('cotizaciones.entrega',compact('cotizacion'));
     }
 
     /**
@@ -125,7 +134,8 @@ class QuoteController extends Controller
      */
     public function show($id)
     {
-        //
+        $cotizacion = Quote::find($id);
+        return view('cotizaciones.detalles',compact('cotizacion'));
     }
 
     /**
@@ -136,7 +146,29 @@ class QuoteController extends Controller
      */
     public function edit($id)
     {
-        //
+        try {
+            DB::beginTransaction();
+            $cotizacion = Quote::find($id);
+            $user = Auth::user();
+            $caja = UserHasCashRegister::where('user_id',$user->id)->where('status',true)->first();
+            foreach ($cotizacion->produs as $produ) {
+                $cajita = new UserHasCashRegisterHasCostPrice();
+                $cajita->user_cash_id = $caja->id;
+                $cajita->cost_price_id = $produ->cost_price_id;
+                $cajita->service_id = $produ->service_id;
+                $cajita->quantity = $produ->quantity;
+                $cajita->discount = $produ->discount;
+                $cajita->percent = $produ->percent;
+                $cajita->save();
+                $produ->delete();
+            }
+            $cotizacion->delete();
+            DB::commit();
+            return redirect()->route('usercash.index');
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            return $th;
+        }
     }
 
     /**
@@ -159,6 +191,8 @@ class QuoteController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $cotizacion = Quote::find($id);
+        $cotizacion->delete();
+        return redirect()->route('cotizaciones.index');
     }
 }

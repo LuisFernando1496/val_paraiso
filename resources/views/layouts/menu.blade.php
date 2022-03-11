@@ -28,6 +28,11 @@
         <i class="fas fa-archive"></i><span>Almacen</span>
     </a>
 </li>
+<li class="side-menus {{ Request::is('ventaalmacen') ? 'active' : '' }}">
+    <a href="{{ route('ventaalmacen.index') }}" class="nav-link">
+        <i class="fas fa-cash-register"></i><span>Vender Almacen</span>
+    </a>
+</li>
 <li class="side-menus {{ Request::is('categorias') ? 'active' : '' }}">
     <a href="{{ route('categorias.index') }}" class="nav-link">
         <i class="fas fa-tags"></i><span>Categorias</span>
@@ -66,6 +71,11 @@
 <li class="side-menus {{ Request::is('ventas') ? 'active' : '' }}">
     <a href="{{ route('ventas.index') }}" class="nav-link">
         <i class="fas fa-trophy"></i><span>Ventas</span>
+    </a>
+</li>
+<li class="side-menus {{ Request::is('cotizaciones') ? 'active' : '' }}">
+    <a href="{{ route('cotizaciones.index') }}" class="nav-link">
+        <i class="fab fa-bitcoin"></i><span>Cotizaciones</span>
     </a>
 </li>
 <li class="side-menus {{ Request::is('reportes') ? 'active' : '' }}">

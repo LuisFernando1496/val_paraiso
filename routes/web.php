@@ -19,6 +19,7 @@ use App\Http\Controllers\ReportController;
 use App\Http\Controllers\SaleController;
 use App\Http\Controllers\SellController;
 use App\Http\Controllers\ServiceController;
+use App\Http\Controllers\TrolleyController;
 use App\Http\Controllers\UserCashController;
 use App\Http\Controllers\VendorController;
 use App\Http\Controllers\WarehouseController;
@@ -53,10 +54,13 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 Route::group(['middleware' => ['auth']], function(){
     Route::resource('address',AddressController::class);
     Route::resource('almacenes',WarehouseController::class);
+    Route::resource('ventaalmacen',TrolleyController::class);
     Route::resource('boxes',CashRegisterController::class);
+    Route::resource('carrito',)
     Route::resource('categorias',CategoryController::class);
     Route::resource('clientes',ClientController::class);
     Route::resource('cotizaciones',QuoteController::class);
+    Route::get('cotizaciones/{id}/imprimir',[QuoteController::class,'imprimir'])->name('cotizaciones.imprimir');
     Route::resource('creditos',CreditController::class);
     Route::controller(InventoryController::class)->group(function(){
         Route::get('inventario','index')->name('inventario.index');

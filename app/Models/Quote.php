@@ -22,11 +22,16 @@ class Quote extends Model
 
     public function client()
     {
-        return $this->belongsTo(Client::class,'id','client_id');
+        return $this->belongsTo(Client::class,'client_id');
     }
 
     public function usercash()
     {
-        return $this->belongsTo(UserHasCashRegister::class,'id','user_cash_id');
+        return $this->belongsTo(UserHasCashRegister::class,'user_cash_id');
+    }
+
+    public function produs()
+    {
+        return $this->hasMany(QuoteCostService::class,'quote_id','id');
     }
 }
