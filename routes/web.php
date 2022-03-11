@@ -7,6 +7,7 @@ use App\Http\Controllers\RolController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AddressController;
 use App\Http\Controllers\BusinessController;
+use App\Http\Controllers\BuyController;
 use App\Http\Controllers\CashRegisterController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ClientController;
@@ -19,6 +20,7 @@ use App\Http\Controllers\ReportController;
 use App\Http\Controllers\SaleController;
 use App\Http\Controllers\SellController;
 use App\Http\Controllers\ServiceController;
+use App\Http\Controllers\TransferController;
 use App\Http\Controllers\TrolleyController;
 use App\Http\Controllers\UserCashController;
 use App\Http\Controllers\VendorController;
@@ -56,9 +58,9 @@ Route::group(['middleware' => ['auth']], function(){
     Route::resource('almacenes',WarehouseController::class);
     Route::resource('ventaalmacen',TrolleyController::class);
     Route::resource('boxes',CashRegisterController::class);
-    Route::resource('carrito',)
     Route::resource('categorias',CategoryController::class);
     Route::resource('clientes',ClientController::class);
+    Route::resource('compras',BuyController::class);
     Route::resource('cotizaciones',QuoteController::class);
     Route::get('cotizaciones/{id}/imprimir',[QuoteController::class,'imprimir'])->name('cotizaciones.imprimir');
     Route::resource('creditos',CreditController::class);
@@ -78,6 +80,7 @@ Route::group(['middleware' => ['auth']], function(){
     Route::resource('roles',RolController::class);
     Route::resource('servicios',ServiceController::class);
     Route::resource('sucursales',OfficeController::class);
+    Route::resource('transferencias',TransferController::class);
     Route::resource('usuarios',UserController::class);
     Route::resource('ventas',SaleController::class);
     Route::get('ventas/{id}/ticket',[SaleController::class,'ticket'])->name('ventas.ticket');
