@@ -2,7 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Buy;
+use App\Models\BuyInventory;
+use App\Models\Inventory;
+use App\Models\Trolley;
+use DateTime;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class BuyController extends Controller
 {
@@ -34,7 +40,43 @@ class BuyController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        try {
+            DB::beginTransaction();
+            $compra = Buy::create([
+                'warehouse_id' => $request->warehouse_id,
+                'subtotal' => $request->subtotal,
+                'percent' => $request->percent,
+                'discount' => $request->discount,
+                'total' => $request->total,
+                'method' => $request->method
+            ]);
+            $carrito = Trolley::where('warehouse_id','=',$request->warehouse_id)->get();
+            foreach ($carrito as $carro) {
+                BuyInventory::create([
+                    'buy_id' => $compra->id,
+                    'inventory_id' => $carro->inventory_id,
+                    'quantity' => $carro->quantity,
+                    'subtotal' => $carro->subtotal,
+                    'percent' => $carro->percent,
+                    'discount' => $carro->discount,
+                    'total' => $carro->total,
+                    'date' => date('Y-m-d H:i:s'),
+                ]);
+                $inventario = Inventory::find($carro->inventory_id);
+                $inventario->update([
+                    'stock' => $inventario->stock + $carro->quantity
+                ]);
+                $carro->delete();
+            }
+            DB::commit();
+            return response()->json([
+                'status' => 200,
+                'mensaje' => "Todo bien"
+            ]);
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            return $th;
+        }
     }
 
     /**

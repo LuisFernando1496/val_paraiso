@@ -2,6 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Client;
+use App\Models\Expense;
+use App\Models\Office;
+use App\Models\Sale;
+use App\Models\Transfer;
+use App\Models\User;
+use App\Models\VendorHasProduct;
+use App\Models\Warehouse;
+use DateTime;
 use Illuminate\Http\Request;
 
 class ReportController extends Controller
@@ -13,7 +22,11 @@ class ReportController extends Controller
      */
     public function index()
     {
-        //
+        $sucursales = Office::all();
+        $usuarios = User::all();
+        $almacenes = Warehouse::all();
+        $clientes = Client::all();
+        return view('reports.index',compact('sucursales','usuarios','almacenes','clientes'));
     }
 
     /**
@@ -34,7 +47,53 @@ class ReportController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        //return $request;
+        $fechaI = $request->dateI;
+        $fechaF = $request->dateF;
+        switch ($request->type) {
+            case 'General':
+                $transferencias = Transfer::whereBetween('created_at',[$fechaI,$fechaF])->groupBy('warehouse_id')->get();
+                return $transferencias;
+                $productos = VendorHasProduct::whereBetween('updated_at',[$fechaI,$fechaF])->get();
+                $ventas = Sale::whereBetween('created_at',[$fechaI,$fechaF])->get();
+                $compras = Expense::whereBetween('created_at',[$fechaI,$fechaF])->get();
+                $clientes = Client::whereBetween('created_at',[$fechaI,$fechaF])->get();
+                break;
+            case 'Sucursales':
+                # code...
+                break;
+            case 'Almacen':
+                # code...
+                break;
+            case 'Inventario':
+                # code...
+                break;
+            case 'Clientes':
+                # code...
+                break;
+            case 'Personal':
+                # code...
+                break;
+            case 'Servicios':
+                # code...
+                break;
+            case 'Ventas':
+                # code...
+                break;
+            default:
+                # code...
+                break;
+        }
+
+        switch ($request->metodo) {
+            case 'imprimir':
+                return view('reports.general',compact('transferencias','productos','ventas','compras','clientes'));
+                break;
+            case 'pdf':
+                break;
+            case 'excel':
+                break;
+        }
     }
 
     /**

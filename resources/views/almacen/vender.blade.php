@@ -377,6 +377,27 @@
             });
         });
 
+        $('#buy').on('click',function(){
+            const data = {
+                warehouse_id: $('#warehouse').val(),
+                subtotal: $('#subtotal').val(),
+                percent: $('#discount').val(),
+                discount: $('#descuentoprecio').val(),
+                total: $('#total').val(),
+                method: $('#metodo-pay').children('option:selected').val(),
+            };
+            $.post('compras',data,function(response){
+                const status = response['status'];
+                console.log(response);
+                if (status == 200) {
+                    location.reload();
+                }
+                else {
+                    alert('Error');
+                }
+            });
+        });
+
     </script>
 @endsection
 
