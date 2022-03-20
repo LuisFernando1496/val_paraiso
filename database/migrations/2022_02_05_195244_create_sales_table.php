@@ -22,6 +22,7 @@ class CreateSalesTable extends Migration
             $table->decimal('percent',8,2);
             $table->string('method');
             $table->unsignedBigInteger('client_id');
+            $table->boolean('status')->default(true);
             $table->foreign('client_id')->references('id')->on('clients');
             $table->unsignedBigInteger('user_cash_id');
             $table->foreign('user_cash_id')->references('id')->on('user_has_cash_registers');

@@ -2,28 +2,40 @@
 
 namespace App\Http\Controllers;
 
+
+use App\Models\Client;
+use App\Models\Credit;
+use App\Models\SaleHasCredit;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class CreditController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    function __construct()
+    {
+        $this->middleware('permission:ver-creditos|crear-creditos|editar-creditos|borrar-creditos',['only'=>['index']]);
+        $this->middleware('permission:crear-creditos',['only'=>['create','store']]);
+        $this->middleware('permission:editar-creditos',['only'=>['edit','update']]);
+        $this->middleware('permission:borrar-creditos',['only'=>['destroy']]);
+    }
     public function index()
     {
-        //
+        $creditos = Credit::orderBy('id','DESC')->paginate(5);
+        return view('creditos.index',compact('creditos'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    public function historialCompras(Client $client)
+    {
+        $clientShop = SaleHasCredit::join('credits','sale_has_credits.credit_id','credits.id')
+        ->where('credits.client_id',$client->id)->get();
+        return $clientShop[0]->credit;
+    }
+
     public function create()
     {
-        //
+        $user = auth()->user();
+        $clientes = getClients($user);
+        return view('creditos.crear', compact('clientes'));
     }
 
     /**
@@ -34,7 +46,20 @@ class CreditController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request,[
+            'amount' => 'required|numeric',
+        ]);
+        try {
+            DB::beginTransaction();
+            $request['available'] = $request->amount;
+            Credit::create($request->all());
+            DB::commit();
+            return redirect()->route('creditos.index');
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            return $th;
+        }
+       
     }
 
     /**
