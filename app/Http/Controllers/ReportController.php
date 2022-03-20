@@ -52,8 +52,7 @@ class ReportController extends Controller
         $fechaF = $request->dateF;
         switch ($request->type) {
             case 'General':
-                $transferencias = Transfer::join('warehouses','warehouses.id','=','transfers.warehouse_id')
-                ->select('transfers.*')->whereBetween('created_at',[$fechaI,$fechaF])->groupBy('transfers.warehouse_id')->get();
+                $transferencias = Transfer::whereBetween('created_at',[$fechaI,$fechaF])->get();
                 return $transferencias;
                 $productos = VendorHasProduct::whereBetween('updated_at',[$fechaI,$fechaF])->get();
                 $ventas = Sale::whereBetween('created_at',[$fechaI,$fechaF])->get();
