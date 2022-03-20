@@ -44,7 +44,11 @@ class SellController extends Controller
             $servicios = Service::all();
            $clientes = Client::select(DB::raw("CONCAT(clients.name,' ',clients.last_name,' ',clients.second_last_name)As name"),'clients.id')->pluck('name','id');
         }
+<<<<<<< HEAD
        // return $clientes;
+=======
+        //return $clientes;
+>>>>>>> 4fa82ebd7cead08efab0a062a3d6368834a79270
         return view('vender.vender',compact('usercajas','carrito','productos','user','clientes','servicios'));
     }
     /**
