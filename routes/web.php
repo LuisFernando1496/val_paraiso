@@ -25,6 +25,7 @@ use App\Http\Controllers\TrolleyController;
 use App\Http\Controllers\UserCashController;
 use App\Http\Controllers\VendorController;
 use App\Http\Controllers\WarehouseController;
+use Illuminate\Support\Facades\Auth;
 
 /*
 |--------------------------------------------------------------------------
@@ -41,15 +42,15 @@ Route::get('/', function () {
     return redirect()->route('login');
 });
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+// Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-Auth::routes();
+// Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+// Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+// Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-Auth::routes();
+ Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
@@ -64,6 +65,7 @@ Route::group(['middleware' => ['auth']], function(){
     Route::resource('cotizaciones',QuoteController::class);
     Route::get('cotizaciones/{id}/imprimir',[QuoteController::class,'imprimir'])->name('cotizaciones.imprimir');
     Route::resource('creditos',CreditController::class);
+    Route::get('creditos/historial-compras/{client}',[CreditController::class,'historialCompras'])->name('historyShop');
     Route::controller(InventoryController::class)->group(function(){
         Route::get('inventario','index')->name('inventario.index');
         Route::get('inventario/{id}','show')->name('inventario.show');

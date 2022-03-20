@@ -30,4 +30,7 @@ class Client extends Model
     {
         return $this->belongsTo(Office::class,'office_id');
     }
+    public function fullname(){
+        return ucwords("{$this->name} {$this->last_name} {$this->second_last_name}");
+    }
 }

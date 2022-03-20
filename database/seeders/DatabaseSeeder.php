@@ -14,17 +14,15 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        SeederTablaPermisos::class;
-        Client::create([
-            'name' => 'Cliente',
-            'last_name' => 'en',
-            'second_last_name' => 'general',
+       
+        // Client::create([
+        //     'name' => 'Cliente',
+        //     'last_name' => 'en',
+        //     'second_last_name' => 'general',
             
-        ]);
+        // ]);
         // \App\Models\User::factory(10)->create();
-        //$this->call([ AddressSideers::class,
-        //BussinesSideers::class,
-        //OficceSideers::class,
-        //]);
+        $this->call([  SeederTablaPermisos::class
+        ]);
     }
 }

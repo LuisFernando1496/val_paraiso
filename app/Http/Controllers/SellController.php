@@ -37,13 +37,14 @@ class SellController extends Controller
             $productos = Product::join('vendor_has_products','vendor_has_products.product_id','=','products.id')
             ->join('vendors','vendors.id','=','vendor_has_products.vendor_id')->select('products.*')->where('vendors.office_id','=',$user->office_id)->get();
             $servicios = Service::where('office_id','=',$user->office_id)->get();
-            $clientes = Client::where('office_id','=',$user->office_id)->select(DB::raw("CONCAT(clients.name,' ',clients.last_name,' ',clients.second_last_name)As name"),'clients.id')->pluck('name','id');
+           $clientes = Client::where('office_id','=',$user->office_id)->select(DB::raw("CONCAT(clients.name,' ',clients.last_name,' ',clients.second_last_name)As name"),'clients.id')->pluck('name','id');
         }
         else {
             $productos = Product::all();
             $servicios = Service::all();
-            $clientes = Client::select(DB::raw("CONCAT(clients.name,' ',clients.last_name,' ',clients.second_last_name)As name"),'clients.id')->pluck('name','id');
+           $clientes = Client::select(DB::raw("CONCAT(clients.name,' ',clients.last_name,' ',clients.second_last_name)As name"),'clients.id')->pluck('name','id');
         }
+       // return $clientes;
         return view('vender.vender',compact('usercajas','carrito','productos','user','clientes','servicios'));
     }
     /**

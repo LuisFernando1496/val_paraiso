@@ -51,4 +51,7 @@ class User extends Authenticatable
     {
         return $this->belongsTo(Office::class);
     }
+    public function fullname(){
+        return ucwords("{$this->name} {$this->last_name} {$this->second_last_name}");
+    }
 }

@@ -211,7 +211,7 @@
                                                 <select name="client_id" id="clientes" class="form-control">
                                                     <option value="general">Cliente en general</option>
                                                     @forelse ($clientes as $cliente)
-                                                        <option value="{{ $cliente->id }}">{{ $cliente->name }}</option>
+                                                        <option value="{{ $cliente->id }}">{{ $cliente->fullname() }}</option> 
                                                     @empty
 
                                                     @endforelse
