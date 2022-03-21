@@ -40,8 +40,12 @@ class Sale extends Model
         return $this->hasMany(SaleHasService::class,'sale_id','id');
     }
 
+    // public function credits()
+    // {
+    //     return $this->hasMany(SaleHasCredit::class,'sale_id','id');
+    // }
     public function credits()
     {
-        return $this->hasMany(SaleHasCredit::class,'sale_id','id');
+        return $this->belongsToMany(Credit::class,'sale_has_credits');
     }
 }

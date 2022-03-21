@@ -22,4 +22,9 @@ class SaleHasCredit extends Model
     {
         return $this->belongsTo(Credit::class,'id','credit_id');
     }
+
+    public function payments()
+    {
+        return $this->hasMany(Payment::class);
+    }
 }

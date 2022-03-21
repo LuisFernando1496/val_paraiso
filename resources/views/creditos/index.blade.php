@@ -19,7 +19,7 @@
                                     <th style="color: #fff;">Cantidad de credito</th>
                                     <th style="color: #fff;">Credito disponible</th>
                                     <th style="color: #fff;">Fecha</th>
-                                    <th></th>
+                                    <th colspan="3"> </th>
                                 </thead>
                                 <tbody>
                                     @forelse ($creditos as $credito)
@@ -34,10 +34,14 @@
                                                     <a href="{{ route('historyShop',$credito->client) }}" class="btn btn-info">ver compras</a>
                                                    
                                                     @endcan
-                                                    @can('editar-creditos')
+                                            </td>
+                                            <td>
+                                            @can('editar-creditos')
                                                     <a href="{{ route('creditos.edit',$credito->id) }}" class="btn btn-warning">Editar</a>
                                                     @endcan
-                                                    @can('borrar-creditos')
+                                            </td>
+                                            <td>
+                                            @can('borrar-creditos')
                                                     {!! Form::open(['method' => 'DELETE', 'route' => ['creditos.destroy',$credito->id], 'style' => 'display:inline']) !!}
                                                         {!! Form::submit('Borrar', ['class' => 'btn btn-danger']) !!}
                                                     {!! Form::close() !!}

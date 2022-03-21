@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Client;
 use App\Models\Credit;
+use App\Models\Payment;
 use App\Models\SaleHasCredit;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -26,11 +27,37 @@ class CreditController extends Controller
 
     public function historialCompras(Client $client)
     {
-        $clientShop = SaleHasCredit::join('credits','sale_has_credits.credit_id','credits.id')
-        ->where('credits.client_id',$client->id)->get();
-        return $clientShop[0]->credit;
+        // $venta = SaleHasCredit::join('credits','sale_has_credits.credit_id','credits.id')
+        //  ->join('sales','sale_has_credits.sale_id','sales.id')
+        //  ->join('payments','sale_has_credits.id','=','payments.sale_has_credit_id')
+        //  ->where('credits.client_id',$client->id)->orderByDesc('payments.id')->first();
+        // $clientShop = SaleHasCredit::join('credits','sale_has_credits.credit_id','credits.id')
+        //  ->join('sales','sale_has_credits.sale_id','sales.id')
+        //  ->join('payments','sale_has_credits.id','=','payments.sale_has_credit_id')
+        //  ->where('credits.client_id',$client->id)->paginate(5);
+        $clientShop = Credit::where('client_id',$client->id)->with('sales')->get(); 
+      return $clientShop;
+        return view('creditos.comprasClientes',compact('clientShop','client'));
+      
     }
 
+    public function abonoCredit(Request $request, $id)
+    {
+        $payment = Payment::where('sale_has_credit_id',$id)->first();
+        $newAmount = $payment->amount + $request->amount;
+        if($newAmount > $payment->remaining){
+            return 'es mucho';
+        }
+        else{
+             $abono = Payment::create([
+                 'amount' => $newAmount,
+                 'remaining' => $payment->remaining - $newAmount,
+                 'sale_has_credit_id' => $id
+             ]);
+        }
+        
+        return 'se abono';
+    }
     public function create()
     {
         $user = auth()->user();

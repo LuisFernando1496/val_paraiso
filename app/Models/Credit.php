@@ -18,4 +18,9 @@ class Credit extends Model
     {
         return $this->belongsTo(Client::class);
     }
+
+    public function sales()
+    {
+        return $this->belongsToMany(Sale::class,'sale_has_credits');
+    }
 }
