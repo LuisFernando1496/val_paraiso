@@ -17,8 +17,10 @@ class CreatePaymentsTable extends Migration
             $table->id();
             $table->decimal('amount',8,2);
             $table->decimal('remaining',8,2);
-            $table->unsignedBigInteger('sale_has_credit_id');
-            $table->foreign('sale_has_credit_id')->references('id')->on('sale_has_credits');
+            $table->unsignedBigInteger('sale_id');
+            $table->foreign('sale_id')->references('id')->on('sales');
+            $table->unsignedBigInteger('client_id');
+            $table->foreign('client_id')->references('id')->on('clients');
             $table->timestamps();
         });
     }

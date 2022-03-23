@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 use App\Models\Client;
 use App\Models\Credit;
 use App\Models\Payment;
+use App\Models\Sale;
 use App\Models\SaleHasCredit;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -27,36 +28,47 @@ class CreditController extends Controller
 
     public function historialCompras(Client $client)
     {
-        // $venta = SaleHasCredit::join('credits','sale_has_credits.credit_id','credits.id')
-        //  ->join('sales','sale_has_credits.sale_id','sales.id')
-        //  ->join('payments','sale_has_credits.id','=','payments.sale_has_credit_id')
-        //  ->where('credits.client_id',$client->id)->orderByDesc('payments.id')->first();
-        // $clientShop = SaleHasCredit::join('credits','sale_has_credits.credit_id','credits.id')
-        //  ->join('sales','sale_has_credits.sale_id','sales.id')
-        //  ->join('payments','sale_has_credits.id','=','payments.sale_has_credit_id')
-        //  ->where('credits.client_id',$client->id)->paginate(5);
-        $clientShop = Credit::where('client_id',$client->id)->with('sales')->get(); 
-      return $clientShop;
+        $clientShop = Sale::where('client_id',$client->id)->with('payments')->orderBy('id','DESC')->paginate(5);
+    // return $clientShop;
         return view('creditos.comprasClientes',compact('clientShop','client'));
       
     }
 
     public function abonoCredit(Request $request, $id)
     {
-        $payment = Payment::where('sale_has_credit_id',$id)->first();
-        $newAmount = $payment->amount + $request->amount;
-        if($newAmount > $payment->remaining){
-            return 'es mucho';
-        }
-        else{
-             $abono = Payment::create([
-                 'amount' => $newAmount,
-                 'remaining' => $payment->remaining - $newAmount,
-                 'sale_has_credit_id' => $id
-             ]);
-        }
+        $payment = Payment::where('sale_id',$id)->orderBy('id','DESC')->first();
+        $clientCredit = Credit::where('client_id',$payment->client_id)->first();
+        $newAvailable = $clientCredit->available + $request->amount; 
+       
         
-        return 'se abono';
+        try {
+            DB::beginTransaction();
+            if($request->amount > $payment->remaining){
+               
+                return redirect()->route('historyShop',$clientCredit)->with('mensaje','El monto introducido excede el restante');
+            }
+            else{
+               
+                 $abono = Payment::create([
+                    'amount' => $request->amount,
+                    'remaining' => $payment->remaining - $request->amount,
+                     'sale_id' => $payment->sale_id,
+                     'client_id' => $payment->client_id
+                 ]);
+                 $clientCredit->update([
+                    'available' => $newAvailable
+                 ]);
+            } 
+             
+             DB::commit();
+          
+            return redirect()->route('historyShop',$clientCredit)->with('mensaje','El abono se a realisado conexito');
+          
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            return $th;
+        }
+       
     }
     public function create()
     {

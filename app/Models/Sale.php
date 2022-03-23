@@ -48,4 +48,8 @@ class Sale extends Model
     {
         return $this->belongsToMany(Credit::class,'sale_has_credits');
     }
+    public function payments()
+    {
+        return $this->hasMany(Payment::class)->orderBy('id','DESC');
+    }
 }

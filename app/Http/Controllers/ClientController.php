@@ -58,7 +58,7 @@ class ClientController extends Controller
             'curp' => 'required|unique:clients,curp',
             'date' => 'required',
             'office_id' => 'required',
-            'number' => 'required'
+           // 'number' => 'required'
         ]);
         try {
             DB::beginTransaction();

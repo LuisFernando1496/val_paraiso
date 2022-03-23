@@ -23,12 +23,15 @@
                                     <th style="color: #fff;">Total</th>
                                     <th style="color: #fff;">Abono</th>
                                     <th style="color: #fff;">Saldo restante</th>
+                                    <th style="color: #fff;">Saldo anterior</th>
                                     <th style="color: #fff;">Fecha</th>
+                                    <th style="color: #fff;">Abono</th>
                                     <th style="color: #fff;">Detalles</th>
                                     <th style="color: #fff;">Ticket</th>
                                     <th style="color: #fff;">Cancelar</th>
                                 </thead>
                                 <tbody>
+                                    
                                     @forelse ($clientShop as $v=>$venta)
                                         <tr>
                                             
@@ -36,37 +39,62 @@
                                             <td>{{ $venta->folio }} </td>
                                             <td>{{ $venta->method }}</td>
                                             <td>${{ $venta->total }}
-                                                @can('editar-creditos')
-                                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#amounModal{{$venta->id}}">
-                                                    Abonar
-                                                  </button>
-                                                @endcan
                                             </td>
-                                            @if ($venta->amount)
-                                                <td>${{ $venta->amount }}</td>
-                                                <td>${{ $venta->remaining }}</td>
+                                            @if (sizeof($venta->payments))
+                                                @if( $venta->payments[0]->remaining == 0)   
+                                                    <td>Pagado</td>
+                                                    <td>---</td>
+                                                    <td>---</td>
+                                                @else
+                                                <td>${{ $venta->payments[0]->amount }}</td>
+                                                <td>${{ $venta->payments[0]->remaining }}</td>
+                                                <td>${{ $venta->payments[0]->remaining + $venta->payments[0]->amount }}</td>
+                                                
+                                                @endif
                                             @else
-                                                <td>---</td>
-                                                <td>----</td>
+                                             
+                                              <td>Pagado</td>
+                                              <td>--</td>
+                                              <td>---</td>
                                             @endif
 
-
                                             <td>{{ $venta->date }}</td>
+                                            @if (sizeof($venta->payments))
+                                                @if( $venta->payments[0]->remaining != 0)   
+                                                <td> @can('editar-creditos')
+                                                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#amounModal{{$venta->id}}">
+                                                        Abonar
+                                                    </button>
+                                                    @endcan
+                                                </td>
+                                            
+                                            @else
+                                            <td>---</td>
+                                            
+                                            @endif
+                                           
+                                         @else
+                                         
+                                          <td>---</td>
+                                        @endif
+                                          
+                                           
+                                          
                                             <td>
                                                 @can('ver-ventas')
-                                                    <a href="{{ route('ventas.show', $venta->sale_id) }}"
+                                                    <a href="{{ route('ventas.show', $venta->id) }}"
                                                         class="btn btn-info">Detalles</a>
                                                 @endcan
                                             </td>
                                             <td>
                                                 @can('ver-ventas')
-                                                    <a href="{{ route('ventas.ticket', $venta->sale_id) }}" target="blank"
+                                                    <a href="{{ route('ventas.ticket', $venta->id) }}" target="blank"
                                                         class="btn btn-primary">Ticket</a>
                                                 @endcan
                                             </td>
                                             <td>
                                                 @can('borrar-ventas')
-                                                    {!! Form::open(['method' => 'DELETE', 'route' => ['ventas.destroy', $venta->sale_id], 'style' => 'display:inline']) !!}
+                                                    {!! Form::open(['method' => 'DELETE', 'route' => ['ventas.destroy', $venta->id], 'style' => 'display:inline']) !!}
                                                     {!! Form::submit('Cancelar', ['class' => 'btn btn-danger']) !!}
                                                     {!! Form::close() !!}
                                                 @endcan
@@ -95,7 +123,7 @@
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                {!! Form::open(array('route' => ['abonoCredit',3], 'method' => 'POST')) !!}
+                {!! Form::open(array('route' => ['abonoCredit',$venta->id], 'method' => 'POST')) !!}
                 <div class="row">
                     <div class="col-xs-12 col-sm-12 col-md-12">
                         <div class="form-group">

@@ -11,11 +11,22 @@ class Payment extends Model
     protected $fillable = [
         'amount',
         'remaining',
-        'sale_has_credit_id'
+        'sale_id',
+        'client_id'
     ];
 
     public function salecredit()
     {
         return $this->belongsTo(SaleHasCredit::class);
+    }
+
+    public function sales()
+    {
+        return $this->belongsTo(Sale::class,'sale_id','id');
+    }
+
+    public function clients()
+    {
+        return $this->belongsTo(Client::class,'client_id','id');
     }
 }

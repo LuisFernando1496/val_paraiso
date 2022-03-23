@@ -190,7 +190,8 @@ class SaleController extends Controller
                             $pago = new Payment();
                             $pago->amount = $abono;
                             $pago->remaining = $total - $abono;
-                            $pago->sale_has_credit_id = $salecredit->id;
+                            $pago->sale_id = $venta->id;
+                            $pago->client_id = $venta->client_id;
                             $pago->save();
                             foreach ($carrito as $item) {
                                 if ($item->cost_price_id != null) {
