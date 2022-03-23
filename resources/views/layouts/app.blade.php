@@ -15,7 +15,7 @@
     <link href="{{ asset('assets/css/sweetalert.css') }}" rel="stylesheet" type="text/css"/>
     <link href="{{ asset('assets/css/select2.min.css') }}" rel="stylesheet" type="text/css"/>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-   
+
 @yield('page_css')
 <!-- Template CSS -->
     <link rel="stylesheet" href="{{ asset('web/css/style.css') }}">
@@ -24,7 +24,7 @@
 
     @yield('css')
 </head>
-<body>
+<body class="sidebar-mini">
 
 <div id="app">
     <div class="main-wrapper main-wrapper-1">
