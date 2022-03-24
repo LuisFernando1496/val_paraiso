@@ -69,7 +69,11 @@
                                                 </td>
                                             
                                             @else
-                                            <td>---</td>
+                                            <td>@can('editar-creditos')
+                                                <button type="button" class="btn btn-primary" onclick="comprobante(id = {{$venta->id}})" >
+                                                    Descargar comprobante
+                                                </button>
+                                                @endcan</td>
                                             
                                             @endif
                                            
@@ -116,14 +120,16 @@
     </section>
     @forelse ($clientShop as $venta)
     <div class="modal fade" id="amounModal{{$venta->id}}" tabindex="-1" aria-labelledby="amounModal{{$venta->id}}Label" aria-hidden="true">
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="amounModal{{$venta->id}}Label">Folio: {{$venta->folio}}</h5>
-              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
+        <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">{{$venta->folio}}</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
             <div class="modal-body">
-                {!! Form::open(array('route' => ['abonoCredit',$venta->id], 'method' => 'POST')) !!}
+                {!! Form::open(array('route' => ['abonoCredit',$venta->id], 'method' => 'POST', 'id'=>'formulario','target'=>'ventanaTicket')) !!}
                 <div class="row">
                     <div class="col-xs-12 col-sm-12 col-md-12">
                         <div class="form-group">
@@ -132,12 +138,12 @@
                         </div>
                     </div>
                     </div>
-              
+                    {!! Form::close() !!}
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-              <button type="submit" class="btn btn-primary">Confirmar</button>
-              {!! Form::close() !!}
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              <button type="button" onclick="abonar(event)" class="btn btn-primary">Confirmar</button>
+              
             </div>
           </div>
         </div>
@@ -145,4 +151,18 @@
       @empty
     @endforelse
    
+    <script>
+        const abonar = (event) =>
+        {
+           event.preventDefault();
+           window.open('','ventanaTicket');
+           document.getElementById('formulario').submit();
+           window.location.reload();
+        }
+        const comprobante = (id) =>
+        {
+            window.open(`/creditos/historial-compras/creditos/comprobante/${id}`);  
+        }
+      
+    </script>
 @endsection

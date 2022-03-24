@@ -63,6 +63,9 @@ class CreditController extends Controller
              
              DB::commit();
           
+             $venta = Sale::where('client_id',$clientCredit->id)->with('payments')->first();
+            return view('creditos.comprobanteAbono',compact('venta'));
+
             return redirect()->route('historyShop',$clientCredit)->with('mensaje','El abono se a realisado conexito');
           
         } catch (\Throwable $th) {
@@ -71,6 +74,14 @@ class CreditController extends Controller
         }
        
     }
+
+    public function comprobante($id)
+    {
+        $venta = Sale::where('id',$id)->with('payments')->first();
+       // return $venta;
+        return view('creditos.comprobanteFinal',compact('venta'));
+    }
+
     public function create()
     {
         $user = auth()->user();
@@ -114,12 +125,7 @@ class CreditController extends Controller
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+   
     public function edit($id)
     {
         $credito = Credit::find($id);
@@ -128,13 +134,7 @@ class CreditController extends Controller
         return view('creditos.editar',compact('credito','clientes'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+    
     public function update(Request $request,$id)
     {
         $credit = Credit::find($id);
@@ -151,12 +151,7 @@ class CreditController extends Controller
       
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+   
     public function destroy($id)
     {
         $credit = Credit::find($id);

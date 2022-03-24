@@ -141,7 +141,7 @@
                             </div>
                          
                             <div class="col-xs-12 col-sm-12 col-md-12">
-                                <a href="{{ route('ventas.index') }}" class="btn btn-warning">Regresar</a>
+                                <a href="{{ route('historyShop', $venta->client_id)}}" class="btn btn-warning">Regresar</a>
                             </div>
                         </div>
                     </div>
