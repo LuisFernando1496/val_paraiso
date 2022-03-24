@@ -10,6 +10,7 @@ use App\Models\Sale;
 use App\Models\SaleHasCredit;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use PhpParser\Node\Stmt\TryCatch;
 
 class CreditController extends Controller
 {
@@ -120,7 +121,10 @@ class CreditController extends Controller
      */
     public function edit($id)
     {
-        //
+        $credito = Credit::find($id);
+        $user = auth()->user(); 
+        $clientes = getClients($user);
+        return view('creditos.editar',compact('credito','clientes'));
     }
 
     /**
@@ -130,9 +134,20 @@ class CreditController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request,$id)
     {
-        //
+        $credit = Credit::find($id);
+        try{
+            DB::beginTransaction();
+            $credit->update($request->all());
+            DB::commit();
+            return redirect()->route('creditos.index')->with('mensaje','Credito editado con exito!!');
+        }
+        catch(\Throwable $th){
+            DB::rollBack();
+            return redirect()->route('creditos.index')->with('mensaje',"Nose pudo editar el credito error: $th !!");;
+        };
+      
     }
 
     /**
