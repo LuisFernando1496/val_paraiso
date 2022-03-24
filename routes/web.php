@@ -65,6 +65,7 @@ Route::group(['middleware' => ['auth']], function(){
     Route::resource('cotizaciones',QuoteController::class);
     Route::get('cotizaciones/{id}/imprimir',[QuoteController::class,'imprimir'])->name('cotizaciones.imprimir');
     Route::resource('creditos',CreditController::class);
+    Route::get('creditos/detalles/abonos/{id}',[CreditController::class,'details'])->name('detalles-abonos');
     Route::get('creditos/historial-compras/{client}',[CreditController::class,'historialCompras'])->name('historyShop');
     Route::post('creditos/abono/{id}',[CreditController::class,'abonoCredit'])->name('abonoCredit');
     Route::controller(InventoryController::class)->group(function(){

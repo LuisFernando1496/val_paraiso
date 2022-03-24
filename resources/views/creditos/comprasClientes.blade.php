@@ -82,7 +82,7 @@
                                           
                                             <td>
                                                 @can('ver-ventas')
-                                                    <a href="{{ route('ventas.show', $venta->id) }}"
+                                                    <a href="{{ route('detalles-abonos', $venta->id) }}"
                                                         class="btn btn-info">Detalles</a>
                                                 @endcan
                                             </td>

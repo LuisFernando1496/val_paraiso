@@ -102,12 +102,13 @@ class CreditController extends Controller
        
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+    public function details($id)
+    {
+        $venta = Sale::where('id',$id)->with('payments')->first();
+        // return $venta;
+        return view('creditos.detailsAbono',compact('venta'));
+    }
+
     public function show($id)
     {
         //
@@ -158,6 +159,16 @@ class CreditController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $credit = Credit::find($id);
+        try{
+            DB::beginTransaction();
+            $credit->delete();
+            DB::commit();
+            return redirect()->route('creditos.index')->with('mensaje','Credito eliminado con exito!!');
+        }
+        catch(\Throwable $th){
+            DB::rollBack();
+            return redirect()->route('creditos.index')->with('mensaje',"Nose pudo eliminar el credito error: $th !!");;
+        };
     }
 }
