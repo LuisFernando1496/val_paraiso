@@ -10,6 +10,7 @@ use App\Models\Sale;
 use App\Models\SaleHasCredit;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use PhpParser\Node\Stmt\TryCatch;
 
 class CreditController extends Controller
 {
@@ -62,6 +63,9 @@ class CreditController extends Controller
              
              DB::commit();
           
+             $venta = Sale::where('client_id',$clientCredit->id)->with('payments')->first();
+            return view('creditos.comprobanteAbono',compact('venta'));
+
             return redirect()->route('historyShop',$clientCredit)->with('mensaje','El abono se a realisado conexito');
           
         } catch (\Throwable $th) {
@@ -70,6 +74,14 @@ class CreditController extends Controller
         }
        
     }
+
+    public function comprobante($id)
+    {
+        $venta = Sale::where('id',$id)->with('payments')->first();
+       // return $venta;
+        return view('creditos.comprobanteFinal',compact('venta'));
+    }
+
     public function create()
     {
         $user = auth()->user();
@@ -101,48 +113,57 @@ class CreditController extends Controller
        
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+    public function details($id)
+    {
+        $venta = Sale::where('id',$id)->with('payments')->first();
+        // return $venta;
+        return view('creditos.detailsAbono',compact('venta'));
+    }
+
     public function show($id)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+   
     public function edit($id)
     {
-        //
+        $credito = Credit::find($id);
+        $user = auth()->user(); 
+        $clientes = getClients($user);
+        return view('creditos.editar',compact('credito','clientes'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
+    
+    public function update(Request $request,$id)
     {
-        //
+        $credit = Credit::find($id);
+        try{
+            DB::beginTransaction();
+            $credit->update($request->all());
+            DB::commit();
+            return redirect()->route('creditos.index')->with('mensaje','Credito editado con exito!!');
+        }
+        catch(\Throwable $th){
+            DB::rollBack();
+            return redirect()->route('creditos.index')->with('mensaje',"Nose pudo editar el credito error: $th !!");;
+        };
+      
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+   
     public function destroy($id)
     {
-        //
+        $credit = Credit::find($id);
+        try{
+            DB::beginTransaction();
+            $credit->delete();
+            DB::commit();
+            return redirect()->route('creditos.index')->with('mensaje','Credito eliminado con exito!!');
+        }
+        catch(\Throwable $th){
+            DB::rollBack();
+            return redirect()->route('creditos.index')->with('mensaje',"Nose pudo eliminar el credito error: $th !!");;
+        };
     }
 }

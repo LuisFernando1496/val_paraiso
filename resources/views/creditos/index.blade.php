@@ -37,7 +37,7 @@
                                             </td>
                                             <td>
                                             @can('editar-creditos')
-                                                    <a href="{{ route('creditos.edit',$credito->id) }}" class="btn btn-warning">Editar</a>
+                                                    <a href="{{ route('creditos.edit',$credito) }}" class="btn btn-warning">Editar</a>
                                                     @endcan
                                             </td>
                                             <td>
