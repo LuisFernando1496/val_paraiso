@@ -95,7 +95,8 @@ Route::group(['middleware' => ['auth']], function(){
     Route::delete('/costos/{id}',[ProductController::class,'costosdelete'])->name('costos.destroy');
     Route::get('/costos/{id}/edit',[ProductController::class,'costosedit'])->name('costos.edit');
     Route::put('/costos/{id}',[ProductController::class,'costosupdate'])->name('costos.update');
-
+    Route::get('/searchp/{busqueda}',[ProductController::class,'search']);
+    Route::get('/searchs/{busqueda}',[ServiceController::class,'search']);
 });
 
 Route::get('/getCategorias/{id}',[CategoryController::class,'getCategorias']);

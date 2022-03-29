@@ -450,6 +450,9 @@
             });
 
         });
+
+
+
         function cambiocantidad(valores,ide) {
             const valor = valores;
             const id = ide;
@@ -639,6 +642,13 @@
             } else {
                 $('#new-cliente').attr('hidden',true);
             }
+        });
+
+        $('#search').keyup(function(){
+            var busqueda = $(this).val();
+            $.get('/searchp/'+busqueda,function(response){
+                console.log(response['data']);
+            });
         });
     </script>
 @endsection

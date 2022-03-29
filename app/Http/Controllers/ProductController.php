@@ -210,4 +210,13 @@ class ProductController extends Controller
         $costo->delete();
         return redirect()->route('productos.index');
     }
+
+    public function search($busqueda)
+    {
+        $productos = Product::where('bar_code','LIKE',"%$busqueda%")->orWhere('name','LIKE',"%$busqueda%")->get();
+        return response()->json([
+            'status' => 200,
+            'data' => $productos
+        ]);
+    }
 }
