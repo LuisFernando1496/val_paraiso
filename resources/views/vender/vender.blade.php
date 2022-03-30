@@ -88,7 +88,7 @@
                                                         <th style="color: #fff;">Codigo</th>
                                                         <th style="color: #fff;">Servicio</th>
                                                         <th style="color: #fff;">Precio</th>
-                                                        <th style="color: #fff;">Agregar</th>
+                                                        <th style="color: #fff;"></th>
                                                     </thead>
                                                     <tbody>
                                                         @forelse ($servicios as $servicio)
@@ -154,7 +154,7 @@
                                                                         {!! Form::number('total', $total, array('class' => 'form-control','id' => 'total'.$item->id)) !!}
                                                                     </td>
                                                                     <td>
-                                                                        <button class="btn btn-danger quitar" data-id="{{$item->id}}" type="button">Quitar</button>
+                                                                        <button class="btn btn-danger quitar" data-id="{{$item->id}}" onclick="eliminar(ide= {{$item->id}})" type="button">Quitar</button>
                                                                     </td>
                                                                 </tr>
                                                             @else
@@ -179,7 +179,7 @@
                                                                         {!! Form::number('total', $total, array('class' => 'form-control','id' => 'total'.$item->id)) !!}
                                                                     </td>
                                                                     <td>
-                                                                        <button class="btn btn-danger quitar" data-id="{{$item->id}}" type="button">Quitar</button>
+                                                                        <button class="btn btn-danger quitar" onclick="eliminar(ide= {{$item->id}})"  data-id="{{$item->id}}" type="button">Quitar</button>
                                                                     </td>
                                                                 </tr>
                                                             @endif
@@ -300,7 +300,7 @@
             </div>
         </div>
     </section>
-    <script>
+    <script> 
         $(document).ready(function () {
             var divpro = false;
             var divser = false;
@@ -373,6 +373,7 @@
             });
 
             $('.costos').on('change',function(){
+                loading();
                 var id = $(this).children("option:selected").val();
                 var data = {
                     user_cash_id: $('#usercajas').val(),
@@ -386,12 +387,19 @@
                     status = response['status'];
                     if (status == 200) {
                         $("#refresh").load(" #refresh");
-                        $('#divtotales').load(" #divtotales");
-                    }
+                        $('#divtotales').load(" #divtotales"); 
+                        
+                    } 
+                    setTimeout(function(){
+                        Swal.close();
+                    },3000);
+                   
                 });
+               
             });
 
             $('.add').on('click',function(){
+                loading();
                 var id = $(this).data('id');
                 var data = {
                     user_cash_id: $('#usercajas').val(),
@@ -406,11 +414,16 @@
                     if (status == 200) {
                         $("#refresh").load(" #refresh");
                         $('#divtotales').load(" #divtotales");
+                       
                     }
+                    setTimeout(function(){
+                        Swal.close();
+                    },3000);
                 });
             });
 
             $('.quantity').on('change',function(){
+                loading();
                 const valor = $(this).val();
                 const id = $(this).data('id');
                 const precio = $('#precio'+id).val();
@@ -428,7 +441,7 @@
                 }).then(function(data){
                     var status = data['status'];
                     if (status != 200) {
-
+                        Swal.close();
                     }
                     else {
                         $("#refresh").load(" #refresh");
@@ -438,6 +451,7 @@
             });
 
             $('.percent').on('change',function(){
+                loading();
                 const valor = $(this).val();
                 const id = $(this).data('id');
                 const precio = $('#precio'+id).val();
@@ -447,13 +461,15 @@
                 $('#total'+id).val(total);
                 $('#subtotal').val(total);
                 $('#total').val(total);
+                Swal.close();
             });
 
         });
 
-
+        
 
         function cambiocantidad(valores,ide) {
+            loading();
             const valor = valores;
             const id = ide;
             const precio = $('#precio'+id).val();
@@ -471,16 +487,19 @@
             }).then(function(data){
                 const status = data['status'];
                 if (status != 200) {
-
+                    Swal.close();
                 }
                 else {
+                    Swal.close();
                     $("#refresh").load(" #refresh");
                     $('#divtotales').load(" #divtotales");
+
                 }
             });
         }
 
         function cambiopercent(valores,ide) {
+            loading();
             const valor = valores;
             const id = ide;
             const precio = $('#precio'+id).val();
@@ -500,37 +519,19 @@
             }).then(function(data){
                 const status = data['status'];
                 if (status != 200) {
-
+                    Swal.close();
                 }
                 else {
+                    Swal.close();
                     $("#refresh").load(" #refresh");
                     $('#divtotales').load(" #divtotales");
                 }
             });
         }
 
-        $('.quitar').on('click',function(){
-            const id = $(this).data('id');
-            eliminar(id);
-        });
+       
 
-        function eliminar(ide)
-        {
-            const id = ide;
-            $.ajax({
-                type: "DELETE",
-                url: "/vender/"+id,
-            }).then(function(data){
-                const status = data['status'];
-                if (status != 200) {
-
-                } else {
-                    $("#refresh").load(" #refresh");
-                    $('#divtotales').load(" #divtotales");
-                }
-            });
-        }
-
+       
         function tipoventa()
         {
             console.log("cambio");
@@ -650,6 +651,36 @@
                 console.log(response['data']);
             });
         });
+        // $('.quitar').on('click',function(){
+            
+        //     const id = $(this).data('id');
+        //     eliminar(id);
+           
+        // });
+        function eliminar(ide)
+        {
+            loading();
+            const id = ide;
+            $.ajax({
+                type: "DELETE",
+                url: "/vender/"+id,
+            }).then(function(data){
+                const status = data['status'];
+                if (status != 200) {
+                    Swal.close();
+                } else {
+                    
+                    $("#refresh").load(" #refresh");
+                    $('#divtotales').load(" #divtotales");
+                   
+                }
+              setTimeout(() => {
+                Swal.close();
+              }, 3000);  
+            });
+           
+        }
+
     </script>
 @endsection
 

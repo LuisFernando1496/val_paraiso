@@ -57,7 +57,7 @@
 <script src="{{ asset('assets/js/iziToast.min.js') }}"></script>
 <script src="{{ asset('assets/js/select2.min.js') }}"></script>
 <script src="{{ asset('assets/js/jquery.nicescroll.js') }}"></script>
-
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <!-- Template JS File -->
 <script src="{{ asset('web/js/stisla.js') }}"></script>
 <script src="{{ asset('web/js/scripts.js') }}"></script>
@@ -66,6 +66,17 @@
 @yield('page_js')
 @yield('scripts')
 <script>
+     const loading = () => {
+            Swal.fire({
+                    title: 'Cargando...',
+                    text: 'Espere por favor...',
+                    allowOutsideClick:false,
+                    didOpen: () => 
+                    {
+                        Swal.showLoading()
+                    }
+                });
+        }
     let loggedInUser =@json(\Illuminate\Support\Facades\Auth::user());
     let loginUrl = '{{ route('login') }}';
     const userUrl = '{{url('users')}}';
