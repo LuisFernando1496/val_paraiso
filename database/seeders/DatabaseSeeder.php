@@ -22,7 +22,11 @@ class DatabaseSeeder extends Seeder
             
         // ]);
         // \App\Models\User::factory(10)->create();
-        $this->call([  SeederTablaPermisos::class
-        ]);
+        $this->call([  
+            SeederTablaPermisos::class,
+            UserSideers::class,
+            
+            ])
+        ;
     }
 }

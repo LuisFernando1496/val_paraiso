@@ -78,6 +78,11 @@
         <i class="fab fa-bitcoin"></i><span>Cotizaciones</span>
     </a>
 </li>
+<li class="side-menus {{ Request::is('gastos') ? 'active' : '' }}">
+    <a href="{{ route('expenses.index') }}" class="nav-link">
+        <i class="fas fa-share"></i><span>Gastos</span>
+    </a>
+</li>
 <li class="side-menus {{ Request::is('reportes') ? 'active' : '' }}">
     <a href="{{ route('reportes.index') }}" class="nav-link">
         <i class="fas fa-chart-pie"></i><span>Reportes</span>

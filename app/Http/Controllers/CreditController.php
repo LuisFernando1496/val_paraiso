@@ -23,7 +23,8 @@ class CreditController extends Controller
     }
     public function index()
     {
-        $creditos = Credit::orderBy('id','DESC')->paginate(5);
+        $user = Auth()->user();
+        $creditos = getDataModels($user, Credit::class);
         return view('creditos.index',compact('creditos'));
     }
 
@@ -85,7 +86,7 @@ class CreditController extends Controller
     public function create()
     {
         $user = auth()->user();
-        $clientes = getClients($user);
+        $clientes = getDataModels($user, Client::class);
         return view('creditos.crear', compact('clientes'));
     }
 
@@ -130,7 +131,7 @@ class CreditController extends Controller
     {
         $credito = Credit::find($id);
         $user = auth()->user(); 
-        $clientes = getClients($user);
+        $clientes = getDataModels($user, Client::class);
         return view('creditos.editar',compact('credito','clientes'));
     }
 

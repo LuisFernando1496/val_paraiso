@@ -44,7 +44,11 @@ class SeederTablaPermisos extends Seeder
             'editar-creditos',
             'crear-creditos',
             'borrar-creditos',
-            //
+            //tabla de gastos
+            'ver-gastos',
+            'editar-gastos',
+            'crear-gastos',
+            'borrar-gastos',
 
         ];
 

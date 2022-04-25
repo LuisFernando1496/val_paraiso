@@ -12,6 +12,8 @@ use App\Http\Controllers\CashRegisterController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\CreditController;
+use App\Http\Controllers\ExpenseController;
+use App\Http\Controllers\ExpenseSaleController;
 use App\Http\Controllers\InventoryController;
 use App\Http\Controllers\OfficeController;
 use App\Http\Controllers\ProductController;
@@ -99,6 +101,7 @@ Route::group(['middleware' => ['auth']], function(){
     Route::put('/costos/{id}',[ProductController::class,'costosupdate'])->name('costos.update');
     Route::get('/searchp/{busqueda}',[ProductController::class,'search']);
     Route::get('/searchs/{busqueda}',[ServiceController::class,'search']);
+    Route::get('/gastos',[ExpenseController::class,'index'])->name('expenses.index');
 });
 
 Route::get('/getCategorias/{id}',[CategoryController::class,'getCategorias']);

@@ -13,11 +13,17 @@ class Expense extends Model
         'description',
         'total',
         'date',
-        'user_id'
+        'user_id',
+        'office_id',
     ];
 
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function office()
+    {
+        return $this->belongsTo(Office::class);
     }
 }

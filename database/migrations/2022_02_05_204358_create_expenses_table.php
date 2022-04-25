@@ -21,6 +21,8 @@ class CreateExpensesTable extends Migration
             $table->date('date');
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users');
+            $table->unsignedBigInteger('office_id');
+            $table->foreign('office_id')->references('id')->on('offices');
             $table->timestamps();
         });
     }

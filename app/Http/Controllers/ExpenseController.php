@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Expense;
 use Illuminate\Http\Request;
 
 class ExpenseController extends Controller
@@ -13,7 +14,10 @@ class ExpenseController extends Controller
      */
     public function index()
     {
-        //
+        $user = Auth()->user();
+        $expenses = getDataModels($user, Expense::class);
+        return $expenses;
+        return view('expenses.index',compact('expenses'));
     }
 
     /**
