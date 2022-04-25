@@ -3,20 +3,24 @@
 namespace App\Http\Controllers;
 
 use App\Models\Expense;
+use App\Models\Office;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ExpenseController extends Controller
-{
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+{ function __construct()
+    {
+        $this->middleware('permission:ver-gastos|crear-gastos|editar-gastos|borrar-gastos',['only'=>['index','show']]);
+        $this->middleware('permission:crear-gastos',['only'=>['create','store']]);
+        $this->middleware('permission:editar-gastos',['only'=>['edit','update']]);
+        $this->middleware('permission:borrar-gastos',['only'=>['destroy']]);
+    }
     public function index()
     {
         $user = Auth()->user();
         $expenses = getDataModels($user, Expense::class);
-        return $expenses;
+     //  return $expenses;
         return view('expenses.index',compact('expenses'));
     }
 
@@ -27,7 +31,10 @@ class ExpenseController extends Controller
      */
     public function create()
     {
-        //
+        $user = Auth()->user();
+        $offices = getDataModels($user, Office::class);
+       // return $offices;
+        return view('expenses.create',compact('offices'));
     }
 
     /**
@@ -38,7 +45,22 @@ class ExpenseController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $date = Carbon::now();
+        
+        $request['date'] = $date;
+        $request['user_id'] = Auth()->user()->id;
+        try
+        {
+            DB::beginTransaction();
+            $expense = Expense::create($request->all());
+            DB::commit();
+            return redirect()->route('expenses.index')->with('success','Gasto creado correctamente');
+        }catch(\Exception $e)
+        {
+            DB::rollback();
+            return redirect()->route('expenses.create')->with('error','Error al guardar el gasto');
+        }
+      
     }
 
     /**
@@ -58,9 +80,11 @@ class ExpenseController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Expense $expense)
     {
-        //
+        $user = Auth()->user();
+        $offices = getDataModels($user, Office::class);
+        return view('expenses.editar',compact('expense','offices'));
     }
 
     /**
@@ -70,9 +94,22 @@ class ExpenseController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Expense $expense)
     {
-        //
+        $date = Carbon::now();
+        $request['date'] = $date;
+        try
+        {
+            DB::beginTransaction();
+            $expense->update($request->all());
+            DB::commit();
+            return redirect()->route('expenses.index')->with('success','Gasto actualizado correctamente');
+        }catch(\Exception $e)
+        {
+            DB::rollback();
+            return redirect()->route('expenses.edit',$expense->id)->with('error','Error al actualizar el gasto');
+        }
+        
     }
 
     /**
@@ -81,8 +118,20 @@ class ExpenseController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Expense $expense)
     {
-        //
+       // return $expense;
+        try
+        {
+            DB::beginTransaction();
+            $expense->update(['status'=>false]);
+            DB::commit();
+            return redirect()->route('expenses.index')->with('success','Gasto eliminado correctamente');
+        }catch(\Exception $e)
+        {
+            DB::rollback();
+            return redirect()->route('expenses.index')->with('error','Error al eliminar el gasto');
+        }
     }
+    
 }

@@ -47,10 +47,10 @@ function getDataModels($user, $models)
     switch ($models) {
         case 'App\Models\Expense': 
                                 if($acceso == 1){
-                                    $data = $models::pluck('title', 'id');
+                                    $data = $models::where('status',true)->paginate(10);
                                 }else{
-                                    $data = $models::where('office_id', $user->office_id)
-                                    ->pluck('title', 'id');
+                                    $data = $models::where('status',true)->where('office_id', $user->office_id)
+                                    ->paginate(10);
                                 }
                                 return $data;
 
@@ -70,8 +70,18 @@ function getDataModels($user, $models)
                                     $data = $models::join('clients','clients.id','credits.client_id')->where('clients.office_id', $user->office_id)
                                     ->orderBy('credits.id','DESC')->paginate(5);
                                 }
-
                                 return $data;
+        case 'App\Models\Office':
+                                if($acceso == 1){
+                                    $data = $models::join('businesses','businesses.id','=','offices.business_id')
+                                    ->select(DB::raw("CONCAT(offices.name, ' - ',businesses.name) AS name"),'offices.id')->pluck('name','id');
+                                }else{
+                                    $data = $models::join('businesses','businesses.id','=','offices.business_id')
+                                    ->where('offices.id', $user->office_id)
+                                    ->select(DB::raw("CONCAT(offices.name, ' - ',businesses.name) AS name"),'offices.id')->pluck('name','id');
+                                }
+                                return $data;
+                                
         
 
         default:

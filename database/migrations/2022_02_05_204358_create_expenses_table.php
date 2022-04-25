@@ -18,7 +18,8 @@ class CreateExpensesTable extends Migration
             $table->string('title');
             $table->longText('description');
             $table->decimal('total',8,2);
-            $table->date('date');
+            $table->timestamp('date');
+            $table->boolean('status')->default(true);
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users');
             $table->unsignedBigInteger('office_id');

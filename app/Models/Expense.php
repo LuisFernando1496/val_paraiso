@@ -13,6 +13,7 @@ class Expense extends Model
         'description',
         'total',
         'date',
+        'status',
         'user_id',
         'office_id',
     ];

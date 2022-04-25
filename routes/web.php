@@ -101,7 +101,13 @@ Route::group(['middleware' => ['auth']], function(){
     Route::put('/costos/{id}',[ProductController::class,'costosupdate'])->name('costos.update');
     Route::get('/searchp/{busqueda}',[ProductController::class,'search']);
     Route::get('/searchs/{busqueda}',[ServiceController::class,'search']);
+    /////////////////////////*****Gastos**///////////////////////////////////////////////////
     Route::get('/gastos',[ExpenseController::class,'index'])->name('expenses.index');
+    Route::get('/gastos/create',[ExpenseController::class,'create'])->name('expenses.create');
+    Route::post('/gastos',[ExpenseController::class,'store'])->name('expenses.store');
+    Route::get('/gastos/{expense}',[ExpenseController::class,'edit'])->name('expenses.edit');
+    Route::put('/gastos/{expense}',[ExpenseController::class,'update'])->name('expenses.update');
+    Route::delete('/gastos/{expense}',[ExpenseController::class,'destroy'])->name('expenses.destroy');
 });
 
 Route::get('/getCategorias/{id}',[CategoryController::class,'getCategorias']);
