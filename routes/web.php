@@ -6,6 +6,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\RolController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AddressController;
+use App\Http\Controllers\BuscadorController;
 use App\Http\Controllers\BusinessController;
 use App\Http\Controllers\BuyController;
 use App\Http\Controllers\CashRegisterController;
@@ -108,6 +109,8 @@ Route::group(['middleware' => ['auth']], function(){
     Route::get('/gastos/{expense}',[ExpenseController::class,'edit'])->name('expenses.edit');
     Route::put('/gastos/{expense}',[ExpenseController::class,'update'])->name('expenses.update');
     Route::delete('/gastos/{expense}',[ExpenseController::class,'destroy'])->name('expenses.destroy');
+    ///////////////////////////**Buscador **////////////////////////////////////////////////
+    Route::get('/search',[BuscadorController::class,'search']);
 });
 
 Route::get('/getCategorias/{id}',[CategoryController::class,'getCategorias']);

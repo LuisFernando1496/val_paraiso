@@ -11,6 +11,7 @@ use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
@@ -28,7 +29,8 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::paginate(5);
+        $user = Auth::user();
+        $users = User::where('id','!=',$user->id)->paginate(5);
         return view('users.index',compact('users'));
     }
 

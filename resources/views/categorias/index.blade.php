@@ -5,7 +5,21 @@
         <div class="section-header">
             <h3 class="page__heading">Categorias</h3>
         </div>
-        <div class="section-body">
+        <div class="row  d-block">
+            <div class="float-sm-right">
+                <div class="input-group">
+                    <div class="form-outline">
+                        <input type="search" id="search" class="form-control" placeholder="Buscar"/>
+                        <input type="hidden" value="Categorias" id="option" name="option">
+                    </div>
+                    <button type="button" class="btn btn-primary ">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="section-body" style="margin-top: 100px">
             <div class="row">
                 <div class="col-lg-12">
                     <div class="card">
@@ -21,7 +35,7 @@
                                         <th style="color: #fff;">Editar</th>
                                         <th style="color: #fff;">Eliminar</th>
                                     </thead>
-                                    <tbody>
+                                    <tbody id="tableCategorias">
                                         @forelse ($categorias as $categoria)
                                             <tr>
                                                 <td style="display: none;">{{ $categoria->id }}</td>
