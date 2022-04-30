@@ -7,7 +7,7 @@
             <td>${{ number_format($servicio->cost,2,'.',',') }}</td>
             <td>${{ number_format($servicio->price,2,'.',',') }}</td>
             <td>{{ $servicio->description }}</td>
-            <td>{{ $servicio->office->name }}</td>
+            <td>{{ $servicio->office }}</td>
             <td>
                 @can('editar-servicios')
                     <a href="{{ route('servicios.edit',$servicio->id) }}" class="btn btn-info">Editar</a>

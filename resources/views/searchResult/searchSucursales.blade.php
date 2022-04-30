@@ -1,23 +1,23 @@
 <tbody id="tableSucursales">
-    @forelse ($oficinas as $sucursale)
+    @forelse ($oficinas as $sucursal)
         <tr>
-            <td style="display: none;">{{ $sucursale->id}}</td>
-            <td>{{ $sucursale->name }}</td>
-            <td>{{ $sucursale->phone }}</td>
-            <td>{{ $sucursale->responsable }}</td>
-            <td>{{ $sucursale->address->street }} {{ $sucursale->address->number }} {{ $sucursale->address->suburb }}, {{ $sucursale->address->postal_code }}, {{ $sucursale->address->city }}, {{ $sucursale->address->state }}, {{ $sucursale->address->country }}</td>
-            <td>{{ $sucursale->business->name }}</td>
+            <td style="display: none;">{{ $sucursal->id}}</td>
+            <td>{{ $sucursal->name }}</td>
+            <td>{{ $sucursal->phone }}</td>
+            <td>{{ $sucursal->responsable }}</td>
+            <td>{{ $sucursal->address }}.</td>
+            <td>{{ $sucursal->negocio }}</td>
             <td>
-                <a href="{{ route('sucursales.edit',$sucursale) }}" class="btn btn-info">Editar</a>
+                <a href="{{ route('sucursales.edit',$sucursal) }}" class="btn btn-info">Editar</a>
             </td>
             <td>
-                {!! Form::open(['method' => 'DELETE', 'route' => ['sucursales.destroy',$sucursale], 'style' => 'display:inline']) !!}
+                {!! Form::open(['method' => 'DELETE', 'route' => ['sucursales.destroy',$sucursal], 'style' => 'display:inline']) !!}
                     {!! Form::submit('Borrar', ['class' => 'btn btn-danger']) !!}
                 {!! Form::close() !!}
             </td>
         </tr>
     @empty
-        <tr>
+        <tr> 
             <td colspan="8">Sin registros</td>
         </tr>
     @endforelse 

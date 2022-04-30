@@ -76,6 +76,10 @@ const dataView = (option, url) => {
             peticiones(url);
             break;
 
+        case 'Gastos':
+            peticiones(url);
+            break;
+
         default:
             break;
     }

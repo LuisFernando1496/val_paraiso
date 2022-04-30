@@ -4,7 +4,7 @@
             <td style="display: none;">{{ $categoria->id }}</td>
             <td>{{ $categoria->name }}</td>
             <td>{{ $categoria->description }}</td>
-            <td>{{ $categoria->office->name }}</td>
+            <td>{{ $categoria->office }}</td>
             <td>
                 @can('editar-categoria')
                     <a href="{{ route('categorias.edit',$categoria->id) }}" class="btn btn-info">Editar</a>

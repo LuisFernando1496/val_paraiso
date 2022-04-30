@@ -5,17 +5,18 @@
             <td>{{ $producto->bar_code }}</td>
             <td>{{ $producto->name }}</td>
             <td>{{ $producto->mark }}</td>
+            <td>{{ $producto->category }}</td>
             <td>
-                @if (sizeof($producto->vendor[0]->costos) > 0)
+                @if ($producto->costos)
                     <a href="{{ route('costos.ver',$producto->id) }}" class="btn btn-secondary">Ver</a>
                 @else
                     <p>Sin costoso</p>
                 @endif
-                <a href="{{ route('costos.crear',$producto->vendor[0]->id) }}" class="btn btn-warning">Agregar</a>
+                <a href="{{ route('costos.crear',$producto->vendor_id) }}" class="btn btn-warning">Agregar</a>
             </td>
-            <td>{{ $producto->vendor[0]->stock }}</td>
-            <td>{{ $producto->vendor[0]->vendor->name }}</td>
-            <td>{{ $producto->vendor[0]->vendor->office->name }}</td>
+            <td>{{ $producto->stock }}</td>
+            <td>{{ $producto->vendor }}</td>
+            <td>{{ $producto->office }}</td>
             <td>
                 @can('editar-productos')
                     <a href="{{ route('productos.edit',$producto->id) }}" class="btn btn-info">Editar</a>

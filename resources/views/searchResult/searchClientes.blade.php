@@ -6,7 +6,7 @@
             <td>{{ $cliente->last_name }}</td>
             <td>{{ $cliente->second_last_name }}</td>
             <td>{{ $cliente->email }}</td>
-            <td>{{ $cliente->office->name }}</td>
+            <td>{{ $cliente->office }}</td>
             <td>
                 @can('editar-clientes')
                     <a href="{{ route('clientes.edit',$cliente->id) }}" class="btn btn-info">Editar</a>

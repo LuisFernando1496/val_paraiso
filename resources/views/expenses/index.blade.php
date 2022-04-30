@@ -10,7 +10,7 @@
                 <div class="input-group">
                     <div class="form-outline">
                         <input type="search" id="search" class="form-control" placeholder="Buscar"/>
-
+                        <input type="hidden" value="Gastos" id="option" name="option">
                     </div>
                     <button type="button" class="btn btn-primary ">
                         <i class="fas fa-search"></i>
@@ -38,7 +38,7 @@
                                     <th style="color: #fff; text-align: center">Fecha</th>
                                     <th colspan="2" style="color: #fff; text-align: center">Acciones </th>
                                 </thead>
-                                <tbody>
+                                <tbody id="tableGastos">
                                     @forelse ($expenses as $gasto)
                                     @php
                                         $title = $gasto->title;

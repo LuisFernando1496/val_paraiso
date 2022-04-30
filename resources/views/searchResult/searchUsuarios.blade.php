@@ -6,7 +6,7 @@
             <td>{{ $user->last_name }}</td>
             <td>{{ $user->second_last_name }}</td>
             <td>{{ $user->email }}</td>
-            <td>{{ $user->office->name ?? '' }}</td>
+            <td>{{ $user->office ?? '' }}</td>
             <td>
                 @if (!empty($user->getRoleNames()))
                     @foreach ($user->getRoleNames() as $rolName)

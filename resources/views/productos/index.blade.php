@@ -33,6 +33,7 @@
                                     <th style="color: #fff;">Codigo Barras</th>
                                     <th style="color: #fff;">Nombre</th>
                                     <th style="color: #fff;">Marca</th>
+                                    <th style="color: #fff;">Categoria</th>
                                     <th style="color: #fff;">Costos</th>
                                     <th style="color: #fff">Stock</th>
                                     <th style="color: #fff;">Proveedor</th>
@@ -47,6 +48,7 @@
                                             <td>{{ $producto->bar_code }}</td>
                                             <td>{{ $producto->name }}</td>
                                             <td>{{ $producto->mark }}</td>
+                                            <td>{{ $producto->category->name }}</td>
                                             <td>
                                                 @if (sizeof($producto->vendor[0]->costos) > 0)
                                                     <a href="{{ route('costos.ver',$producto->id) }}" class="btn btn-secondary">Ver</a>

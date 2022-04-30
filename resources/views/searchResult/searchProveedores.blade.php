@@ -5,8 +5,8 @@
             <td>{{ $vendor->name }}</td>
             <td>{{ $vendor->phone }}</td>
             <td>{{ $vendor->email }}</td>
-            <td>{{ $vendor->address->street }} {{ $vendor->address->number }} {{ $vendor->address->suburb }}, {{ $vendor->address->postal_code }}, {{ $vendor->address->city }}, {{ $vendor->address->state }}, {{ $vendor->address->country }}</td>
-            <td>{{ $vendor->office->name }}</td>
+            <td>{{ $vendor->address }}. </td>
+            <td>{{ $vendor->office}}</td>
             <td>
                 @can('editar-proveedor')
                     <a href="{{ route('proveedores.edit',$vendor->id) }}" class="btn btn-info">Editar</a>
