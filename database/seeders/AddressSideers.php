@@ -21,14 +21,28 @@ class AddressSideers extends Seeder
         // 'city',
         // 'state',
         // 'country'
-        Address::create([
+       $addresses = [
+       [
         'street' => 'Av. nogales',
         'number' => 45,
         'suburb' => 'San pedro villavista',
         'postal_code' => '29049',
-        'city' => 'Morelos',
-        'state' => 'Morelos',
-        'country' => 'Morelos'
-        ]);
+        'city' => 'Tijuana',
+        'state' => 'Baja California',
+        'country' => 'Mexico'
+        ],
+        [
+        'street' => 'Av. nogales',
+        'number' => 45,
+        'suburb' => 'San pedro villavista',
+        'postal_code' => '29049',
+        'city' => 'Tijuana',
+        'state' => 'Baja California',
+        'country' => 'Mexico'
+        ]
+        ];
+        foreach ($addresses as $address) {
+            Address::create($address);
+        }
     }
 }

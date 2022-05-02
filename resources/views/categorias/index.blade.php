@@ -62,7 +62,7 @@
                                         @endforelse
                                     </tbody>
                                 </table>
-                                <div class="pagination">
+                                <div class="pagination" id="pag">
                                     {!! $categorias->links() !!}
                                 </div>
                             @endcan

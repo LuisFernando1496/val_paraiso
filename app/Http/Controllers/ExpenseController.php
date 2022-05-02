@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\CategoryOfExpense;
 use App\Models\Expense;
 use App\Models\Office;
 use Carbon\Carbon;
@@ -19,8 +20,7 @@ class ExpenseController extends Controller
     public function index()
     {
         $user = Auth()->user();
-        $expenses = getDataModels($user, Expense::class);
-     //  return $expenses;
+        $expenses = getDataModels($user, Expense::class);  
         return view('expenses.index',compact('expenses'));
     }
 
@@ -33,8 +33,9 @@ class ExpenseController extends Controller
     {
         $user = Auth()->user();
         $offices = getDataModels($user, Office::class);
-       // return $offices;
-        return view('expenses.create',compact('offices'));
+        $categoryExpenses = CategoryOfExpense::pluck('name','id');
+       // return $offices; return $categoryExpenses;
+        return view('expenses.create',compact('offices','categoryExpenses'));
     }
 
     /**
@@ -84,7 +85,8 @@ class ExpenseController extends Controller
     {
         $user = Auth()->user();
         $offices = getDataModels($user, Office::class);
-        return view('expenses.editar',compact('expense','offices'));
+        $categoryExpenses = CategoryOfExpense::pluck('name','id');
+        return view('expenses.editar',compact('expense','offices','categoryExpenses'));
     }
 
     /**

@@ -1,6 +1,15 @@
 @extends('layouts.app')
 
 @section('content')
+<style>
+    select,
+option {
+    color: white;
+        background-color: rgb(233, 186, 186);
+        
+}
+
+</style>
     <section class="section">
         <div class="section-header">
             <h3 class="page__heading">Crear gastos</h3>
@@ -40,6 +49,13 @@
                                         <div class="form-group">
                                             <label for="total">Monto</label>
                                             {!! Form::number('total', NULL, array('class' => 'form-control', 'step' =>'any', 'placeholder' => '$')) !!}
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-12 col-md-12">
+                                        <div class="form-group">
+                                            <label for="category_of_expense_id">Tipo de Gasto</label>
+                                            {!! Form::select('category_of_expense_id',$categoryExpenses, [], array('class' => 'form-control', 
+                                            'style'=>'  background-color: rgb(233, 186, 186);', 'required')) !!}
                                         </div>
                                     </div>
                                     <div class="col-xs-12 col-sm-12 col-md-12">

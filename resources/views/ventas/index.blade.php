@@ -70,7 +70,7 @@
                                     @endforelse
                                 </tbody>
                             </table>
-                            <div class="pagination">
+                            <div class="pagination" id="pag">
                                 {!! $ventas->links() !!}
                             </div>
                         </div>

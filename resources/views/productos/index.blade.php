@@ -78,7 +78,7 @@
                                     @endforelse
                                 </tbody>
                             </table>
-                            <div class="pagination">
+                            <div class="pagination" id="pag">
                                 {!! $productos->links() !!}
                             </div>
                         </div>

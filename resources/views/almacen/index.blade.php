@@ -68,7 +68,8 @@
                                     @endforelse
                                 </tbody>
                             </table>
-                            <div class="pagination">
+                           
+                            <div class="pagination" id="pag">
                                 {!! $almacenes->links() !!}
                             </div>
                         </div>

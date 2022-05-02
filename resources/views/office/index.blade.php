@@ -61,7 +61,7 @@
                                     @endforelse
                                 </tbody>
                             </table>
-                            <div class="pagination">
+                            <div class="pagination" id="pag">
                                 {!! $oficinas->links() !!}
                             </div>
                         </div>

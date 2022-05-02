@@ -42,7 +42,7 @@
                                     @endforelse
                                 </tbody>
                             </table>
-                            <div class="pagination">
+                            <div class="pagination" id="pag">
                                 {!! $costos->links() !!}
                             </div>
                         </div>

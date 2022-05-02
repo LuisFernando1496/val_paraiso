@@ -14,6 +14,7 @@ class Expense extends Model
         'total',
         'date',
         'status',
+        'category_of_expense_id',
         'user_id',
         'office_id',
     ];
@@ -26,5 +27,10 @@ class Expense extends Model
     public function office()
     {
         return $this->belongsTo(Office::class);
+    }
+
+    public function categoryOfExpense()
+    {
+        return $this->belongsTo(CategoryOfExpense::class);
     }
 }

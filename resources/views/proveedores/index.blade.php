@@ -67,6 +67,9 @@
                                     @endforelse
                                 </tbody>
                             </table>
+                            <div class="pagination" id="pag">
+                                {!! $vendors->links() !!}
+                            </div>
                         </div>
                     </div>
                 </div>

@@ -412,9 +412,11 @@ function getDataModelsSearch($user, $models, $search)
                             {
                                 $data = $models::join('users','users.id','expenses.user_id')
                                                ->join('offices','offices.id','expenses.office_id')
+                                               ->join('category_of_expenses','category_of_expenses.id','expenses.category_of_expense_id')
                                                ->orWhere('expenses.title','like',"%{$search}%")
                                                ->orWhere('expenses.created_at','like',"%{$search}%")
                                                ->orWhere('expenses.description','like',"%{$search}%")
+                                               ->orWhere('category_of_expenses.name','like',"%{$search}%")
                                                ->orWhere('users.name','like',"%{$search}%")
                                                ->orWhere('users.last_name','like',"%{$search}%")
                                                ->orWhere('users.second_last_name','like',"%{$search}%")
@@ -425,7 +427,10 @@ function getDataModelsSearch($user, $models, $search)
                                                      'expenses.title',
                                                      'expenses.date',
                                                      'expenses.description',
+                                                     'expenses.total',
                                                      'expenses.created_at',
+                                                     DB::raw("CONCAT(category_of_expenses.id) AS tipo_id"),
+                                                     DB::raw("CONCAT(category_of_expenses.name) AS tipo"),
                                                      DB::raw("CONCAT(offices.name) AS office"),
                                                      DB::raw("CONCAT(users.name,' ',users.last_name,' ',users.second_last_name) AS user")
                                                      )
@@ -435,9 +440,11 @@ function getDataModelsSearch($user, $models, $search)
                             else{
                                 $data = $models::join('users','users.id','expenses.user_id')
                                                ->join('offices','offices.id','expenses.office_id')
+                                               ->join('category_of_expenses','category_of_expenses.id','expenses.category_of_expense_id')
                                                ->orWhere('expenses.title','like',"%{$search}%")
                                                ->orWhere('expenses.created_at','like',"%{$search}%")
                                                ->orWhere('expenses.description','like',"%{$search}%")
+                                               ->orWhere('category_of_expenses.name','like',"%{$search}%")
                                                ->orWhere('users.name','like',"%{$search}%")
                                                ->orWhere('users.last_name','like',"%{$search}%")
                                                ->orWhere('users.second_last_name','like',"%{$search}%")
@@ -448,7 +455,10 @@ function getDataModelsSearch($user, $models, $search)
                                                      'expenses.title',
                                                      'expenses.date',
                                                      'expenses.description',
+                                                     'expenses.total',
                                                      'expenses.created_at',
+                                                     DB::raw("CONCAT(category_of_expenses.id) AS tipo_id"),
+                                                     DB::raw("CONCAT(category_of_expenses.name) AS tipo"),
                                                      DB::raw("CONCAT(offices.name) AS office"),
                                                      DB::raw("CONCAT(users.name,' ',users.last_name,' ',users.second_last_name) AS user")
                                                      )

@@ -44,6 +44,13 @@
                                     </div>
                                     <div class="col-xs-12 col-sm-12 col-md-12">
                                         <div class="form-group">
+                                            <label for="category_of_expense_id">Tipo de Gasto</label>
+                                            {!! Form::select('category_of_expense_id',$categoryExpenses,$expense->category_of_expense_id, array('class' => 'form-control', 
+                                            'style'=>'  background-color: rgb(233, 186, 186);', 'required')) !!}
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-12 col-md-12">
+                                        <div class="form-group">
                                             <label for="office_id">Sucursal</label>
                                             {!! Form::select('office_id', $offices, $expense->office->id, array('class' => 'form-control')) !!}
                                         </div>

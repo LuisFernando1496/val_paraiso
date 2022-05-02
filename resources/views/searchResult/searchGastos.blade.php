@@ -6,10 +6,24 @@
     <tr>
         <td>{{ $gasto->title }}</td>
         <td>{{ $gasto->description }}</td>
+        <td><span class="badge badge-info float-center">
+            {{ $gasto->tipo }}
+        </span></td>
         <td>${{number_format( $gasto->total,2) }}</td>
         <td>{{ $gasto->user }}</td>
         <td>{{ $gasto->office }}</td>
         <td>{{ $gasto->date }}</td>
+        <td>
+            @if ( $gasto->tipo_id == 6 || $gasto->tipo_id == 7)
+                @can('editar-gastos')
+                   <a href="{{ route('expenses.edit', $gasto) }}"
+                    class="btn btn-info">Vale</a>
+                  @endcan
+            @else
+                
+            @endif
+           
+        </td>
         <td>
            
             @can('editar-gastos')
@@ -30,5 +44,8 @@
         </tr>
     @endforelse
 </tbody>
-{{ $expenses->appends(['search'=>$search,'option'=>$option]) }}
+
 </table>
+<div class="pagination">
+    {{ $expenses->appends(['search'=>$search,'option'=>$option]) }}
+</div>

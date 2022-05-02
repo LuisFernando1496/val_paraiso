@@ -74,7 +74,7 @@
                                     @endforelse
                                 </tbody>
                             </table>
-                            <div class="pagination">
+                            <div class="pagination" id="pag">
                                 {!! $cotizaciones->links() !!}
                             </div>
                         </div>

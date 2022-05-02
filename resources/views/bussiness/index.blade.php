@@ -60,7 +60,7 @@
                                     @endforelse
                                 </tbody>
                             </table>
-                            <div class="pagination justify-content-end">
+                            <div class="pagination justify-content-end" id="pag">
                                 {!! $negocios->links() !!}
                             </div>
                         </div>

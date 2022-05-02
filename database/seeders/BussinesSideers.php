@@ -18,11 +18,22 @@ class BussinesSideers extends Seeder
         // 'rfc',
         // 'legal_representative',
         // 'number'
-        Business::create([
-        'name' => 'Rancheritos',
+        $bussines = [[
+        'name' => 'Val',
         'rfc' => 'DHK120478LMN',
         'legal_representative' => 'Alberto Perez Zambrano',
         'number' => 9612314714
-        ]);
+        ],
+        [
+        'name' => 'Agua',
+        'rfc' => 'DHK120478LOP',
+        'legal_representative' => 'Alberto',
+        'number' => 9612387124
+        ]
+    ];
+        foreach ($bussines as $bussine) {
+            Business::create($bussine);
+        }
+    
     }
 }
