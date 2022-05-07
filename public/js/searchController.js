@@ -3,7 +3,6 @@ let search = '';
 let option = '';
 let url = '';
 let idpag = document.getElementById('pag');
-
 $("#search").on("keyup", function () {
     search = $(this).val();
     option = $("#option").val();
@@ -13,11 +12,8 @@ $("#search").on("keyup", function () {
     peticiones(url);
 
 });
-
-
-   
 $(document).on("click", '.pagination a', function (e) {
-    //poner el if aqui
+    
     if(!idpag){
         e.preventDefault();
         page = $(this).attr("href");
@@ -26,7 +22,6 @@ $(document).on("click", '.pagination a', function (e) {
     }
    
  });
-
 const peticiones = (url) => {
     fetch(url, { method: 'GET', headers: { 'X-CSRF-Token': $('meta[name="_token"]').attr('content') } })
         .then(response => response.text())
