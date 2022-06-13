@@ -15,7 +15,7 @@ class UserSideers extends Seeder
      */
     public function run()
     {
-        
+       // $user = User::factory(10)->create();
         User::create([
             'name' => 'Administrador',
             'email' => 'admin@gmail.com',

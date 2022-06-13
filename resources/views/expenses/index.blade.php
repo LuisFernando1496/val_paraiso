@@ -57,7 +57,7 @@
                                             <td>
                                                 @if ( $gasto->categoryOfExpense->id == 6 || $gasto->categoryOfExpense->id == 7)
                                                     @can('editar-gastos')
-                                                       <a href="{{ route('expenses.edit', $gasto) }}"
+                                                       <a href="{{ route('expenses.vaucher', $gasto) }}"
                                                         class="btn btn-info">Vale</a>
                                                       @endcan
                                                 @else

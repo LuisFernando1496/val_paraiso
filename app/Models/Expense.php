@@ -16,6 +16,8 @@ class Expense extends Model
         'status',
         'category_of_expense_id',
         'user_id',
+        'user_empleado_id',
+        'owner_id',
         'office_id',
     ];
 
@@ -32,5 +34,15 @@ class Expense extends Model
     public function categoryOfExpense()
     {
         return $this->belongsTo(CategoryOfExpense::class);
+    }
+
+    public function owner()
+    {
+        return $this->belongsTo(Owner::class);
+    }
+
+    public function userEmpleado()
+    {
+        return $this->belongsTo(User::class,'user_empleado_id');
     }
 }

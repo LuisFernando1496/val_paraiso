@@ -54,8 +54,22 @@ option {
                                     <div class="col-xs-12 col-sm-12 col-md-12">
                                         <div class="form-group">
                                             <label for="category_of_expense_id">Tipo de Gasto</label>
-                                            {!! Form::select('category_of_expense_id',$categoryExpenses, [], array('class' => 'form-control', 
+                                            {!! Form::select('category_of_expense_id',$categoryExpenses, [], array('id'=>'expense','class' => 'form-control', 
                                             'style'=>'  background-color: rgb(233, 186, 186);', 'required')) !!}
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-12 col-md-12" style="display: none" id="employee_id">
+                                        <div class="form-group">
+                                            <label for="user_empleado_id">Empleado</label>
+                                            {!! Form::select('user_empleado_id',$employees, [], array('class' => 'form-control', 'id'=>'selected_employee',
+                                             )) !!}
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-12 col-md-12" style="display: none" id="owner_id">
+                                        <div class="form-group">
+                                            <label for="owner_id">Dueño</label>
+                                            {!! Form::select('owner_id',$owners, [], array('class' => 'form-control', 'id'=>'selected_owner',
+                                             )) !!}
                                         </div>
                                     </div>
                                     <div class="col-xs-12 col-sm-12 col-md-12">
@@ -76,5 +90,25 @@ option {
             </div>
         </div>
     </section>
+
+    <script>
+      $('#expense').change(function(){
+         if($(this).val() == 7){
+            $('#employee_id').show();
+            $('#owner_id').hide();
+            $('#selected_owner').empty();
+        }else if($(this).val() == 6){
+            $('#employee_id').hide();
+            $('#selected_employee').val('');
+            $('#owner_id').show();
+        }else{
+            $('#employee_id').hide();
+            $('#owner_id').hide();
+            $('#selected_employee').val('');
+            $('#selected_owner').val('');
+        }
+      
+        });
+    </script>
 @endsection
 

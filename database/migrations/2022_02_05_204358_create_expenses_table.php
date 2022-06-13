@@ -22,6 +22,10 @@ class CreateExpensesTable extends Migration
             $table->boolean('status')->default(true);
             $table->unsignedBigInteger('category_of_expense_id');
             $table->foreign('category_of_expense_id')->references('id')->on('category_of_expenses');
+            $table->unsignedBigInteger('owner_id')->nullable();
+            $table->foreign('owner_id')->references('id')->on('owners');
+            $table->unsignedBigInteger('user_empleado_id')->nullable();
+            $table->foreign('user_empleado_id')->references('id')->on('users');
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users');
             $table->unsignedBigInteger('office_id');

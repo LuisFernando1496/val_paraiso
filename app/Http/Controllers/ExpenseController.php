@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\CategoryOfExpense;
 use App\Models\Expense;
 use App\Models\Office;
+use App\Models\Owner;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -34,8 +36,10 @@ class ExpenseController extends Controller
         $user = Auth()->user();
         $offices = getDataModels($user, Office::class);
         $categoryExpenses = CategoryOfExpense::pluck('name','id');
+        $employees = User::where('id','!=',1)->pluck('name','id');
+        $owners = Owner::pluck('owner_name','id');
        // return $offices; return $categoryExpenses;
-        return view('expenses.create',compact('offices','categoryExpenses'));
+        return view('expenses.create',compact('offices','categoryExpenses','employees','owners'));
     }
 
     /**
@@ -46,6 +50,7 @@ class ExpenseController extends Controller
      */
     public function store(Request $request)
     {
+
         $date = Carbon::now();
         
         $request['date'] = $date;
@@ -64,12 +69,12 @@ class ExpenseController extends Controller
       
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+    public function vaucher(Expense $expense)
+    {
+       
+        return view('expenses.vaucher',compact('expense'));
+    }
+    
     public function show($id)
     {
         //

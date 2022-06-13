@@ -29,7 +29,10 @@ class DatabaseSeeder extends Seeder
             OfficeSeeders::class,
             UserSideers::class,
             CategoryOfExpenseSeeder::class,
-            ExpensesSeeders::class
+            OwnerSeeder::class,
+            ExpensesSeeders::class,
+            ClientsSeeders::class,
+           
             ])
         ;
     }

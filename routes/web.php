@@ -17,6 +17,7 @@ use App\Http\Controllers\ExpenseController;
 use App\Http\Controllers\ExpenseSaleController;
 use App\Http\Controllers\InventoryController;
 use App\Http\Controllers\OfficeController;
+use App\Http\Controllers\OwnerController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\QuoteController;
 use App\Http\Controllers\ReportController;
@@ -109,6 +110,9 @@ Route::group(['middleware' => ['auth']], function(){
     Route::get('/gastos/{expense}',[ExpenseController::class,'edit'])->name('expenses.edit');
     Route::put('/gastos/{expense}',[ExpenseController::class,'update'])->name('expenses.update');
     Route::delete('/gastos/{expense}',[ExpenseController::class,'destroy'])->name('expenses.destroy');
+    Route::get('/vaucher_gastos/{expense}',[ExpenseController::class,'vaucher'])->name('expenses.vaucher');
+    ////////////////////////////////////////////////////////////////////////////////////////
+    Route::get('owners',[OwnerController::class,'index'])->name('owner.index');
     ///////////////////////////**Buscador **////////////////////////////////////////////////
     Route::get('/search',[BuscadorController::class,'search']);
 });
