@@ -18,6 +18,11 @@
         <i class="fas fa-users"></i><span>Usuarios</span>
     </a>
 </li>
+<li class="side-menus {{ Request::is('socios') ? 'active' : '' }}">
+    <a href="{{ route('socios.index') }}" class="nav-link">
+        <i class="fas fa-handshake"></i><span>Socios</span>
+    </a>
+</li>
 <li class="side-menus {{ Request::is('boxes') ? 'active' : '' }}">
     <a href="{{ route('boxes.index') }}" class="nav-link">
         <i class="fas fa-money-check-alt"></i><span>Cajas</span>
@@ -60,7 +65,7 @@
 </li>
 <li class="side-menus {{ Request::is('creditos') ? 'active' : '' }}">
     <a href="{{ route('creditos.index') }}" class="nav-link">
-        <i class="fas fa-handshake"></i><span>Creditos</span>
+        <i class="fas fa-hands"></i><span>Creditos</span>
     </a>
 </li>
 <li class="side-menus {{ Request::is('usercash') ? 'active' : '' }}">
