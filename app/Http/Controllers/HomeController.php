@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Attendance_Partner;
+use Carbon\Carbon;
 
 class HomeController extends Controller
 {
@@ -23,6 +25,17 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        $registers = Attendance_Partner::paginate(10);
+        return view('home', compact('registers'));
+    }
+
+    public function store(Request $request)
+    {
+        $history = new Attendance_Partner;
+        $history->date = Carbon::now();
+        $history->num_socio = $request->num_socio;
+        $history->save();
+
+        return back();
     }
 }

@@ -115,7 +115,10 @@ Route::group(['middleware' => ['auth']], function(){
     ///////////////////////////////////////****Socios*****//////////////////////////////////////////////////////////////
     Route::get('/socios',[PartnersController::class,'index'])->name('socios.index');
     Route::get('/socios/crear',[PartnersController::class,'create'])->name('socios.create');
-
+    Route::post('/socios', [PartnersController::class,'store'])->name('socios.store');
+    Route::get('/socios/{id}/edit', [PartnersController::class,'edit'])->name('socios.edit');
+    Route::put('/socios/{id}', [PartnersController::class,'update'])->name('socios.update');
+    Route::delete('/socios/{id}', [PartnersController::class,'delete'])->name('socios.delete');
     ////////////////////////////////////////////////////////////////////////////////////////
     Route::get('owners',[OwnerController::class,'index'])->name('owner.index');
     ///////////////////////////**Buscador **////////////////////////////////////////////////

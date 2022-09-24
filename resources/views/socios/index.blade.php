@@ -3,7 +3,7 @@
 @section('content')
     <section class="section">
         <div class="section-header">
-            <h3 class="page__heading">Clientes</h3>
+            <h3 class="page__heading">Socios</h3>
         </div>
         <div class="row  d-block">
             <div class="float-sm-right">
@@ -31,36 +31,56 @@
                                     <th style="color: #fff;">Nombre</th>
                                     <th style="color: #fff;">Apellidos</th>
                                     <th style="color: #fff;">Telefono</th>
+                                    <th style="color: #fff;"></th>
                                     <th colspan="2" style="color: #fff;">Acciones</th>
                                 </thead>
                                 <tbody id="tableSucursales">
-                                    {{-- @forelse ($owners as $owner) --}}
+                                    @forelse ($partners as $partner)
                                         <tr>
-                                            
-                                            
+                                            <td style="display: none;">{{ $partner->id }}</td>
+                                            <td>{{ $partner->num_socio }}</td>
+                                            <td>{{ $partner->name }}</td>
+                                            <td>{{ $partner->last_name }} {{ $partner->second_lastname }}</td>
+                                            <td>{{ $partner->phone }}</td>
                                             <td>
-                                                {{-- <a href="{{ route('sucursales.edit',$owner) }}" class="btn btn-info">Editar</a> --}}
+                                                @if($partner->certification != null)
+                                                    <span class="badge badge-success badge-pill">Constancia Medica</span>
+                                                @else
+                                                    <span class="badge badge-danger badge-pill">Constancia Medica</i></span>
+                                                @endif
+                                                @if($partner->sign != null)
+                                                    <span class="badge badge-success badge-pill">Firma Digital</span>
+                                                @else
+                                                    <span class="badge badge-danger badge-pill">Firma Digital</i></span>
+                                                @endif
+                                                @if($partner->photo != null)
+                                                    <span class="badge badge-success badge-pill">Foto Socio</i></span>
+                                                @else
+                                                    <span class="badge badge-danger badge-pill">Foto Socio</i></span>
+                                                @endif
                                             </td>
                                             <td>
-                                                {{-- {!! Form::open(['method' => 'DELETE', 'route' => ['sucursales.destroy',$owner], 'style' => 'display:inline']) !!}
+                                                <a href="" class="btn btn-warning"><i class="bi bi-qr-code"></i></a>
+                                                <a href="{{ route('socios.edit',$partner) }}" class="btn btn-info">Editar</a>
+                                                {!! Form::open(['method' => 'DELETE', 'route' => ['socios.delete',$partner], 'style' => 'display:inline']) !!}
                                                     {!! Form::submit('Borrar', ['class' => 'btn btn-danger']) !!}
-                                                {!! Form::close() !!} --}}
+                                                {!! Form::close() !!}
                                             </td>
                                         </tr>
-                                    {{-- @empty --}}
+                                     @empty
                                         <tr>
                                             <td colspan="8">Sin registros</td>
                                         </tr>
-                                        {{-- @endforelse --}}
+                                    @endforelse
                                     </tbody>
-                                </table>
-                                {{-- <div class="pagination" id="pag">
-                                    {{ $owners->links() }}
-                                </div> --}}
+                            </table>
+                            <div class="pagination" id="pag">
+                                {{ $partners->links() }}
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+        </div>
     </section>
     @endsection
