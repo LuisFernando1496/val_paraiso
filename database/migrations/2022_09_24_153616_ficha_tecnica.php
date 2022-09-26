@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AttendancePartner extends Migration
+class FichaTecnica extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,10 @@ class AttendancePartner extends Migration
      */
     public function up()
     {
-        Schema::create('attendance__partners', function (Blueprint $table) {
+        Schema::create('ficha__tecnicas', function(Blueprint $table) {
             $table->id();
-            $table->date('date');
-            $table->bigInteger('num_socio');
+            $table->string('pregunta');
+            $table->unsignedBigInteger('category_id');
             $table->timestamps();
         });
     }
@@ -28,6 +28,6 @@ class AttendancePartner extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('attendance__partners');
+        Schema::dropIfExists('ficha__tecnicas');
     }
 }

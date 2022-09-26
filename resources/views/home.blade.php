@@ -17,7 +17,7 @@
             </div>
         </div> -->
         <div class="row  d-block">
-            <div class="float-sm-left">
+            <div class="float-sm-right">
                 {!! Form::open(array('route' => 'history.store', 'method' => 'POST')) !!}
                     <div class="input-group">
                         <div class="form-outline">
@@ -39,7 +39,7 @@
                                     <th style="color: #fff;"></th>
                                 </thead>
                                 <tbody id="tableSucursales">
-                                    @forelse ($resgisters as $register)
+                                    @forelse ($registers as $register)
                                         <tr>
                                             <td>{{ $register->date }}</td>
                                             <td>{{ $register->num_socio }}</td>

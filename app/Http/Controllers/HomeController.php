@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Attendance_Partner;
+use App\Models\Attendance_Partner;
 use Carbon\Carbon;
 
 class HomeController extends Controller

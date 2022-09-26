@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Partners;
+use App\Models\Ficha_Tecnica;
+use App\Models\Answer_fTecnica;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 
@@ -35,7 +37,7 @@ class PartnersController extends Controller
         $rand = rand(10, 90);
         
         $partners = new Partners;
-        $partner->num_socio = date('dmY').$rand;
+        $partners->num_socio = $rand.date('dmY');
         $partners->name = $request->name;
         $partners->last_name = $request->last_name;
         $partners->second_lastname = $request->second_lastname;
@@ -57,6 +59,12 @@ class PartnersController extends Controller
         }
         $partners->date = Carbon::now();
         $partners->save();
+
+        $partner_id = Partners::latest('id')->first();
+        
+        $answers = $request->get('answers');
+
+        PartnersController::saveFichaTecnica($answers, $partner_id->id);
 
         return redirect()->route('socios.index');
     }
@@ -91,13 +99,13 @@ class PartnersController extends Controller
         $partners->phone = $request->phone;
         $partners->phone_emergency = $request->phone_emergency;
         if($request->certificate != null) {
-            $partners->certification = PartnersController::saveCertificate($request->certificate);
+            $partners->certification = PartnersController::saveCertificate($request->file('certificate'));
         }
         if($request['image-tag'] != null) {
             $partners->photo = PartnersController::savePhoto($request['image-tag']);
         }
         if($request->image != null) {
-            $partners->photo = PartnersController::saveImage($request->image);
+            $partners->photo = PartnersController::saveImage($request->file('image'));
         }
         if($request->signData != null) {
             $partners->sign = PartnersController::saveSign($request->signData);
@@ -109,12 +117,27 @@ class PartnersController extends Controller
     }
 
    
-    public function destroy(Partners $partners)
+    public function destroy($id)
     {
         $partners = Partners::find($id);
         $partners->delete();
 
         return back();
+    }
+
+    private function saveFichaTecnica($answers, $idPartner)
+    {
+        $count = 1;
+        foreach($answers as $answer)
+        {
+            $resp = new Answer_fTecnica;
+            $resp->answer = ($answer != null ? $answer : 'Ninguna');
+            $resp->question_id = $count;
+            $resp->partner_id = $idPartner;
+            $resp->save();
+
+            $count = $count + 1;
+        }
     }
 
     private function saveCertificate($request)

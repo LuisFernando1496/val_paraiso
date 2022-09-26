@@ -62,7 +62,7 @@
                                             <td>
                                                 <a href="" class="btn btn-warning"><i class="bi bi-qr-code"></i></a>
                                                 <a href="{{ route('socios.edit',$partner) }}" class="btn btn-info">Editar</a>
-                                                {!! Form::open(['method' => 'DELETE', 'route' => ['socios.delete',$partner], 'style' => 'display:inline']) !!}
+                                                {!! Form::open(['method' => 'DELETE', 'route' => ['socios.destroy',$partner], 'style' => 'display:inline']) !!}
                                                     {!! Form::submit('Borrar', ['class' => 'btn btn-danger']) !!}
                                                 {!! Form::close() !!}
                                             </td>

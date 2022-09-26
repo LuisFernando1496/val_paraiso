@@ -33,7 +33,7 @@
             </div>
             <div class="col">
                 <label for="">Subir foto</label>
-                <input type="file" name="image" id="">
+                <input type="file" name="image" id="upload_photo">
             </div>
         </div>
       </div>
@@ -122,7 +122,7 @@
         Webcam.snap( function(data_uri) {
             $(".image-tag").val(data_uri);
             document.getElementById('results').innerHTML = '<img src="'+data_uri+'"/>';
-            document.getElementById('text').innerHTML = '<input type="text" name="image-tag" value="'+data_uri+'"/>';
+            document.getElementById('text').innerHTML = '<input type="text" id="image-tag" name="image-tag" value="'+data_uri+'"/>';
         } );
     }
 </script>

@@ -32,7 +32,8 @@ class DatabaseSeeder extends Seeder
             OwnerSeeder::class,
             ExpensesSeeders::class,
             ClientsSeeders::class,
-           
+            Category_fTecnicaSeeder::class,
+            Ficha_TecnicaSeeder::class
             ])
         ;
     }

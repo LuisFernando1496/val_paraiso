@@ -58,7 +58,7 @@ Route::get('/', function () {
  Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-Route::post('/home/store', [App\Http\Controllers\HomeController::class, 'store'])->name('store');
+Route::post('/home/store', [App\Http\Controllers\HomeController::class, 'store'])->name('history.store');
 
 Route::group(['middleware' => ['auth']], function(){
     Route::resource('address',AddressController::class);
@@ -119,7 +119,7 @@ Route::group(['middleware' => ['auth']], function(){
     Route::post('/socios', [PartnersController::class,'store'])->name('socios.store');
     Route::get('/socios/{id}/edit', [PartnersController::class,'edit'])->name('socios.edit');
     Route::put('/socios/{id}', [PartnersController::class,'update'])->name('socios.update');
-    Route::delete('/socios/{id}', [PartnersController::class,'delete'])->name('socios.delete');
+    Route::delete('/socios/{id}', [PartnersController::class,'destroy'])->name('socios.destroy');
     ////////////////////////////////////////////////////////////////////////////////////////
     Route::get('owners',[OwnerController::class,'index'])->name('owner.index');
     ///////////////////////////**Buscador **////////////////////////////////////////////////
