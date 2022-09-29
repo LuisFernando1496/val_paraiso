@@ -60,7 +60,7 @@
                                                 @endif
                                             </td>
                                             <td>
-                                                @include('socios.qr_button')
+                                                <!-- Espacio QR -->
                                                 <a href="{{ route('socios.edit',$partner) }}" class="btn btn-info">Editar</a>
                                                 {!! Form::open(['method' => 'DELETE', 'route' => ['socios.destroy',$partner], 'style' => 'display:inline']) !!}
                                                     {!! Form::submit('Borrar', ['class' => 'btn btn-danger']) !!}

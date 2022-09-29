@@ -40,7 +40,6 @@
 
 <div class="col-xs-12 col-sm-12 col-md-12">
     <input type="button" class="btn btn-primary form-control" id="myBtn" value="Continuar Ficha Tecnica">
-    <!-- <button class="btn btn-primary form-control" type="submit">Guardar</button> -->
 </div>
 
 <div id="fichaModal" class="modal">
@@ -269,9 +268,17 @@
         </div>
       </div>
     </div>
-
-    <div class="col-xs-12 col-sm-12 col-md-12">
-      <button class="btn btn-primary form-control" type="submit">Guardar</button>
+    
+    <div class="col-xs-3 col-sm-3 col-md-3">
+      <div class="form-group d-flex">
+        <div class="p-2">
+          <button class="btn btn-primary" id="saveBtn" type="submit">Guardar</button>
+        </div>
+        <div class="p-2">
+          <input type="hidden" id="urlIndex" value="{{ route('socios.index') }}">
+          <input type="button" class="btn btn-success" id="backBtn" value="Regresar lista de socios">
+        </div>
+      </div>
     </div>
   </div>
 </div>
@@ -283,6 +290,8 @@
   var modal = document.getElementById("fichaModal");
   var btn = document.getElementById("myBtn");
   var span = document.getElementsByClassName("close")[0];
+  var saveBtn = document.getElementById('saveBtn');
+  var backBtn = document.getElementById('backBtn');
 
   btn.onclick = function() {
     modal.style.display = "block";
@@ -297,4 +306,14 @@
       modal.style.display = "none";
     }
   }
+
+  backBtn.disabled = true;
+  saveBtn.onclick = function(event) {
+    backBtn.disabled = false;
+  }
+
+  backBtn.onclick = function(event) {
+    location.replace(document.getElementById('urlIndex').value);
+  }
+
 </script>

@@ -120,6 +120,7 @@ Route::group(['middleware' => ['auth']], function(){
     Route::get('/socios/{id}/edit', [PartnersController::class,'edit'])->name('socios.edit');
     Route::put('/socios/{id}', [PartnersController::class,'update'])->name('socios.update');
     Route::delete('/socios/{id}', [PartnersController::class,'destroy'])->name('socios.destroy');
+    Route::get('/socios/download-terms', [PartnersController::class, 'downloadTerms'])->name('socios.terms');
     ////////////////////////////////////////////////////////////////////////////////////////
     Route::get('owners',[OwnerController::class,'index'])->name('owner.index');
     ///////////////////////////**Buscador **////////////////////////////////////////////////
