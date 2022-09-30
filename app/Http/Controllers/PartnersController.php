@@ -113,7 +113,8 @@ class PartnersController extends Controller
             'last_name' => 'required',
             'age' => 'required',
             'phone' => 'required',
-            'phone_emergency' => 'required'
+            'phone_emergency' => 'required',
+            'sign' => 'required'
         ]);
 
         $partners = Partners::find($id);
@@ -205,6 +206,7 @@ class PartnersController extends Controller
     {
         $filename = 'photo'.date('dmY_his').$num_socio.'.'.$request->getClientOriginalExtension();
         $path = public_path()."\img\\".$filename;
+        file_put_contents($path, $request);
         
         return $filename;
     }
