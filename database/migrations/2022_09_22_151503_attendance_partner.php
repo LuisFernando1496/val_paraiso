@@ -17,6 +17,9 @@ class AttendancePartner extends Migration
             $table->id();
             $table->date('date');
             $table->bigInteger('num_socio');
+            $table->string('name');
+            $table->string('lastname');
+            $table->string('second_lastname');
             $table->timestamps();
         });
     }

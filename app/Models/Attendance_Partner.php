@@ -11,6 +11,9 @@ class Attendance_Partner extends Model
 
     protected $fillable = [
         'date',
-        'num_socio'
+        'num_socio',
+        'name',
+        'lastname',
+        'second_lastname'
     ];
 }

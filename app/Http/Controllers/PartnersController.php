@@ -2,15 +2,20 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Mail;
+
+use Carbon\Carbon;
+use Barryvdh\DomPDF\Facade as Pdf;
+
+use File;
+use Repsonse;
+
 use App\Models\Partners;
 use App\Models\Ficha_Tecnica;
 use App\Models\Answer_fTecnica;
-use Illuminate\Http\Request;
-use Carbon\Carbon;
-use Barryvdh\DomPDF\Facade as Pdf;
-use File;
-use Repsonse;
-use Illuminate\Support\Facades\Storage;
+use App\Mail\Mensaje;
 
 class PartnersController extends Controller
 {
@@ -209,5 +214,21 @@ class PartnersController extends Controller
         file_put_contents($path, $request);
         
         return $filename;
+    }
+
+    public function senEmail($id)
+    {
+        $mail = 'hermantoala02@gmail.com';
+        $message = [
+            'name' => Partners::select('name')->where('id', $id)->get()->pluck('name'),
+            'email' => $mail,
+            'subject' => 'Documentos',
+            'content' => 'Buen día apreciable socio, por este medio le hacemos llegar los documentos...',
+            'archivo' => public_path('valParaiso_Docs.zip')
+        ];
+
+        Mail::to($message['email'])->send(new Mensaje($message));
+
+        return back();
     }
 }

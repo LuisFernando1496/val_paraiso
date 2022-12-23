@@ -125,6 +125,8 @@ Route::group(['middleware' => ['auth']], function(){
     Route::get('owners',[OwnerController::class,'index'])->name('owner.index');
     ///////////////////////////**Buscador **////////////////////////////////////////////////
     Route::get('/search',[BuscadorController::class,'search']);
+    ////////////////////////////////////////////////////////////////////////////////////////
+    Route::post('/mail/{id}',[PartnersController::class,'senEmail'])->name('senEmail');
 });
 
 Route::get('/getCategorias/{id}',[CategoryController::class,'getCategorias']);

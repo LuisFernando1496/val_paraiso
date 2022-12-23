@@ -44,7 +44,7 @@
   <div class="modal-content">
     <span class="close">&times;</span>
     <div class="card-body">
-        {!! QrCode::size(200)->generate($partner->num_socio) !!}
+        {!! QrCode::size(200)->generate($partner->num_socio.$partner->name) !!}
     </div>
     <!-- <div class="col-xs-8 col-sm-8 col-md-8">
       <button class="btn btn-primary form-control" type="">Enviar por</button>

@@ -61,9 +61,15 @@
                                             </td>
                                             <td>
                                                 <!-- Espacio QR -->
+                                                @include('socios.qr_button')
                                                 <a href="{{ route('socios.edit',$partner) }}" class="btn btn-info">Editar</a>
                                                 {!! Form::open(['method' => 'DELETE', 'route' => ['socios.destroy',$partner], 'style' => 'display:inline']) !!}
                                                     {!! Form::submit('Borrar', ['class' => 'btn btn-danger']) !!}
+                                                {!! Form::close() !!}
+                                            </td>
+                                            <td>
+                                                {!! Form::open(['method' => 'POST', 'route' => ['senEmail',$partner], 'style' => 'display:inline']) !!}
+                                                    {!! Form::submit('Enviar Reglamento', ['class' => 'btn btn-primary']) !!}
                                                 {!! Form::close() !!}
                                             </td>
                                         </tr>

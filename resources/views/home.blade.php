@@ -43,6 +43,8 @@
                                         <tr>
                                             <td>{{ $register->date }}</td>
                                             <td>{{ $register->num_socio }}</td>
+                                            <td>{{ $partner->name }}</td>
+                                            <td>{{ $partner->lastname }} {{ $partner->second_lastname }}</td>
                                             <td></td>
                                         </tr>
                                      @empty
