@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\Mail;
+use Mail;
 
 use Carbon\Carbon;
 use Barryvdh\DomPDF\Facade as Pdf;
@@ -15,7 +15,9 @@ use Repsonse;
 use App\Models\Partners;
 use App\Models\Ficha_Tecnica;
 use App\Models\Answer_fTecnica;
-use App\Mail\Mensaje;
+use App\Models\Attendance_Partner;
+
+//use App\Mail\Mensaje;
 
 class PartnersController extends Controller
 {
@@ -84,7 +86,7 @@ class PartnersController extends Controller
         $pdf = Pdf::loadView('socios.reglamento', compact('partner_num_socio','partner_name','partner_sign'))->setPaper('a4')->setWarnings(false)->save('doc/Reglamento.pdf');
         
         $zip = new \ZipArchive();
-        $fileName = 'valParaiso_Docs.zip';
+        $fileName = 'valParaiso_Docs'.$partner_num_socio.'.zip';
         if ($zip->open(public_path($fileName), \ZipArchive::CREATE)== TRUE)
         {
             $files = File::files(public_path('doc'));
@@ -199,8 +201,8 @@ class PartnersController extends Controller
     private function savePhoto($request, $num_socio)
     {
         $photo = str_replace('data:image/jpeg;base64,', '', $request);
-        $photoData = base64_decode($photo);
-        $photoName = 'photo'.date('dmY').$num_socio.'.jpeg';
+        $signData = base64_decode($photo);
+        $signName = 'sign'.date('dmY').$num_socio.'.jpeg';
         $path = public_path()."\img\\".$photoName;
         file_put_contents($path, $photoData);
 
@@ -218,16 +220,33 @@ class PartnersController extends Controller
 
     public function senEmail($id)
     {
-        $mail = 'hermantoala02@gmail.com';
+        $partner_name = Partners::select('name')->where('id', $id)->get()->pluck('name');
+        $partner_name = $partner_name[0];
+
         $message = [
-            'name' => Partners::select('name')->where('id', $id)->get()->pluck('name'),
-            'email' => $mail,
-            'subject' => 'Documentos',
-            'content' => 'Buen día apreciable socio, por este medio le hacemos llegar los documentos...',
-            'archivo' => public_path('valParaiso_Docs.zip')
+            'name' => $partner_name
         ];
 
-        Mail::to($message['email'])->send(new Mensaje($message));
+        Mail::send('socios.email', $message, function($msj) use($id){
+            $partner_name = Partners::select('name')->where('id', $id)->get()->pluck('name');
+            $partner_name = $partner_name[0];
+            $partner_num_socio = Partners::select('num_socio')->where('id',$id)->get()->pluck('num_socio');
+            $partner_num_socio = $partner_num_socio[0];
+            $partner_email = Partners::select('email')->where('id',$id)->get()->pluck('email');
+            $partner_email = $partner_email[0];
+            $partner_sign = 'sign'.$partner_num_socio.'.jpeg';
+
+            $fromEmail = $_ENV['MAIL_USERNAME'];
+            
+            $rules = Pdf::loadView('socios.reglamento', compact('partner_num_socio','partner_name','partner_sign'))->setPaper('a4')->setWarnings(false)->save('doc/Reglamento.pdf');
+            $aviso = Pdf::loadView('socios.aviso');
+            
+            $msj->from($fromEmail, "Spa Val Paraiso");
+            $msj->to($partner_email);
+            $msj->subject("Entrega de Docs Val Paraiso");
+            $msj->attachData($rules->output(), 'Reglamento.pdf');
+            $msj->attachData($aviso->output(), 'AvisoPrivTermCdnes.pdf');
+        });
 
         return back();
     }

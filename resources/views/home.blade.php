@@ -36,16 +36,16 @@
                                 <thead style="background-color: #6777ef;">
                                     <th style="color: #fff;">Fecha</th>
                                     <th style="color: #fff;">Num Socio</th>
-                                    <th style="color: #fff;"></th>
+                                    <th style="color: #fff;">Nombre</th>
+                                    <th style="color: #fff;">Apellidos</th>
                                 </thead>
                                 <tbody id="tableSucursales">
                                     @forelse ($registers as $register)
                                         <tr>
                                             <td>{{ $register->date }}</td>
                                             <td>{{ $register->num_socio }}</td>
-                                            <td>{{ $partner->name }}</td>
-                                            <td>{{ $partner->lastname }} {{ $partner->second_lastname }}</td>
-                                            <td></td>
+                                            <td>{{ $register->name }}</td>
+                                            <td>{{ $register->lastname }} {{ $register->second_lastname }}</td>
                                         </tr>
                                      @empty
                                         <tr>

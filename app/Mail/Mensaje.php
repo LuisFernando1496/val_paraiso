@@ -7,6 +7,8 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
+use App\Models\Partners;
+
 class Mensaje extends Mailable
 {
     use Queueable, SerializesModels;
@@ -19,7 +21,7 @@ class Mensaje extends Mailable
      */
     public function __construct($message)
     {
-        $this->msg->$message;
+        //
     }
 
     /**
@@ -29,6 +31,6 @@ class Mensaje extends Mailable
      */
     public function build()
     {
-        return $this->view('socios.index');
+        //
     }
 }
